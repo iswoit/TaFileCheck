@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="GBK"?>
+<tas>
+	<talist><!--ta列表-->
+		<ta>
+			<id>01</id><!--ID-->
+			<note>南方基金(k0019)</note><!--备注-->
+			<source>D:\ABOSS2\OFSI\in\01\</source>
+			<rootmove>true</rootmove><!--是否需要把子目录下的文件全都移动到根目录-->
+			<checkmove></checkmove><!--表示行情文件检查时需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
+		</ta>
+	</talist>
+</tas>
