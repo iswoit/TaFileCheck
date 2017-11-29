@@ -37,10 +37,10 @@ namespace TaFileCheck
         /// 把配置文件里的{ta}换成真实ta代码
         /// </summary>
         /// <param name="fileName"></param>
-        private static string ReplaceTaFileNameWithPattern(string fileName, string ta)
+        private static string ReplaceTaFileNameWithPattern(string fileName, string taID)
         {
             string strTmp = fileName;   // 返回值
-            strTmp = Regex.Replace(strTmp, @"{ta}", ta, RegexOptions.IgnoreCase);  // 1.替换yyyymmdd
+            strTmp = Regex.Replace(strTmp, @"{ta}", taID, RegexOptions.IgnoreCase);  // 1.替换yyyymmdd
             return strTmp;
         }
 
@@ -68,7 +68,10 @@ namespace TaFileCheck
             _hqFiles = new List<string>();
             foreach(string strTmp in hqFiles)
             {
+                string strTmp_new= Util.Filename_Date_Convert(strTmp);
+                strTmp_new = ReplaceTaFileNameWithPattern(strTmp_new, _id);
 
+                _hqFiles.Add(strTmp_new);
             }
 
 
