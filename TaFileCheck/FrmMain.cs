@@ -22,22 +22,32 @@ namespace TaFileCheck
         /// <param name="e"></param>
         private void btnCheckExecute_Click(object sender, EventArgs e)
         {
-
+            if (!bwHq.IsBusy)
+                bwHq.RunWorkerAsync();
         }
 
-        private void bwCheck_DoWork(object sender, DoWorkEventArgs e)
+
+        #region 行情检查逻辑
+        private void bwHq_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker bgWorker = sender as BackgroundWorker;
+            
+
+            e.Result = true;
+        }
+
+        private void bwHq_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
 
         }
 
-        private void bwCheck_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void bwHq_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
 
         }
 
-        private void bwCheck_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
+        #endregion 行情检查逻辑
 
-        }
+
     }
 }
