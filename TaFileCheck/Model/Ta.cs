@@ -44,15 +44,14 @@ namespace TaFileCheck
             return strTmp;
         }
 
+
         public Ta(string id, string desc, string source, string rootMove, string hqMove, List<string> hqFiles)
         {
             _id = id;
             _desc = desc;
             _source = source;
 
-            _rootMove = false;
-            bool convertResult = bool.TryParse(rootMove, out _rootMove);
-            if (convertResult == false)
+            if (!bool.TryParse(rootMove, out _rootMove))
                 _rootMove = false;
 
             // 检查完需要移动
@@ -66,9 +65,9 @@ namespace TaFileCheck
 
             // 必收行情文件通用转义(！！！未完成，日期和{ta}通配符都要，日期的还要加yymmdd的)
             _hqFiles = new List<string>();
-            foreach(string strTmp in hqFiles)
+            foreach (string strTmp in hqFiles)
             {
-                string strTmp_new= Util.Filename_Date_Convert(strTmp);
+                string strTmp_new = Util.Filename_Date_Convert(strTmp);
                 strTmp_new = ReplaceTaFileNameWithPattern(strTmp_new, _id);
 
                 _hqFiles.Add(strTmp_new);

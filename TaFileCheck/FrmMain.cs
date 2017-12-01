@@ -10,9 +10,14 @@ namespace TaFileCheck
 {
     public partial class FrmMain : Form
     {
+        TaManager _taManager = null;
+
+
         public FrmMain()
         {
             InitializeComponent();
+
+            _taManager = new TaManager();
         }
 
         /// <summary>
