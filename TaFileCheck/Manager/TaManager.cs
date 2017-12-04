@@ -37,67 +37,79 @@ namespace TaFileCheck
 
                 // 直接找hqfiles子节点。形成行情检查必收list
                 XmlNode hqFilesNode = rootNode.SelectSingleNode("//hqfiles");
-                foreach (XmlNode tmpXnl in hqFilesNode.ChildNodes)
+                _hqFilesList = new List<string>();
+                if (hqFilesNode != null)
                 {
-                    _hqFilesList.Add(tmpXnl.InnerText.Trim());
+                    foreach (XmlNode tmpXnl in hqFilesNode.ChildNodes)
+                    {
+                        _hqFilesList.Add(tmpXnl.InnerText.Trim());
+                    }
                 }
 
                 // 直接找qsfiles子节点
                 XmlNode qsFilesNode = rootNode.SelectSingleNode("//qsfiles");
-                foreach (XmlNode tmpXnl in qsFilesNode.ChildNodes)
+                _qsFileList = new List<string>();
+                if (qsFilesNode != null)
                 {
-                    _qsFileList.Add(tmpXnl.InnerText.Trim());
+                    foreach (XmlNode tmpXnl in qsFilesNode.ChildNodes)
+                    {
+                        _qsFileList.Add(tmpXnl.InnerText.Trim());
+                    }
                 }
-
                 // 直接找talist子节点。形成ta对象，加入到TaManager列表。
                 XmlNode taListNode = rootNode.SelectSingleNode("//talist");
-                foreach (XmlNode tmpXnl in taListNode.ChildNodes)
+                _taList = new List<Ta>();
+                if (taListNode != null)
                 {
-                    // 开始生成对象
-                }
+                    foreach (XmlNode tmpTaXmlNode in taListNode.ChildNodes) // 循环talist下的子节点
+                    {
+                        if (tmpTaXmlNode.Name.Trim().ToLower() == "ta")   // 如果子节点名字是ta，开始遍历attribute
+                        {
+                            // 读取配置
+                            string id = string.Empty;
+                            string desc = string.Empty;
+                            string source = string.Empty;
+                            string rootmove = string.Empty;
+                            string hqmove = string.Empty;
+                            string qsmove = string.Empty;
+
+                            XmlElement tmpTaXmlEle = (XmlElement)tmpTaXmlNode;
+                            for (int i = 0; i < tmpTaXmlEle.ChildNodes.Count; i++)
+                            {
+                                switch (tmpTaXmlEle.ChildNodes[i].Name.ToLower().Trim())
+                                {
+                                    case "id":    // TA代码
+                                        id = tmpTaXmlEle.ChildNodes[i].InnerText;
+                                        break;
+                                    case "desc":  // 描述
+                                        desc = tmpTaXmlEle.ChildNodes[i].InnerText;
+                                        break;
+                                    case "source":    // 源路径
+                                        source = tmpTaXmlEle.ChildNodes[i].InnerText;
+                                        break;
+                                    case "rootmove":    // 是否把子目录文件移动到根目录
+                                        rootmove = tmpTaXmlEle.ChildNodes[i].InnerText;
+                                        break;
+                                    case "hqmove": // 行情文件是否需要移动
+                                        hqmove = tmpTaXmlEle.ChildNodes[i].InnerText;
+                                        break;
+                                    case "qsmove":  // 清算文件是否需要移动
+                                        qsmove = tmpTaXmlEle.ChildNodes[i].InnerText;
+                                        break;
+                                }
+                            }
+
+
+                            // 开始生成对象
+                            Ta tmpTa = new Ta(id, desc, source, rootmove, hqmove, _hqFilesList);
+                            _taList.Add(tmpTa);
+
+                        }//eof if ta
+                    }//eof foreach
+                }//eof if taListNode not null
 
 
 
-                //foreach (XmlNode tmpXnl in rootNode.ChildNodes)     // 遍历每一个子节点
-                //{
-
-                //    if (tmpXnl.Name.ToLower().Trim() == "file_source")  // 只能是file_source节点
-                //    {
-                //        string enable = string.Empty;
-                //        string name = string.Empty;
-                //        string originPath = string.Empty;
-                //        string destPath = string.Empty;
-                //        string flagFiles = string.Empty;
-                //        string filePattern = string.Empty;
-                //        string noCopy = string.Empty;
-
-
-                //        XmlElement xe = (XmlElement)tmpXnl;
-                //        enable = xe.GetAttribute("enable");     // 启用标志（只要不是enable="false"，都算启用）
-                //        for (int i = 0; i < xe.ChildNodes.Count; i++)
-                //        {
-                //            switch (xe.ChildNodes[i].Name.ToLower().Trim())
-                //            {
-                //                case "name":    // 配置名
-                //                    name = xe.ChildNodes[i].InnerText;
-                //                    break;
-                //                case "source":  // 源路径
-                //                    originPath = xe.ChildNodes[i].InnerText;
-                //                    break;
-                //                case "dest":    // 目标路径
-                //                    destPath = xe.ChildNodes[i].InnerText;
-                //                    break;
-                //                case "flag":    // 标志文件
-                //                    flagFiles = xe.ChildNodes[i].InnerText;
-                //                    break;
-                //                case "pattern": // 拷贝文件
-                //                    filePattern = xe.ChildNodes[i].InnerText;
-                //                    break;
-                //                case "nocopy":
-                //                    noCopy = xe.ChildNodes[i].InnerText;
-                //                    break;
-                //            }
-                //        }
 
 
                 //        // 生成对象
@@ -120,5 +132,16 @@ namespace TaFileCheck
                 //}
             }
         }
+
+
+        #region 属性
+        /// <summary>
+        /// 获取TA列表
+        /// </summary>
+        public List<Ta> TaList
+        {
+            get { return _taList; }
+        }
+        #endregion 属性
     }
 }

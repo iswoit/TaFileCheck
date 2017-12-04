@@ -10,12 +10,13 @@ namespace TaFileCheck
     {
         异常 = -1,
         未开始 = 0,
-        文件移动到根目录中 = 1,
-        检查中 = 2,
-        文件未收齐 = 3,
-        文件拷贝中 = 4,
-        检查文件一致性 = 5,
-        完成 = 6
+        尝试访问源路径 = 1,
+        文件移动到根目录中 = 2,
+        检查中 = 3,
+        文件未收齐 = 4,
+        文件拷贝中 = 5,
+        检查文件一致性 = 6,
+        完成 = 7
     }
 
     /// <summary>
@@ -27,10 +28,13 @@ namespace TaFileCheck
         private string _desc;               // 说明
         private string _source;             // 文件所在路径
         private bool _rootMove;             // 是否需要文件移动到根目录
+
+        private string _hqMoveStr;          // 行情检查时需要移动(字符串，用于显示)
         private List<string> _hqMove;       // 行情检查时需要移动
         private List<string> _hqFiles;      // 行情文件名
-        HqStatus _hqStatus;                 // 任务状态
 
+        HqStatus _hqStatus;                 // 任务状态
+        bool _hqRunning = false;            // 行情检查是否运行中
 
 
         /// <summary>
@@ -54,6 +58,7 @@ namespace TaFileCheck
             if (!bool.TryParse(rootMove, out _rootMove))
                 _rootMove = false;
 
+            _hqMoveStr = hqMove;
             // 检查完需要移动
             string[] arr_hqMove = hqMove.Split(new char[] { '|', ';', '；', ',', '，' });
             _hqMove = new List<string>();
@@ -63,12 +68,12 @@ namespace TaFileCheck
                     _hqMove.Add(strTmp.Trim());
             }
 
-            // 必收行情文件通用转义(！！！未完成，日期和{ta}通配符都要，日期的还要加yymmdd的)
+            // 必收行情文件通用转义
             _hqFiles = new List<string>();
             foreach (string strTmp in hqFiles)
             {
-                string strTmp_new = Util.Filename_Date_Convert(strTmp);
-                strTmp_new = ReplaceTaFileNameWithPattern(strTmp_new, _id);
+                string strTmp_new = Util.Filename_Date_Convert(strTmp);     // 日期转义
+                strTmp_new = ReplaceTaFileNameWithPattern(strTmp_new, _id); // {ta}通配符转义
 
                 _hqFiles.Add(strTmp_new);
             }
@@ -76,5 +81,51 @@ namespace TaFileCheck
 
             _hqStatus = HqStatus.未开始;
         }
+
+
+
+        #region 属性
+        public string Id
+        {
+            get { return _id; }
+        }
+
+        public string Desc
+        {
+            get { return _desc; }
+        }
+
+        public string Source
+        {
+            get { return _source; }
+        }
+
+        public bool RootMove
+        {
+            get { return _rootMove; }
+        }
+
+        public string HqMoveStr
+        {
+            get { return _hqMoveStr; }
+        }
+
+        public List<string> HqMove
+        {
+            get { return _hqMove; }
+        }
+
+        public List<string> HqFiles
+        {
+            get { return _hqFiles; }
+        }
+
+        public HqStatus HqStatus
+        {
+            get { return _hqStatus; }
+            set { _hqStatus = value; }
+        }
+
+        #endregion 属性
     }
 }
