@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lvHqList = new System.Windows.Forms.ListView();
+            this.lvHqList = new TaFileCheck.DoubleBufferListView();
             this.No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TaID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Desc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -59,6 +59,7 @@
             this.Status,
             this.IsOK,
             this.Remark});
+            this.lvHqList.FullRowSelect = true;
             this.lvHqList.GridLines = true;
             this.lvHqList.Location = new System.Drawing.Point(8, 27);
             this.lvHqList.Name = "lvHqList";
@@ -100,6 +101,7 @@
             // IsOK
             // 
             this.IsOK.Text = "是否收齐";
+            this.IsOK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // Remark
             // 
@@ -152,9 +154,11 @@
             // 
             // tbHqLog
             // 
+            this.tbHqLog.BackColor = System.Drawing.SystemColors.Window;
             this.tbHqLog.Location = new System.Drawing.Point(8, 217);
             this.tbHqLog.Multiline = true;
             this.tbHqLog.Name = "tbHqLog";
+            this.tbHqLog.ReadOnly = true;
             this.tbHqLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbHqLog.Size = new System.Drawing.Size(903, 94);
             this.tbHqLog.TabIndex = 2;
@@ -194,7 +198,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView lvHqList;
+        private DoubleBufferListView lvHqList;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;

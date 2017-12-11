@@ -47,6 +47,7 @@ namespace TaFileCheck
                 lvi.SubItems.Add(_taManager.TaList[i].HqStatus.ToString());
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
+                lvi.Tag = _taManager.TaList[i];
 
                 lvHqList.Items.Add(lvi);
 
@@ -60,6 +61,41 @@ namespace TaFileCheck
                 //lvHqList.Columns[6].Width = -1;
             }
         }
+
+        private void UpdateHqList()
+        {
+            lvHqList.BeginUpdate();
+            // 进度列表
+            try
+            {
+                for (int i = 0; i < _taManager.TaList.Count; i++)
+                {
+                    Ta tmpTa = (Ta)lvHqList.Items[i].Tag;   // 配置对象
+                    lvHqList.Items[i].SubItems[5].Text = tmpTa.HqStatus.ToString();        // 状态
+                    lvHqList.Items[i].SubItems[6].Text = tmpTa.IsHqCheckedOK ? "√" : "×";        // 标志到齐
+
+
+                    if (tmpTa.IsHqRunning)
+                    {
+                        lvHqList.Items[i].BackColor = Color.LightBlue;
+                        lvHqList.Items[i].EnsureVisible();
+                    }
+                    else
+                    {
+                        lvHqList.Items[i].BackColor = SystemColors.Window;
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                // ui异常过滤
+            }
+
+            lvHqList.EndUpdate();
+
+        }
+
 
 
 
@@ -87,35 +123,114 @@ namespace TaFileCheck
              * 4.如果需要拷贝，则拷贝(多目的地)
              */
 
-            BackgroundWorker bgWorker = sender as BackgroundWorker;
-
-            foreach (Ta tmpTa in _taManager.TaList)
+            try
             {
-                // 1.源路径是否可访问
-                if (!Directory.Exists(Util.Filename_Date_Convert(tmpTa.Source)))
+                BackgroundWorker bgWorker = sender as BackgroundWorker;
+
+                foreach (Ta tmpTa in _taManager.TaList)
                 {
-                    tmpTa.HqStatus = HqStatus.异常;
+                    tmpTa.IsHqRunning = true;
+
+
+                    // 1.源路径是否可访问
+                    tmpTa.HqStatus = HqStatus.尝试访问源路径;
+                    bgWorker.ReportProgress(1);
+
+
+                    Timeout timeout = new Timeout();
+                    
+
+                    bool isAvailable = _taManager.IsSourcePathAvailabel(tmpTa);
+                    if (!isAvailable)
+                    {
+                        tmpTa.IsHqRunning = false;
+
+                        tmpTa.HqStatus = HqStatus.无法访问源路径;
+                        bgWorker.ReportProgress(1);
+
+                        continue;
+                    }
 
                     //// 日志报警
                     //UserState us = new UserState(true, string.Format("文件源[{0}]，源路径[{1}]无法访问!", tmpFileSource.Name, Util.Filename_Date_Convert(tmpFileSource.OriginPath)));
-                    tmpFileSource.IsRunning = false;
                     //bgWorker.ReportProgress(1, us);
 
-                    continue;
+
+                    // 2.按照rootmove配置移动文件（把子目录中的文件都移动到根目录）
+                    tmpTa.HqStatus = HqStatus.文件移动到根目录中;
+                    bgWorker.ReportProgress(1);
+
+                    _taManager.RootMove(tmpTa);
+
+                    tmpTa.HqStatus = HqStatus.文件移动到根目完成;
+                    bgWorker.ReportProgress(1);
+
+
+
+                    // 3.拼接文件路径，判断文件是否存在
+                    tmpTa.HqStatus = HqStatus.检查中;
+                    bgWorker.ReportProgress(1);
+
+                    tmpTa.IsHqCheckedOK = _taManager.IsHqFlagFileExists(tmpTa);
+
+                    tmpTa.HqStatus = tmpTa.IsHqCheckedOK == true ? HqStatus.文件已收齐 : HqStatus.文件未收齐;
+                    bgWorker.ReportProgress(1);
+                    if (!tmpTa.IsHqCheckedOK)
+                    {
+                        tmpTa.IsHqRunning = false;
+
+                        bgWorker.ReportProgress(1);
+                        continue;
+                    }
+
+                    // 4.如果需要拷贝，则拷贝(多目的地)
+
+                    tmpTa.HqStatus = HqStatus.文件拷贝中;
+                    bgWorker.ReportProgress(1);
+
+                    _taManager.HqMove(tmpTa);
+
+                    tmpTa.HqStatus = HqStatus.文件拷贝完成;
+                    bgWorker.ReportProgress(1);
+
+
+
+                    // 结束
+                    tmpTa.IsHqRunning = false;
+
+                    tmpTa.HqStatus = HqStatus.完成;
+                    bgWorker.ReportProgress(1);
+
+
                 }
-                Thread.Sleep(100);
 
 
-
-                Thread.Sleep(2000);
+                e.Result = true;
             }
-
-
-            e.Result = true;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         private void bwHq_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            if (e.UserState != null)
+            {
+                UserState us = (UserState)e.UserState;
+                if (us.HasError)
+                    Print_Hq_Error_Message(us.ErrorMsg);
+            }
+
+
+            try
+            {
+                UpdateHqList();
+            }
+            catch (Exception ex)
+            {
+                Print_Hq_Error_Message(ex.Message);
+            }
 
         }
 
@@ -123,24 +238,24 @@ namespace TaFileCheck
         {
             if (e.Error != null)    // 未处理的异常，需要弹框
             {
-                //Print_Error_Message(e.Error.Message);
-                //MessageBox.Show(e.Error.Message);
+                Print_Hq_Error_Message(e.Error.Message);
+                MessageBox.Show(e.Error.Message);
 
                 //lbStatus.Text = "异常停止";
                 //lbStatus.BackColor = Color.Red;
             }
             else if (e.Cancelled)
             {
-                //Print_Error_Message("任务被手工取消");
+                Print_Hq_Error_Message("任务被手工取消");
 
                 //lbStatus.Text = "手工停止";
                 //lbStatus.BackColor = Color.Red;
 
-                //// 状态清空
-                //for (int i = 0; i < _manager.FileSourceList.Count; i++)
-                //{
-                //    _manager.FileSourceList[i].IsRunning = false;
-                //}
+                // 状态清空
+                for (int i = 0; i < _taManager.TaList.Count; i++)
+                {
+                    _taManager.TaList[i].IsHqRunning = false;
+                }
             }
             else
             {
@@ -154,6 +269,12 @@ namespace TaFileCheck
 
             btnHqExecute.Text = "检查";
         }
+
+        private void Print_Hq_Error_Message(string message)
+        {
+            tbHqLog.Text = string.Format("{0}:{1}", DateTime.Now.ToString("HH:mm:ss"), message) + System.Environment.NewLine + tbHqLog.Text;
+        }
+
 
 
         #endregion 行情检查逻辑

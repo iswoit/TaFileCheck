@@ -11,12 +11,16 @@ namespace TaFileCheck
         异常 = -1,
         未开始 = 0,
         尝试访问源路径 = 1,
-        文件移动到根目录中 = 2,
-        检查中 = 3,
-        文件未收齐 = 4,
-        文件拷贝中 = 5,
-        检查文件一致性 = 6,
-        完成 = 7
+        访问源路径成功 = 2,
+        无法访问源路径 = 3,
+        文件移动到根目录中 = 4,
+        文件移动到根目完成 = 5,
+        检查中 = 6,
+        文件未收齐 = 7,
+        文件已收齐 = 8,
+        文件拷贝中 = 9,
+        文件拷贝完成 = 10,
+        完成 = 11
     }
 
     /// <summary>
@@ -30,12 +34,12 @@ namespace TaFileCheck
         private bool _rootMove;             // 是否需要文件移动到根目录
 
         private string _hqMoveStr;          // 行情检查时需要移动(字符串，用于显示)
-        private List<string> _hqMove;       // 行情检查时需要移动
+        private List<string> _hqMove;       // 行情检查时需要移动到的目的
         private List<string> _hqFiles;      // 行情文件名
 
-        HqStatus _hqStatus;                 // 任务状态
-        bool _hqRunning = false;            // 行情检查是否运行中
-
+        private HqStatus _hqStatus;                 // 任务状态
+        private bool _isHqRunning = false;            // 行情检查是否运行中
+        private bool _isHqCheckedOk = false;            // 行情检查通过
 
         /// <summary>
         /// 把配置文件里的{ta}换成真实ta代码
@@ -53,7 +57,7 @@ namespace TaFileCheck
         {
             _id = id;
             _desc = desc;
-            _source = source;
+            _source = Util.Filename_Date_Convert(source);
 
             if (!bool.TryParse(rootMove, out _rootMove))
                 _rootMove = false;
@@ -65,7 +69,7 @@ namespace TaFileCheck
             foreach (string strTmp in arr_hqMove)
             {
                 if (!string.IsNullOrEmpty(strTmp.Trim()))
-                    _hqMove.Add(strTmp.Trim());
+                    _hqMove.Add(Util.Filename_Date_Convert(strTmp.Trim()));
             }
 
             // 必收行情文件通用转义
@@ -124,6 +128,21 @@ namespace TaFileCheck
         {
             get { return _hqStatus; }
             set { _hqStatus = value; }
+        }
+
+        public bool IsHqRunning
+        {
+            get { return _isHqRunning; }
+            set { _isHqRunning = value; }
+        }
+
+        /// <summary>
+        /// 行情文件到齐检查通过与否
+        /// </summary>
+        public bool IsHqCheckedOK
+        {
+            get { return _isHqCheckedOk; }
+            set { _isHqCheckedOk = value; }
         }
 
         #endregion 属性

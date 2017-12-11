@@ -134,6 +134,117 @@ namespace TaFileCheck
         }
 
 
+
+
+
+        /// <summary>
+        /// 源路径是否可以访问
+        /// </summary>
+        /// <param name="ta"></param>
+        /// <returns></returns>
+        public bool IsSourcePathAvailabel(Ta ta)
+        {
+
+            if (Directory.Exists(Util.Filename_Date_Convert(ta.Source)))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+
+        /// <summary>
+        /// 把子目录的文件都移动到根目录
+        /// </summary>
+        /// <param name="path"></param>
+        private void MoveFilesToRoot(DirectoryInfo dirRoot)
+        {
+            Queue<DirectoryInfo> queue = new Queue<DirectoryInfo>();
+
+            dirRoot.GetFiles();
+            dirRoot.GetDirectories();
+
+            queue.Enqueue(dirRoot);
+            while (queue.Count != 0)
+            {
+                DirectoryInfo tmpDir = queue.Dequeue();
+
+                FileInfo[] tmpSubFiles = tmpDir.GetFiles();
+                foreach (FileInfo tmpSubFile in tmpSubFiles)
+                {
+                    tmpSubFile.MoveTo(Path.Combine(dirRoot.FullName, tmpSubFile.Name)); // 移到根目录
+                }
+
+                DirectoryInfo[] tmpSubDirs = tmpDir.GetDirectories();
+                foreach (DirectoryInfo tmpSubDir in tmpSubDirs)
+                {
+                    queue.Enqueue(tmpSubDir);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 文件移动到根目录
+        /// </summary>
+        /// <param name="ta"></param>
+        public void RootMove(Ta ta)
+        {
+            if (ta.RootMove == true)
+            {
+                DirectoryInfo di = new DirectoryInfo(Util.Filename_Date_Convert(ta.Source));
+                MoveFilesToRoot(di);
+            }
+        }
+
+
+        /// <summary>
+        /// 行情标志文件是否存在
+        /// </summary>
+        /// <param name="ta"></param>
+        /// <returns></returns>
+        public bool IsHqFlagFileExists(Ta ta)
+        {
+            bool bIsArrived = true;
+            foreach (string strTmpFile in ta.HqFiles)
+            {
+                if (!File.Exists(Path.Combine(ta.Source, strTmpFile)))
+                {
+                    bIsArrived = false;
+                    break;
+                }
+            }
+
+            return bIsArrived;
+        }
+
+
+        /// <summary>
+        /// 行情文件检查后移动
+        /// </summary>
+        /// <param name="ta"></param>
+        public void HqMove(Ta ta)
+        {
+            foreach (string strTmpDestPath in ta.HqMove)  // 遍历目的地
+            {
+                if (Directory.Exists(strTmpDestPath))
+                {
+                    foreach (string strTmpFile in ta.HqFiles)
+                    {
+                        File.Copy(Path.Combine(ta.Source, strTmpFile),
+                            Path.Combine(strTmpDestPath, strTmpFile));
+                    }
+                }
+                else
+                {
+                    // 日志报错
+                }
+            }
+
+        }
+
+
         #region 属性
         /// <summary>
         /// 获取TA列表

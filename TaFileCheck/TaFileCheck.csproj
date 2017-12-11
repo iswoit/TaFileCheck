@@ -47,8 +47,13 @@
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\TaManager.cs" />
+    <Compile Include="Manager\Timeout.cs" />
     <Compile Include="Manager\Util.cs" />
+    <Compile Include="Model\DoubleBufferListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Model\Ta.cs" />
+    <Compile Include="Model\UserState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmMain.resx">
