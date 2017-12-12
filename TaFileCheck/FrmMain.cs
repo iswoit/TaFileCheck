@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace TaFileCheck
 {
+
     public partial class FrmMain : Form
     {
         TaManager _taManager = null;
@@ -136,12 +137,10 @@ namespace TaFileCheck
                     tmpTa.HqStatus = HqStatus.尝试访问源路径;
                     bgWorker.ReportProgress(1);
 
-
-                    Timeout timeout = new Timeout();
-                    
-
-                    bool isAvailable = _taManager.IsSourcePathAvailabel(tmpTa);
-                    if (!isAvailable)
+                    CheckFilePathTimeout timeout = new CheckFilePathTimeout(new DoHandler(_taManager.IsSourcePathAvailabel)); // 委托
+                    bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 10), tmpTa.Source);       // 超过10秒失败
+                    bool isAvailable = timeout.bReturn;     // 是否可访问
+                    if (isTimeout == true || isAvailable == false)
                     {
                         tmpTa.IsHqRunning = false;
 
@@ -150,6 +149,17 @@ namespace TaFileCheck
 
                         continue;
                     }
+
+                    //bool isAvailable = _taManager.IsSourcePathAvailabel(tmpTa);
+                    //if (!isAvailable)
+                    //{
+                    //    tmpTa.IsHqRunning = false;
+
+                    //    tmpTa.HqStatus = HqStatus.无法访问源路径;
+                    //    bgWorker.ReportProgress(1);
+
+                    //    continue;
+                    //}
 
                     //// 日志报警
                     //UserState us = new UserState(true, string.Format("文件源[{0}]，源路径[{1}]无法访问!", tmpFileSource.Name, Util.Filename_Date_Convert(tmpFileSource.OriginPath)));

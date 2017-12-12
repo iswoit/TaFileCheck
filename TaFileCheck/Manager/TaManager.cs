@@ -142,10 +142,9 @@ namespace TaFileCheck
         /// </summary>
         /// <param name="ta"></param>
         /// <returns></returns>
-        public bool IsSourcePathAvailabel(Ta ta)
+        public bool IsSourcePathAvailabel(string strPath)
         {
-
-            if (Directory.Exists(Util.Filename_Date_Convert(ta.Source)))
+            if (Directory.Exists(Util.Filename_Date_Convert(strPath)))
             {
                 return true;
             }

@@ -5,24 +5,33 @@ using System.Threading;
 
 namespace TaFileCheck
 {
-    public delegate void DoHandler();
-    public class Timeout
+    public delegate bool DoHandler(string strPath);
+    public class CheckFilePathTimeout
     {
         private ManualResetEvent mTimeoutObject;
         //标记变量
         private bool mBoTimeout;
         public DoHandler Do;
+        public bool bReturn;
 
-        public Timeout()
+        public CheckFilePathTimeout()
         {
             //  初始状态为 停止
             this.mTimeoutObject = new ManualResetEvent(true);
         }
+
+
+        public CheckFilePathTimeout(DoHandler d)
+        {
+            this.mTimeoutObject = new ManualResetEvent(true);
+            this.Do = d;
+        }
+
         ///<summary>
         /// 指定超时时间 异步执行某个方法
         ///</summary>
         ///<returns>执行 是否超时</returns>
-        public bool DoWithTimeout(TimeSpan timeSpan)
+        public bool DoWithTimeout(TimeSpan timeSpan, string strPath)
         {
             if (this.Do == null)
             {
@@ -30,7 +39,7 @@ namespace TaFileCheck
             }
             this.mTimeoutObject.Reset();
             this.mBoTimeout = true; //标记
-            this.Do.BeginInvoke(DoAsyncCallBack, null);
+            this.Do.BeginInvoke(strPath, DoAsyncCallBack, null);
             // 等待 信号Set
             if (!this.mTimeoutObject.WaitOne(timeSpan, false))
             {
@@ -46,7 +55,7 @@ namespace TaFileCheck
         {
             try
             {
-                this.Do.EndInvoke(result);
+                this.bReturn = this.Do.EndInvoke(result);
                 // 指示方法的执行未超时
                 this.mBoTimeout = false;
             }

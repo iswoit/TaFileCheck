@@ -25,7 +25,7 @@
 		<ta>
 			<id>03</id><!--ID-->
 			<desc>嘉实基金</desc><!--备注-->
-			<source>\\10.35.0.43\d$\ABOSS2\OFSI\in\03\</source>
+			<source>\\127.0.0.1\d$\ABOSS2\OFSI\in\03\</source>
 			<!-- <source>D:\ABOSS2\OFSI\in\03\</source> -->
 			<rootmove>true</rootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqmove></hqmove><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
