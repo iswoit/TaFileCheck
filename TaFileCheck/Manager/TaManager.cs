@@ -66,12 +66,22 @@ namespace TaFileCheck
                         if (tmpTaXmlNode.Name.Trim().ToLower() == "ta")   // 如果子节点名字是ta，开始遍历attribute
                         {
                             // 读取配置
-                            string id = string.Empty;
-                            string desc = string.Empty;
-                            string source = string.Empty;
-                            string rootmove = string.Empty;
-                            string hqmove = string.Empty;
-                            string qsmove = string.Empty;
+                            string id = string.Empty;                                   // ta代码
+                            string desc = string.Empty;                                 // 备注（仅仅显示）
+                            string source = string.Empty;                               // 源路径
+                            string rootmove = string.Empty;                             // 是否需要把文件移动到根目录
+
+                            List<string> _hqFilesList_tmp = new List<string>();  // 行情检查文件，替换掉全局的文件
+                            foreach (string strTmp in _hqFilesList) // 行情全局变量先往临时list里填，如果发现替换节点，后续会清空替换
+                            {
+                                _hqFilesList_tmp.Add(strTmp);
+                            }
+
+                            string hqmove = string.Empty;                               // 行情文件检查后是否需要移动
+                            string qsmove = string.Empty;                               // 清算文件检查后是否需要移动
+
+
+
 
                             XmlElement tmpTaXmlEle = (XmlElement)tmpTaXmlNode;
                             for (int i = 0; i < tmpTaXmlEle.ChildNodes.Count; i++)
@@ -87,6 +97,16 @@ namespace TaFileCheck
                                     case "source":    // 源路径
                                         source = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
+                                    case "hqfiles":     // 检查文件替换(用来替换全局)
+                                        {
+                                            XmlNode hqFilesNode_substitute = tmpTaXmlEle.ChildNodes[i];
+                                            _hqFilesList_tmp.Clear();
+                                            foreach (XmlNode tmpXnl in hqFilesNode_substitute.ChildNodes)
+                                            {
+                                                _hqFilesList_tmp.Add(tmpXnl.InnerText.Trim());
+                                            }
+                                            break;
+                                        }
                                     case "rootmove":    // 是否把子目录文件移动到根目录
                                         rootmove = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
@@ -101,7 +121,7 @@ namespace TaFileCheck
 
 
                             // 开始生成对象
-                            Ta tmpTa = new Ta(id, desc, source, rootmove, hqmove, _hqFilesList);
+                            Ta tmpTa = new Ta(id, desc, source, rootmove, hqmove, _hqFilesList_tmp);
                             _taList.Add(tmpTa);
 
                         }//eof if ta
@@ -169,12 +189,21 @@ namespace TaFileCheck
             {
                 DirectoryInfo tmpDir = queue.Dequeue();
 
-                FileInfo[] tmpSubFiles = tmpDir.GetFiles();
-                foreach (FileInfo tmpSubFile in tmpSubFiles)
+                // 对于文件，移到根目录（但是排除根目录的文件）
+                if (!string.Equals(dirRoot.FullName, tmpDir.FullName, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    tmpSubFile.MoveTo(Path.Combine(dirRoot.FullName, tmpSubFile.Name)); // 移到根目录
+                    FileInfo[] tmpSubFiles = tmpDir.GetFiles();
+                    foreach (FileInfo tmpSubFile in tmpSubFiles)
+                    {
+                        // 已经存在就删除，覆盖拷贝
+                        if (File.Exists(Path.Combine(dirRoot.FullName, tmpSubFile.Name)))
+                            File.Delete(Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+
+                        tmpSubFile.MoveTo(Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+                    }
                 }
 
+                // 对于文件夹，加入队列进行循环
                 DirectoryInfo[] tmpSubDirs = tmpDir.GetDirectories();
                 foreach (DirectoryInfo tmpSubDir in tmpSubDirs)
                 {
@@ -232,12 +261,12 @@ namespace TaFileCheck
                     foreach (string strTmpFile in ta.HqFiles)
                     {
                         File.Copy(Path.Combine(ta.Source, strTmpFile),
-                            Path.Combine(strTmpDestPath, strTmpFile));
+                            Path.Combine(strTmpDestPath, strTmpFile), true);
                     }
                 }
                 else
                 {
-                    // 日志报错
+                    throw new Exception(string.Format("路径{0}不存在", strTmpDestPath));
                 }
             }
 
