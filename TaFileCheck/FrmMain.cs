@@ -345,10 +345,30 @@ namespace TaFileCheck
 
         #endregion 行情检查逻辑
 
+
+
+
+        private Point preToolTipPoint = new Point(-1, -1);      // 提示框坐标
         private void lvHqList_MouseMove(object sender, MouseEventArgs e)
         {
+            try
+            {
+                if (preToolTipPoint.X != e.X || preToolTipPoint.Y != e.Y)//防止闪烁
+                {
+                    ListViewItem lvi = lvHqList.GetItemAt(e.X, e.Y);
+                    if (lvi != null)
+                        toolTip.Show(((Ta)lvi.Tag).HqToolTip, lvHqList, new Point(e.X + 30, e.Y + 20), 20000);
+                    else
+                        toolTip.Hide(lvHqList);
+                }
 
-            ListView lvHqList.GetChildAtPoint(new Point(e.X, e.Y));
+                preToolTipPoint = e.Location;
+            }
+            catch
+            {
+
+            }
+
         }
     }
 }

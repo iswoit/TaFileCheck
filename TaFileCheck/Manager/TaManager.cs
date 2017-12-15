@@ -235,12 +235,13 @@ namespace TaFileCheck
         public bool IsHqFlagFileExists(Ta ta)
         {
             bool bIsArrived = true;
+            ta.HqMissingFiles.Clear();
             foreach (string strTmpFile in ta.HqFiles)
             {
                 if (!File.Exists(Path.Combine(ta.Source, strTmpFile)))
                 {
                     bIsArrived = false;
-                    break;
+                    ta.HqMissingFiles.Add(strTmpFile);
                 }
             }
 

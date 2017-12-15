@@ -42,9 +42,9 @@ namespace TaFileCheck
 
         private bool _isHqSourceAvailable = false;      // 行情文件源目录是否可以访问
         private bool _isHqFileExists = false;           // 行情文件是否存在
+        private List<string> _hqMissingFiles = new List<string>();  // 缺失的文件列表
         private bool _isHqRootMoveOK = false;           // 移动到根目录完成
         private bool _isHqCopyOK = false;               // 行情文件拷贝完成
-        private bool _isHqOk = false;                   // 行情检查通过
         private string _hqMoveStr;          // 行情检查时需要移动(字符串，用于显示)
         private List<string> _hqMove;       // 行情检查时需要移动到的目的
         private List<string> _hqFiles;      // 行情文件名
@@ -221,6 +221,34 @@ namespace TaFileCheck
                 {
                     return true;
                 }
+            }
+        }
+
+
+        public List<string> HqMissingFiles
+        {
+            get { return _hqMissingFiles; }
+            set { _hqMissingFiles = value; }
+        }
+
+        public string HqToolTip
+        {
+            get
+            {
+                if (HqMissingFiles.Count > 0)
+                {
+                    string strReturn = "缺以下文件：";
+                    foreach (string strTmp in _hqMissingFiles)
+                    {
+                        strReturn += System.Environment.NewLine;
+                        strReturn += strTmp;
+                    }
+
+                    return strReturn;
+                }
+                else
+                    return _hqStatus.ToString();
+
             }
         }
 
