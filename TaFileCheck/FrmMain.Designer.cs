@@ -36,9 +36,6 @@
             this.btnHqExecute = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tbHqLog = new System.Windows.Forms.TextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.bwHq = new System.ComponentModel.BackgroundWorker();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lvHqList = new TaFileCheck.DoubleBufferListView();
             this.No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TaID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,8 +43,12 @@
             this.Source = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.HqMove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.IsFileExists = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IsOK = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Remark = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.bwHq = new System.ComponentModel.BackgroundWorker();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +61,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(927, 436);
+            this.tabControl1.Size = new System.Drawing.Size(961, 436);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -74,7 +75,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(919, 410);
+            this.tabPage1.Size = new System.Drawing.Size(953, 410);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "TA行情文件检查";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -104,7 +105,7 @@
             // btnHqExecute
             // 
             this.btnHqExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHqExecute.Location = new System.Drawing.Point(840, 365);
+            this.btnHqExecute.Location = new System.Drawing.Point(874, 365);
             this.btnHqExecute.Name = "btnHqExecute";
             this.btnHqExecute.Size = new System.Drawing.Size(71, 23);
             this.btnHqExecute.TabIndex = 4;
@@ -120,7 +121,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(257, 48);
             this.label1.TabIndex = 3;
-            this.label1.Text = "步骤\r\n1.将文件从子目录剪切到根目录（有些TA需要）\r\n2.文件拷贝（中登TA需要）\r\n3.检查文件（索引和07文件）";
+            this.label1.Text = "步骤\r\n1.将文件从子目录剪切到根目录（有些TA需要）\r\n2.检查文件（索引和07文件）\r\n3.文件拷贝（中登TA需要）";
             // 
             // tbHqLog
             // 
@@ -132,26 +133,8 @@
             this.tbHqLog.Name = "tbHqLog";
             this.tbHqLog.ReadOnly = true;
             this.tbHqLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbHqLog.Size = new System.Drawing.Size(903, 94);
+            this.tbHqLog.Size = new System.Drawing.Size(937, 94);
             this.tbHqLog.TabIndex = 2;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(919, 410);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "TA清算文件拷贝";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // bwHq
-            // 
-            this.bwHq.WorkerReportsProgress = true;
-            this.bwHq.WorkerSupportsCancellation = true;
-            this.bwHq.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwHq_DoWork);
-            this.bwHq.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwHq_ProgressChanged);
-            this.bwHq.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwHq_RunWorkerCompleted);
             // 
             // lvHqList
             // 
@@ -165,13 +148,14 @@
             this.Source,
             this.HqMove,
             this.Status,
+            this.IsFileExists,
             this.IsOK,
             this.Remark});
             this.lvHqList.FullRowSelect = true;
             this.lvHqList.GridLines = true;
             this.lvHqList.Location = new System.Drawing.Point(8, 27);
             this.lvHqList.Name = "lvHqList";
-            this.lvHqList.Size = new System.Drawing.Size(903, 190);
+            this.lvHqList.Size = new System.Drawing.Size(937, 190);
             this.lvHqList.TabIndex = 0;
             this.lvHqList.UseCompatibleStateImageBehavior = false;
             this.lvHqList.View = System.Windows.Forms.View.Details;
@@ -207,6 +191,11 @@
             this.Status.Text = "状态";
             this.Status.Width = 100;
             // 
+            // IsFileExists
+            // 
+            this.IsFileExists.Text = "文件到齐";
+            this.IsFileExists.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // IsOK
             // 
             this.IsOK.Text = "是否完成";
@@ -217,11 +206,29 @@
             this.Remark.Text = "备注";
             this.Remark.Width = 200;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(953, 410);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "TA清算文件拷贝";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // bwHq
+            // 
+            this.bwHq.WorkerReportsProgress = true;
+            this.bwHq.WorkerSupportsCancellation = true;
+            this.bwHq.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwHq_DoWork);
+            this.bwHq.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwHq_ProgressChanged);
+            this.bwHq.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwHq_RunWorkerCompleted);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(927, 436);
+            this.ClientSize = new System.Drawing.Size(961, 436);
             this.Controls.Add(this.tabControl1);
             this.Name = "FrmMain";
             this.Text = "开基文件检查";
@@ -253,6 +260,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.ColumnHeader IsFileExists;
     }
 }
 

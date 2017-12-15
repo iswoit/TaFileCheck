@@ -261,7 +261,8 @@ namespace TaFileCheck
                     foreach (string strTmpFile in ta.HqFiles)
                     {
                         File.Copy(Path.Combine(ta.Source, strTmpFile),
-                            Path.Combine(strTmpDestPath, strTmpFile), true);
+                            Path.Combine(strTmpDestPath, strTmpFile),
+                            true);
                     }
                 }
                 else

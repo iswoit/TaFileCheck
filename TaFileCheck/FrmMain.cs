@@ -48,6 +48,7 @@ namespace TaFileCheck
                 lvi.SubItems.Add(_taManager.TaList[i].HqStatus.ToString());
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(string.Empty);
                 lvi.Tag = _taManager.TaList[i];
 
                 lvHqList.Items.Add(lvi);
@@ -76,9 +77,9 @@ namespace TaFileCheck
                 for (int i = 0; i < _taManager.TaList.Count; i++)
                 {
                     Ta tmpTa = (Ta)lvHqList.Items[i].Tag;   // 配置对象
-                    lvHqList.Items[i].SubItems[5].Text = tmpTa.HqStatus.ToString();        // 状态
-                    lvHqList.Items[i].SubItems[6].Text = tmpTa.IsHqOK ? "√" : "×";        // 标志到齐
-
+                    lvHqList.Items[i].SubItems[5].Text = tmpTa.HqStatus.ToString();             // 状态
+                    lvHqList.Items[i].SubItems[6].Text = tmpTa.IsHqFileExists ? "√" : "×";      // 行情文件到齐
+                    lvHqList.Items[i].SubItems[7].Text = tmpTa.IsHqOK ? "√" : "×";              // 标志到齐
 
                     if (tmpTa.IsHqRunning)
                     {
@@ -176,19 +177,9 @@ namespace TaFileCheck
                     }
                     catch (Exception ex)
                     {
-                        UserState us = new UserState(true, string.Format("TA{0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
+                        UserState us = new UserState(true, string.Format("TA {0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
                         bgWorker.ReportProgress(1, us);
                     }
-                    //bool isAvailable = _taManager.IsSourcePathAvailabel(tmpTa);
-                    //if (!isAvailable)
-                    //{
-                    //    tmpTa.IsHqRunning = false;
-
-                    //    tmpTa.HqStatus = HqStatus.无法访问源路径;
-                    //    bgWorker.ReportProgress(1);
-
-                    //    continue;
-                    //}
 
 
 
@@ -210,7 +201,7 @@ namespace TaFileCheck
                         {
                             tmpTa.HqStatus = HqStatus.文件移动到根目录错误;
                             tmpTa.IsHqRootMoveOK = false;
-                            UserState us = new UserState(true, string.Format("TA{0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
+                            UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
                             bgWorker.ReportProgress(1, us);
                         }
                     }
@@ -260,12 +251,14 @@ namespace TaFileCheck
                         {
                             tmpTa.HqStatus = HqStatus.文件拷贝失败;
                             tmpTa.IsHqCopyOK = false;
-                            UserState us = new UserState(true, string.Format("TA{0}文件拷贝出错: {1}", tmpTa.Id, ex.Message));
+                            UserState us = new UserState(true, string.Format("TA {0}文件拷贝出错: {1}", tmpTa.Id, ex.Message));
                             bgWorker.ReportProgress(1, us);
                         }
                     }
 
 
+
+                    // 最终
                     if (tmpTa.IsHqOK)
                     {
                         tmpTa.HqStatus = HqStatus.完成;
@@ -274,7 +267,6 @@ namespace TaFileCheck
                     // 结束
                     tmpTa.IsHqRunning = false;
                     bgWorker.ReportProgress(1);
-
                 }
 
 
@@ -356,7 +348,7 @@ namespace TaFileCheck
         private void lvHqList_MouseMove(object sender, MouseEventArgs e)
         {
 
-
+            ListView lvHqList.GetChildAtPoint(new Point(e.X, e.Y));
         }
     }
 }
