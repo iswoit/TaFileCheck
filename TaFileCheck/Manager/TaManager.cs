@@ -283,6 +283,25 @@ namespace TaFileCheck
         {
             get { return _taList; }
         }
+
+
+        /// <summary>
+        /// TA行情文件全就绪
+        /// </summary>
+        public bool IsHqAllOK
+        {
+            get
+            {
+                foreach(Ta tmpTa in TaList)
+                {
+                    if (!tmpTa.IsHqOK)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
         #endregion 属性
     }
 }

@@ -247,7 +247,7 @@ namespace TaFileCheck
                     return strReturn;
                 }
                 else
-                    return _hqStatus.ToString();
+                    return string.Empty;
 
             }
         }

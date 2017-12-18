@@ -81,6 +81,7 @@ namespace TaFileCheck
                     lvHqList.Items[i].SubItems[6].Text = tmpTa.IsHqFileExists ? "√" : "×";      // 行情文件到齐
                     lvHqList.Items[i].SubItems[7].Text = tmpTa.IsHqOK ? "√" : "×";              // 标志到齐
 
+
                     if (tmpTa.IsHqRunning)
                     {
                         lvHqList.Items[i].BackColor = Color.LightBlue;
@@ -90,8 +91,9 @@ namespace TaFileCheck
                     {
                         lvHqList.Items[i].BackColor = SystemColors.Window;
                     }
-
                 }
+
+                lbIsHqAllOK.Text = _taManager.IsHqAllOK ? "是" : "否";
             }
             catch (Exception)
             {
@@ -340,14 +342,6 @@ namespace TaFileCheck
             tbHqLog.Text = string.Format("{0}:{1}", DateTime.Now.ToString("HH:mm:ss"), message) + System.Environment.NewLine + tbHqLog.Text;
         }
 
-
-
-
-        #endregion 行情检查逻辑
-
-
-
-
         private Point preToolTipPoint = new Point(-1, -1);      // 提示框坐标
         private void lvHqList_MouseMove(object sender, MouseEventArgs e)
         {
@@ -357,7 +351,7 @@ namespace TaFileCheck
                 {
                     ListViewItem lvi = lvHqList.GetItemAt(e.X, e.Y);
                     if (lvi != null)
-                        toolTip.Show(((Ta)lvi.Tag).HqToolTip, lvHqList, new Point(e.X + 30, e.Y + 20), 20000);
+                        toolTip.Show(((Ta)lvi.Tag).HqToolTip, lvHqList, new Point(e.X + 30, e.Y + 20), 200000);
                     else
                         toolTip.Hide(lvHqList);
                 }
@@ -365,10 +359,59 @@ namespace TaFileCheck
                 preToolTipPoint = e.Location;
             }
             catch
+            { }
+        }
+
+
+        #endregion 行情检查逻辑
+
+
+
+
+
+
+
+        #region 清算处理逻辑
+
+        private void btnQsExecute_Click(object sender, EventArgs e)
+        {
+            if (!bwQs.IsBusy)
+            {
+                bwQs.RunWorkerAsync();
+                btnQsExecute.Text = "点击停止";
+            }
+            else
+            {
+                bwQs.CancelAsync();
+                btnQsExecute.Text = "处理";
+            }
+        }
+
+        private void bwQs_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                BackgroundWorker bgWorker = sender as BackgroundWorker;
+            }
+            catch (Exception ex)
             {
 
             }
+        }
+
+        private void bwQs_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
 
         }
+
+        private void bwQs_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+
+        }
+
+
+        #endregion 清算处理逻辑
+
+
     }
 }
