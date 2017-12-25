@@ -40,6 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmCfgGlobal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCfgGlobal.Designer.cs">
+      <DependentUpon>FrmCfgGlobal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmCfgTA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmCfgTA.Designer.cs">
+      <DependentUpon>FrmCfgTA.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,6 +68,12 @@
     <Compile Include="Model\UserState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmCfgGlobal.resx">
+      <DependentUpon>FrmCfgGlobal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmCfgTA.resx">
+      <DependentUpon>FrmCfgTA.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>

@@ -13,8 +13,8 @@ namespace TaFileCheck
 
     public partial class FrmMain : Form
     {
-        TaManager _taManager = null;
-
+        TaManager _taManager = null;                            // 管理类
+        private Point preToolTipPoint = new Point(-1, -1);      // 提示框坐标
 
         public FrmMain()
         {
@@ -24,6 +24,7 @@ namespace TaFileCheck
             {
                 _taManager = new TaManager();
                 InitHqList();
+                InitQsList();
             }
             catch (Exception ex)
             {
@@ -31,6 +32,11 @@ namespace TaFileCheck
             }
         }
 
+
+
+
+
+        #region 行情检查逻辑
 
         /// <summary>
         /// 行情Lv初始化
@@ -105,10 +111,8 @@ namespace TaFileCheck
         }
 
 
-
-
         /// <summary>
-        /// 开基文件检查执行按钮
+        /// 行情检查执行按钮
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -126,8 +130,6 @@ namespace TaFileCheck
             }
         }
 
-
-        #region 行情检查逻辑
         private void bwHq_DoWork(object sender, DoWorkEventArgs e)
         {
             /* 1.源路径是否可访问
@@ -342,7 +344,6 @@ namespace TaFileCheck
             tbHqLog.Text = string.Format("{0}:{1}", DateTime.Now.ToString("HH:mm:ss"), message) + System.Environment.NewLine + tbHqLog.Text;
         }
 
-        private Point preToolTipPoint = new Point(-1, -1);      // 提示框坐标
         private void lvHqList_MouseMove(object sender, MouseEventArgs e)
         {
             try
@@ -372,6 +373,37 @@ namespace TaFileCheck
 
 
         #region 清算处理逻辑
+
+
+        private void InitQsList()
+        {
+            lvQsList.Items.Clear();
+            for (int i = 0; i < _taManager.TaList.Count; i++)
+            {
+                ListViewItem lvi = new ListViewItem((i + 1).ToString());
+                lvi.SubItems.Add(_taManager.TaList[i].Id);
+                lvi.SubItems.Add(_taManager.TaList[i].Desc);
+                lvi.SubItems.Add(_taManager.TaList[i].Source);
+                lvi.SubItems.Add(_taManager.TaList[i].QsMoveStr);
+                lvi.SubItems.Add(_taManager.TaList[i].QsStatus.ToString());
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(string.Empty);
+                lvi.SubItems.Add(string.Empty);
+                lvi.Tag = _taManager.TaList[i];
+
+                lvQsList.Items.Add(lvi);
+
+
+                lvQsList.Columns[0].Width = -1;
+                //lvQsList.Columns[1].Width = -1;
+                //lvQsList.Columns[2].Width = -1;
+                //lvQsList.Columns[3].Width = -1;
+                //lvQsList.Columns[4].Width = -1;
+                //lvQsList.Columns[5].Width = -1;
+                //lvQsList.Columns[6].Width = -1;
+            }
+        }
+
 
         private void btnQsExecute_Click(object sender, EventArgs e)
         {

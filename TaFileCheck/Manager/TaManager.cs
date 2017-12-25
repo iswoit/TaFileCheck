@@ -12,6 +12,14 @@ namespace TaFileCheck
         private List<string> _hqFilesList = new List<string>();     // 行情必收文件通配符
         private List<string> _qsFileList = new List<string>();      // 清算必收文件通配符
 
+
+
+        #region 方法
+
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public TaManager()
         {
             _taList = new List<Ta>();
@@ -71,13 +79,18 @@ namespace TaFileCheck
                             string source = string.Empty;                               // 源路径
                             string rootmove = string.Empty;                             // 是否需要把文件移动到根目录
 
-                            List<string> _hqFilesList_tmp = new List<string>();  // 行情检查文件，替换掉全局的文件
-                            foreach (string strTmp in _hqFilesList) // 行情全局变量先往临时list里填，如果发现替换节点，后续会清空替换
+                            List<string> _hqFilesList_tmp = new List<string>();         // 行情全局变量先往临时list里填，如果发现替换节点，后续会清空替换
+                            foreach (string strTmp in _hqFilesList)                     // 
                             {
                                 _hqFilesList_tmp.Add(strTmp);
                             }
-
                             string hqmove = string.Empty;                               // 行情文件检查后是否需要移动
+
+                            List<string> _qsFilesList_tmp = new List<string>();          // 清算全局变量先往临时list里填，如果发现替换节点，后续会清空替换
+                            foreach (string strTmp in _qsFileList)
+                            {
+                                _qsFilesList_tmp.Add(strTmp);
+                            }
                             string qsmove = string.Empty;                               // 清算文件检查后是否需要移动
 
 
@@ -97,22 +110,38 @@ namespace TaFileCheck
                                     case "source":    // 源路径
                                         source = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
-                                    case "hqfiles":     // 检查文件替换(用来替换全局)
-                                        {
-                                            XmlNode hqFilesNode_substitute = tmpTaXmlEle.ChildNodes[i];
-                                            _hqFilesList_tmp.Clear();
-                                            foreach (XmlNode tmpXnl in hqFilesNode_substitute.ChildNodes)
-                                            {
-                                                _hqFilesList_tmp.Add(tmpXnl.InnerText.Trim());
-                                            }
-                                            break;
-                                        }
                                     case "rootmove":    // 是否把子目录文件移动到根目录
                                         rootmove = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
+                                    case "hqfiles":     // 行情文件替换(用来替换全局)
+                                        {
+                                            XmlNode hqFilesNode_substitute = tmpTaXmlEle.ChildNodes[i];
+                                            if (hqFilesNode_substitute.ChildNodes.Count > 0)
+                                            {
+                                                _hqFilesList_tmp.Clear();
+                                                foreach (XmlNode tmpXnl in hqFilesNode_substitute.ChildNodes)
+                                                {
+                                                    _hqFilesList_tmp.Add(tmpXnl.InnerText.Trim());
+                                                }
+                                            }
+                                            break;
+                                        }
                                     case "hqmove": // 行情文件是否需要移动
                                         hqmove = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
+                                    case "qsfiles":     // 清算文件替换(用来替换全局)
+                                        {
+                                            XmlNode qsFilesNode_substitute = tmpTaXmlEle.ChildNodes[i];
+                                            if (qsFilesNode_substitute.ChildNodes.Count > 0)
+                                            {
+                                                _qsFilesList_tmp.Clear();
+                                                foreach (XmlNode tmpXnl in qsFilesNode_substitute.ChildNodes)
+                                                {
+                                                    _qsFilesList_tmp.Add(tmpXnl.InnerText.Trim());
+                                                }
+                                            }
+                                            break;
+                                        }
                                     case "qsmove":  // 清算文件是否需要移动
                                         qsmove = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
@@ -121,7 +150,7 @@ namespace TaFileCheck
 
 
                             // 开始生成对象
-                            Ta tmpTa = new Ta(id, desc, source, rootmove, hqmove, _hqFilesList_tmp);
+                            Ta tmpTa = new Ta(id, desc, source, rootmove, _hqFilesList_tmp, hqmove, _qsFilesList_tmp, qsmove);
                             _taList.Add(tmpTa);
 
                         }//eof if ta
@@ -153,10 +182,6 @@ namespace TaFileCheck
             }
         }
 
-
-
-
-
         /// <summary>
         /// 源路径是否可以访问
         /// </summary>
@@ -171,6 +196,7 @@ namespace TaFileCheck
             else
                 return false;
         }
+
 
 
         /// <summary>
@@ -213,6 +239,7 @@ namespace TaFileCheck
         }
 
 
+
         /// <summary>
         /// 文件移动到根目录
         /// </summary>
@@ -225,6 +252,7 @@ namespace TaFileCheck
                 MoveFilesToRoot(di);
             }
         }
+
 
 
         /// <summary>
@@ -247,6 +275,7 @@ namespace TaFileCheck
 
             return bIsArrived;
         }
+
 
 
         /// <summary>
@@ -274,6 +303,10 @@ namespace TaFileCheck
 
         }
 
+        #endregion 方法
+
+
+
 
         #region 属性
         /// <summary>
@@ -292,7 +325,7 @@ namespace TaFileCheck
         {
             get
             {
-                foreach(Ta tmpTa in TaList)
+                foreach (Ta tmpTa in TaList)
                 {
                     if (!tmpTa.IsHqOK)
                         return false;
