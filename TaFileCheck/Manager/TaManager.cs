@@ -300,8 +300,28 @@ namespace TaFileCheck
                     throw new Exception(string.Format("路径{0}不存在", strTmpDestPath));
                 }
             }
-
         }
+
+
+
+
+        public bool IsQsFlagFileExists(Ta ta)
+        {
+            bool bIsArrived = true;
+            ta.QsMissingFiles.Clear();
+            foreach (string strTmpFile in ta.QsFiles)
+            {
+                if (!File.Exists(Path.Combine(ta.Source, strTmpFile)))
+                {
+                    bIsArrived = false;
+                    ta.QsMissingFiles.Add(strTmpFile);
+                }
+            }
+
+            return bIsArrived;
+        }
+
+
 
         #endregion 方法
 
@@ -328,6 +348,42 @@ namespace TaFileCheck
                 foreach (Ta tmpTa in TaList)
                 {
                     if (!tmpTa.IsHqOK)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
+
+        public void QsMove(Ta ta)
+        {
+            foreach (string strTmpDestPath in ta.QsMove)  // 遍历目的地
+            {
+                if (Directory.Exists(strTmpDestPath))
+                {
+                    foreach (string strTmpFile in ta.QsFiles)
+                    {
+                        File.Copy(Path.Combine(ta.Source, strTmpFile),
+                            Path.Combine(strTmpDestPath, strTmpFile),
+                            true);
+                    }
+                }
+                else
+                {
+                    throw new Exception(string.Format("路径{0}不存在", strTmpDestPath));
+                }
+            }
+        }
+
+
+        public bool IsQsAllOK
+        {
+            get
+            {
+                foreach (Ta tmpTa in TaList)
+                {
+                    if (!tmpTa.IsQsOK)
                         return false;
                 }
 

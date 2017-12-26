@@ -36,7 +36,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnHqExecute = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.tbHqLog = new System.Windows.Forms.TextBox();
             this.lvHqList = new TaFileCheck.DoubleBufferListView();
             this.No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,10 +46,13 @@
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IsFileExists = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IsOK = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Remark = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lbIsQsAllOK = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbQsLog = new System.Windows.Forms.TextBox();
             this.btnQsExecute = new System.Windows.Forms.Button();
             this.lvQsList = new TaFileCheck.DoubleBufferListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,8 +70,6 @@
             this.bwHq = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.bwQs = new System.ComponentModel.BackgroundWorker();
-            this.label7 = new System.Windows.Forms.Label();
-            this.listView2 = new System.Windows.Forms.ListView();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -83,7 +83,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1125, 436);
+            this.tabControl1.Size = new System.Drawing.Size(1125, 476);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -93,21 +93,21 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.btnHqExecute);
-            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.tbHqLog);
             this.tabPage1.Controls.Add(this.lvHqList);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1117, 410);
+            this.tabPage1.Size = new System.Drawing.Size(1117, 450);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "TA行情文件检查";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // lbIsHqAllOK
             // 
+            this.lbIsHqAllOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbIsHqAllOK.AutoSize = true;
-            this.lbIsHqAllOK.Location = new System.Drawing.Point(1040, 338);
+            this.lbIsHqAllOK.Location = new System.Drawing.Point(1046, 378);
             this.lbIsHqAllOK.Name = "lbIsHqAllOK";
             this.lbIsHqAllOK.Size = new System.Drawing.Size(23, 12);
             this.lbIsHqAllOK.TabIndex = 8;
@@ -115,8 +115,9 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(927, 338);
+            this.label4.Location = new System.Drawing.Point(933, 378);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(107, 12);
             this.label4.TabIndex = 7;
@@ -127,7 +128,7 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 270);
+            this.label3.Location = new System.Drawing.Point(9, 363);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 6;
@@ -147,30 +148,20 @@
             // btnHqExecute
             // 
             this.btnHqExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnHqExecute.Location = new System.Drawing.Point(1000, 370);
+            this.btnHqExecute.Location = new System.Drawing.Point(965, 404);
             this.btnHqExecute.Name = "btnHqExecute";
-            this.btnHqExecute.Size = new System.Drawing.Size(71, 23);
+            this.btnHqExecute.Size = new System.Drawing.Size(106, 29);
             this.btnHqExecute.TabIndex = 4;
             this.btnHqExecute.Text = "检查";
             this.btnHqExecute.UseVisualStyleBackColor = true;
             this.btnHqExecute.Click += new System.EventHandler(this.btnHqExecute_Click);
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 355);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(257, 48);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "步骤:\r\n1.将文件从子目录剪切到根目录（有些TA需要）\r\n2.检查文件（索引和07文件）\r\n3.文件拷贝（中登TA、多金需要）";
             // 
             // tbHqLog
             // 
             this.tbHqLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbHqLog.BackColor = System.Drawing.SystemColors.Window;
-            this.tbHqLog.Location = new System.Drawing.Point(8, 285);
+            this.tbHqLog.Location = new System.Drawing.Point(8, 378);
             this.tbHqLog.Multiline = true;
             this.tbHqLog.Name = "tbHqLog";
             this.tbHqLog.ReadOnly = true;
@@ -191,13 +182,12 @@
             this.HqMove,
             this.Status,
             this.IsFileExists,
-            this.IsOK,
-            this.Remark});
+            this.IsOK});
             this.lvHqList.FullRowSelect = true;
             this.lvHqList.GridLines = true;
             this.lvHqList.Location = new System.Drawing.Point(8, 22);
             this.lvHqList.Name = "lvHqList";
-            this.lvHqList.Size = new System.Drawing.Size(1087, 229);
+            this.lvHqList.Size = new System.Drawing.Size(1087, 324);
             this.lvHqList.TabIndex = 0;
             this.lvHqList.UseCompatibleStateImageBehavior = false;
             this.lvHqList.View = System.Windows.Forms.View.Details;
@@ -211,11 +201,12 @@
             // TaID
             // 
             this.TaID.Text = "TA代码";
+            this.TaID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TaID.Width = 55;
             // 
             // Desc
             // 
-            this.Desc.Text = "说明";
+            this.Desc.Text = "描述";
             this.Desc.Width = 120;
             // 
             // Source
@@ -243,56 +234,94 @@
             this.IsOK.Text = "是否完成";
             this.IsOK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // Remark
-            // 
-            this.Remark.Text = "备注";
-            this.Remark.Width = 200;
-            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.lbIsQsAllOK);
+            this.tabPage2.Controls.Add(this.label8);
             this.tabPage2.Controls.Add(this.listView2);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.tbQsLog);
             this.tabPage2.Controls.Add(this.btnQsExecute);
             this.tabPage2.Controls.Add(this.lvQsList);
             this.tabPage2.Controls.Add(this.label5);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1117, 410);
+            this.tabPage2.Size = new System.Drawing.Size(1117, 450);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "TA清算文件拷贝";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // lbIsQsAllOK
+            // 
+            this.lbIsQsAllOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbIsQsAllOK.AutoSize = true;
+            this.lbIsQsAllOK.Location = new System.Drawing.Point(1059, 369);
+            this.lbIsQsAllOK.Name = "lbIsQsAllOK";
+            this.lbIsQsAllOK.Size = new System.Drawing.Size(23, 12);
+            this.lbIsQsAllOK.TabIndex = 16;
+            this.lbIsQsAllOK.Text = "N/A";
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(946, 369);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(107, 12);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "清算文件是否就绪:";
+            // 
+            // listView2
+            // 
+            this.listView2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView2.Location = new System.Drawing.Point(155, 297);
+            this.listView2.Name = "listView2";
+            this.listView2.Size = new System.Drawing.Size(708, 53);
+            this.listView2.TabIndex = 14;
+            this.listView2.UseCompatibleStateImageBehavior = false;
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 309);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(137, 12);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "其他ETF退补款文件处理:";
             // 
             // label6
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 329);
+            this.label6.Location = new System.Drawing.Point(12, 369);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(59, 12);
             this.label6.TabIndex = 11;
             this.label6.Text = "异常信息:";
             // 
-            // textBox1
+            // tbQsLog
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.tbQsLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.Location = new System.Drawing.Point(11, 344);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(930, 58);
-            this.textBox1.TabIndex = 9;
+            this.tbQsLog.BackColor = System.Drawing.SystemColors.Window;
+            this.tbQsLog.Location = new System.Drawing.Point(11, 384);
+            this.tbQsLog.Multiline = true;
+            this.tbQsLog.Name = "tbQsLog";
+            this.tbQsLog.ReadOnly = true;
+            this.tbQsLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbQsLog.Size = new System.Drawing.Size(930, 58);
+            this.tbQsLog.TabIndex = 9;
             // 
             // btnQsExecute
             // 
             this.btnQsExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnQsExecute.Location = new System.Drawing.Point(1020, 368);
+            this.btnQsExecute.Location = new System.Drawing.Point(1020, 408);
             this.btnQsExecute.Name = "btnQsExecute";
             this.btnQsExecute.Size = new System.Drawing.Size(71, 23);
             this.btnQsExecute.TabIndex = 8;
@@ -321,7 +350,7 @@
             this.lvQsList.GridLines = true;
             this.lvQsList.Location = new System.Drawing.Point(8, 22);
             this.lvQsList.Name = "lvQsList";
-            this.lvQsList.Size = new System.Drawing.Size(1101, 229);
+            this.lvQsList.Size = new System.Drawing.Size(1101, 269);
             this.lvQsList.TabIndex = 7;
             this.lvQsList.UseCompatibleStateImageBehavior = false;
             this.lvQsList.View = System.Windows.Forms.View.Details;
@@ -403,34 +432,17 @@
             // 
             // bwQs
             // 
+            this.bwQs.WorkerReportsProgress = true;
+            this.bwQs.WorkerSupportsCancellation = true;
             this.bwQs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwQs_DoWork);
             this.bwQs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwQs_ProgressChanged);
             this.bwQs.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwQs_RunWorkerCompleted);
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 269);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(137, 12);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "其他ETF退补款文件处理:";
-            // 
-            // listView2
-            // 
-            this.listView2.Location = new System.Drawing.Point(178, 269);
-            this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(708, 53);
-            this.listView2.TabIndex = 14;
-            this.listView2.UseCompatibleStateImageBehavior = false;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1125, 436);
+            this.ClientSize = new System.Drawing.Size(1125, 476);
             this.Controls.Add(this.tabControl1);
             this.Name = "FrmMain";
             this.Text = "开基文件检查";
@@ -454,8 +466,6 @@
         private System.Windows.Forms.ColumnHeader Source;
         private System.Windows.Forms.ColumnHeader Status;
         private System.Windows.Forms.ColumnHeader IsOK;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ColumnHeader Remark;
         private System.Windows.Forms.ColumnHeader No;
         private System.Windows.Forms.Button btnHqExecute;
         private System.ComponentModel.BackgroundWorker bwHq;
@@ -479,13 +489,15 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.Button btnQsExecute;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbQsLog;
         private System.ComponentModel.BackgroundWorker bwQs;
         private System.Windows.Forms.ColumnHeader columnHeader10;
         private System.Windows.Forms.ColumnHeader columnHeader11;
         private System.Windows.Forms.ColumnHeader columnHeader12;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.Label lbIsQsAllOK;
+        private System.Windows.Forms.Label label8;
     }
 }
 

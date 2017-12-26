@@ -72,6 +72,14 @@ namespace TaFileCheck
 
         // 清算相关变量
         private QsStatus _qsStatus;         // 清算任务状态
+        private bool _isQsRunning = false;  // 清算运行中
+
+        private bool _isQsSourceAvailable = false;
+        private bool _isQsFileExists = false;           // 行情文件是否存在
+        private List<string> _qsMissingFiles = new List<string>();  // 缺失的文件列表
+
+        private bool _isQsRootMoveOK = false;           // 移动到根目录完成
+        private bool _isQsCopyOK = false;               // 行情文件拷贝完成
         private string _qsMoveStr;          // 清算检查时需要移动(字符串，用于显示)
         private List<string> _qsMove;       // 清算检查完后移动的目的
         private List<string> _qsFiles;      // 清算检查文件
@@ -325,6 +333,103 @@ namespace TaFileCheck
             get { return _qsStatus; }
             set { _qsStatus = value; }
         }
+
+        /// <summary>
+        /// 清算流程是否运行中
+        /// </summary>
+        public bool IsQsRunning
+        {
+            get { return _isQsRunning; }
+            set { _isQsRunning = value; }
+        }
+
+
+        /// <summary>
+        /// 清算源目录是否可访问
+        /// </summary>
+        public bool IsQsSourceAvailable
+        {
+            get { return _isQsSourceAvailable; }
+            set { _isQsSourceAvailable = value; }
+        }
+
+
+        public bool IsQsRootMoveOK
+        {
+            get { return _isQsRootMoveOK; }
+            set { _isQsRootMoveOK = value; }
+        }
+
+
+        public bool IsQsFileExists
+        {
+            get { return _isQsFileExists; }
+            set { _isQsFileExists = value; }
+        }
+
+        public List<string> QsMissingFiles
+        {
+            get { return _qsMissingFiles; }
+            set { _qsMissingFiles = value; }
+        }
+
+
+        public List<string> QsFiles
+        {
+            get { return _qsFiles; }
+        }
+
+
+        /// <summary>
+        /// 清算文件到齐后是否需要移动
+        /// </summary>
+        public bool IsQsNeedMove
+        {
+            get
+            {
+                if (_qsMove.Count > 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+
+        public bool IsQsCopyOK
+        {
+            get { return _isQsCopyOK; }
+            set { _isQsCopyOK = value; }
+        }
+
+
+        public List<string> QsMove
+        {
+            get { return _qsMove; }
+        }
+
+
+        public bool IsQsOK
+        {
+            get
+            {
+                if (!IsQsSourceAvailable)
+                    return false;
+                if (!IsQsFileExists)
+                    return false;
+                if (IsQsNeedMove)
+                {
+                    if (IsQsCopyOK)
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
 
         #endregion 属性
     }
