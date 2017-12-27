@@ -37,6 +37,20 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnHqExecute = new System.Windows.Forms.Button();
             this.tbHqLog = new System.Windows.Forms.TextBox();
+            this.ctxHq = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxHqShow = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.lbIsQsAllOK = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.listView2 = new System.Windows.Forms.ListView();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbQsLog = new System.Windows.Forms.TextBox();
+            this.btnQsExecute = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.bwHq = new System.ComponentModel.BackgroundWorker();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.bwQs = new System.ComponentModel.BackgroundWorker();
             this.lvHqList = new TaFileCheck.DoubleBufferListView();
             this.No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TaID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -46,14 +60,6 @@
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IsFileExists = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IsOK = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.lbIsQsAllOK = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.listView2 = new System.Windows.Forms.ListView();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbQsLog = new System.Windows.Forms.TextBox();
-            this.btnQsExecute = new System.Windows.Forms.Button();
             this.lvQsList = new TaFileCheck.DoubleBufferListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -66,12 +72,9 @@
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label5 = new System.Windows.Forms.Label();
-            this.bwHq = new System.ComponentModel.BackgroundWorker();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.bwQs = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.ctxHq.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -169,70 +172,19 @@
             this.tbHqLog.Size = new System.Drawing.Size(766, 58);
             this.tbHqLog.TabIndex = 2;
             // 
-            // lvHqList
+            // ctxHq
             // 
-            this.lvHqList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvHqList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.No,
-            this.TaID,
-            this.Desc,
-            this.Source,
-            this.HqMove,
-            this.Status,
-            this.IsFileExists,
-            this.IsOK});
-            this.lvHqList.FullRowSelect = true;
-            this.lvHqList.GridLines = true;
-            this.lvHqList.Location = new System.Drawing.Point(8, 22);
-            this.lvHqList.Name = "lvHqList";
-            this.lvHqList.Size = new System.Drawing.Size(1087, 324);
-            this.lvHqList.TabIndex = 0;
-            this.lvHqList.UseCompatibleStateImageBehavior = false;
-            this.lvHqList.View = System.Windows.Forms.View.Details;
-            this.lvHqList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvHqList_MouseMove);
+            this.ctxHq.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxHqShow});
+            this.ctxHq.Name = "ctxHq";
+            this.ctxHq.Size = new System.Drawing.Size(125, 26);
+            this.ctxHq.Opening += new System.ComponentModel.CancelEventHandler(this.ctxHq_Opening);
             // 
-            // No
+            // ctxHqShow
             // 
-            this.No.Text = "No";
-            this.No.Width = 45;
-            // 
-            // TaID
-            // 
-            this.TaID.Text = "TA代码";
-            this.TaID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TaID.Width = 55;
-            // 
-            // Desc
-            // 
-            this.Desc.Text = "描述";
-            this.Desc.Width = 120;
-            // 
-            // Source
-            // 
-            this.Source.Text = "文件路径";
-            this.Source.Width = 150;
-            // 
-            // HqMove
-            // 
-            this.HqMove.Text = "拷贝路径";
-            this.HqMove.Width = 150;
-            // 
-            // Status
-            // 
-            this.Status.Text = "状态";
-            this.Status.Width = 100;
-            // 
-            // IsFileExists
-            // 
-            this.IsFileExists.Text = "文件到齐";
-            this.IsFileExists.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // IsOK
-            // 
-            this.IsOK.Text = "是否完成";
-            this.IsOK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.ctxHqShow.Name = "ctxHqShow";
+            this.ctxHqShow.Size = new System.Drawing.Size(124, 22);
+            this.ctxHqShow.Text = "显示详情";
             // 
             // tabPage2
             // 
@@ -329,6 +281,100 @@
             this.btnQsExecute.UseVisualStyleBackColor = true;
             this.btnQsExecute.Click += new System.EventHandler(this.btnQsExecute_Click);
             // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(9, 7);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 12);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "TA列表:";
+            // 
+            // bwHq
+            // 
+            this.bwHq.WorkerReportsProgress = true;
+            this.bwHq.WorkerSupportsCancellation = true;
+            this.bwHq.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwHq_DoWork);
+            this.bwHq.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwHq_ProgressChanged);
+            this.bwHq.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwHq_RunWorkerCompleted);
+            // 
+            // bwQs
+            // 
+            this.bwQs.WorkerReportsProgress = true;
+            this.bwQs.WorkerSupportsCancellation = true;
+            this.bwQs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwQs_DoWork);
+            this.bwQs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwQs_ProgressChanged);
+            this.bwQs.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwQs_RunWorkerCompleted);
+            // 
+            // lvHqList
+            // 
+            this.lvHqList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvHqList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.No,
+            this.TaID,
+            this.Desc,
+            this.Source,
+            this.HqMove,
+            this.Status,
+            this.IsFileExists,
+            this.IsOK});
+            this.lvHqList.ContextMenuStrip = this.ctxHq;
+            this.lvHqList.FullRowSelect = true;
+            this.lvHqList.GridLines = true;
+            this.lvHqList.Location = new System.Drawing.Point(8, 22);
+            this.lvHqList.MultiSelect = false;
+            this.lvHqList.Name = "lvHqList";
+            this.lvHqList.Size = new System.Drawing.Size(1087, 324);
+            this.lvHqList.TabIndex = 0;
+            this.lvHqList.UseCompatibleStateImageBehavior = false;
+            this.lvHqList.View = System.Windows.Forms.View.Details;
+            this.lvHqList.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lvHqList_MouseMove);
+            // 
+            // No
+            // 
+            this.No.Text = "No";
+            this.No.Width = 45;
+            // 
+            // TaID
+            // 
+            this.TaID.Text = "TA代码";
+            this.TaID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TaID.Width = 55;
+            // 
+            // Desc
+            // 
+            this.Desc.Text = "描述";
+            this.Desc.Width = 120;
+            // 
+            // Source
+            // 
+            this.Source.Text = "文件路径";
+            this.Source.Width = 150;
+            // 
+            // HqMove
+            // 
+            this.HqMove.Text = "拷贝路径";
+            this.HqMove.Width = 150;
+            // 
+            // Status
+            // 
+            this.Status.Text = "状态";
+            this.Status.Width = 100;
+            // 
+            // IsFileExists
+            // 
+            this.IsFileExists.Text = "文件到齐";
+            this.IsFileExists.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // IsOK
+            // 
+            this.IsOK.Text = "是否完成";
+            this.IsOK.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // lvQsList
             // 
             this.lvQsList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -349,6 +395,7 @@
             this.lvQsList.FullRowSelect = true;
             this.lvQsList.GridLines = true;
             this.lvQsList.Location = new System.Drawing.Point(8, 22);
+            this.lvQsList.MultiSelect = false;
             this.lvQsList.Name = "lvQsList";
             this.lvQsList.Size = new System.Drawing.Size(1101, 269);
             this.lvQsList.TabIndex = 7;
@@ -411,33 +458,6 @@
             this.columnHeader8.Text = "是否完成";
             this.columnHeader8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // label5
-            // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 7);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(47, 12);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "TA列表:";
-            // 
-            // bwHq
-            // 
-            this.bwHq.WorkerReportsProgress = true;
-            this.bwHq.WorkerSupportsCancellation = true;
-            this.bwHq.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwHq_DoWork);
-            this.bwHq.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwHq_ProgressChanged);
-            this.bwHq.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwHq_RunWorkerCompleted);
-            // 
-            // bwQs
-            // 
-            this.bwQs.WorkerReportsProgress = true;
-            this.bwQs.WorkerSupportsCancellation = true;
-            this.bwQs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwQs_DoWork);
-            this.bwQs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwQs_ProgressChanged);
-            this.bwQs.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwQs_RunWorkerCompleted);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -449,6 +469,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.ctxHq.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
@@ -498,6 +519,8 @@
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.Label lbIsQsAllOK;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ContextMenuStrip ctxHq;
+        private System.Windows.Forms.ToolStripMenuItem ctxHqShow;
     }
 }
 

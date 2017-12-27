@@ -84,6 +84,9 @@ namespace TaFileCheck
         private List<string> _qsMove;       // 清算检查完后移动的目的
         private List<string> _qsFiles;      // 清算检查文件
 
+        private List<string> _qsCILFiles;   // ETF退补款文件
+        private bool _isQsCILFileExists = false;    // ETF退补款文件是否存在
+        private bool _isQsCILCopyOK = false;
 
         /// <summary>
         /// 把配置文件里的{ta}换成真实ta代码
@@ -106,7 +109,7 @@ namespace TaFileCheck
         /// <param name="rootMove"></param>
         /// <param name="hqMove"></param>
         /// <param name="hqFiles"></param>
-        public Ta(string id, string desc, string source, string rootMove, List<string> hqFiles, string hqMove, List<string> qsFiles, string qsMove)
+        public Ta(string id, string desc, string source, string rootMove, List<string> hqFiles, string hqMove, List<string> qsFiles, string qsMove, List<string> qsCILFiles)
         {
             _id = id;                                           // TA代码
             _desc = desc;                                       // 描述
@@ -159,6 +162,15 @@ namespace TaFileCheck
             }
 
             _qsStatus = QsStatus.未开始;
+
+            _qsCILFiles = new List<string>();
+            foreach (string strTmp in qsCILFiles)
+            {
+                string strTmp_New = Util.Filename_Date_Convert(strTmp);
+                strTmp_New = ReplaceTaFileNameWithPattern(strTmp_New, _id);
+                _qsCILFiles.Add(strTmp_New);
+            }
+
 
         }
 
@@ -428,6 +440,12 @@ namespace TaFileCheck
                     return true;
                 }
             }
+        }
+
+
+        public List<string> QsCILFiles
+        {
+            get { return _qsCILFiles; }
         }
 
 

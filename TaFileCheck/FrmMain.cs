@@ -334,7 +334,8 @@ namespace TaFileCheck
         {
             try
             {
-                if (preToolTipPoint.X != e.X || preToolTipPoint.Y != e.Y)//防止闪烁
+                // 防止闪烁
+                if (preToolTipPoint.X != e.X || preToolTipPoint.Y != e.Y)
                 {
                     ListViewItem lvi = lvHqList.GetItemAt(e.X, e.Y);
                     if (lvi != null)
@@ -347,6 +348,14 @@ namespace TaFileCheck
             }
             catch
             { }
+        }
+
+        private void ctxHq_Opening(object sender, CancelEventArgs e)
+        {
+            // 右键没选中不弹出
+            int i = lvHqList.SelectedItems.Count;
+            if (i <= 0)
+                e.Cancel = true;
         }
 
         #endregion 行情检查逻辑
@@ -444,6 +453,7 @@ namespace TaFileCheck
              * 2.按照rootmove配置移动文件
              * 3.拼接文件路径，判断文件是否存在
              * 4.如果需要拷贝，则拷贝(多目的地)
+             * 5.处理CIL文件
              */
 
             try
@@ -571,6 +581,38 @@ namespace TaFileCheck
 
 
 
+                    // 5.CIL文件是否到齐
+
+
+                    // 6.CIL文件修改文件日期
+                    foreach (string strTmpFile in tmpTa.QsCILFiles)
+                    {
+                        try
+                        {
+                            string strTmpPath = Path.Combine(tmpTa.Source, strTmpFile);
+                            if (!File.Exists(strTmpPath))
+                            {
+                                UserState us = new UserState(true, string.Format(@"TA {0}修改ETF退补款文件出错: 文件{1}不存在.", tmpTa.Id, strTmpFile));
+                                bgWorker.ReportProgress(1, us);
+                            }
+                            else
+                            {
+                                File.SetLastWriteTime(strTmpPath, _taManager.DateNow);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            UserState us = new UserState(true, string.Format("TA {0}修改ETF退补款{1}文件出错: {2}", tmpTa.Id, strTmpFile, ex.Message));
+                            bgWorker.ReportProgress(1, us);
+                        }
+                    }
+
+
+
+                    // 7.CIL文件拷贝
+
+
+
                     // 最终
                     if (tmpTa.IsQsOK)
                     {
@@ -652,7 +694,12 @@ namespace TaFileCheck
             tbQsLog.Text = string.Format("{0}:{1}", DateTime.Now.ToString("HH:mm:ss"), message) + System.Environment.NewLine + tbQsLog.Text;
         }
 
+
+
         #endregion 清算处理逻辑
+
+
+
 
     }
 }

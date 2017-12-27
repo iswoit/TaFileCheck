@@ -12,6 +12,7 @@ namespace TaFileCheck
         private List<string> _hqFilesList = new List<string>();     // 行情必收文件通配符
         private List<string> _qsFileList = new List<string>();      // 清算必收文件通配符
 
+        private DateTime _dtNow = DateTime.Now;    // 当前时间
 
 
         #region 方法
@@ -93,7 +94,7 @@ namespace TaFileCheck
                             }
                             string qsmove = string.Empty;                               // 清算文件检查后是否需要移动
 
-
+                            List<string> _qsCILFiles = new List<string>();              // ETF退补款
 
 
                             XmlElement tmpTaXmlEle = (XmlElement)tmpTaXmlNode;
@@ -145,12 +146,25 @@ namespace TaFileCheck
                                     case "qsmove":  // 清算文件是否需要移动
                                         qsmove = tmpTaXmlEle.ChildNodes[i].InnerText;
                                         break;
+                                    case "cil":
+                                        {
+                                            XmlNode xnCILFile = tmpTaXmlEle.ChildNodes[i];
+                                            if (xnCILFile.ChildNodes.Count > 0)
+                                            {
+
+                                                foreach (XmlNode tmpXnl in xnCILFile.ChildNodes)
+                                                {
+                                                    _qsCILFiles.Add(tmpXnl.InnerText.Trim());
+                                                }
+                                            }
+                                        }
+                                        break;
                                 }
                             }
 
 
                             // 开始生成对象
-                            Ta tmpTa = new Ta(id, desc, source, rootmove, _hqFilesList_tmp, hqmove, _qsFilesList_tmp, qsmove);
+                            Ta tmpTa = new Ta(id, desc, source, rootmove, _hqFilesList_tmp, hqmove, _qsFilesList_tmp, qsmove, _qsCILFiles);
                             _taList.Add(tmpTa);
 
                         }//eof if ta
@@ -221,11 +235,15 @@ namespace TaFileCheck
                     FileInfo[] tmpSubFiles = tmpDir.GetFiles();
                     foreach (FileInfo tmpSubFile in tmpSubFiles)
                     {
-                        // 已经存在就删除，覆盖拷贝
-                        if (File.Exists(Path.Combine(dirRoot.FullName, tmpSubFile.Name)))
-                            File.Delete(Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+                        // 只处理txt和dbf结尾的文件
+                        if (tmpSubFile.Extension.ToLower() == ".txt" || tmpSubFile.Extension.ToLower() == ".dbf")
+                        {
+                            // 已经存在就删除，覆盖拷贝
+                            if (File.Exists(Path.Combine(dirRoot.FullName, tmpSubFile.Name)))
+                                File.Delete(Path.Combine(dirRoot.FullName, tmpSubFile.Name));
 
-                        tmpSubFile.MoveTo(Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+                            tmpSubFile.MoveTo(Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+                        }
                     }
                 }
 
@@ -389,6 +407,15 @@ namespace TaFileCheck
 
                 return true;
             }
+        }
+
+
+        /// <summary>
+        /// 当前处理日期
+        /// </summary>
+        public DateTime DateNow
+        {
+            get { return _dtNow; }
         }
 
         #endregion 属性
