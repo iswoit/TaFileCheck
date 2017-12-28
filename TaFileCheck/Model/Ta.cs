@@ -62,11 +62,12 @@ namespace TaFileCheck
 
         private bool _isHqSourceAvailable = false;      // 行情文件源目录是否可以访问
         private bool _isHqFileExists = false;           // 行情文件是否存在
-        private List<string> _hqMissingFiles = new List<string>();  // 缺失的文件列表
         private bool _isHqRootMoveOK = false;           // 移动到根目录完成
+        private List<string> _hqMissingFiles = new List<string>();  // 缺失的文件列表
+
         private bool _isHqCopyOK = false;               // 行情文件拷贝完成
-        private string _hqMoveStr;          // 行情检查时需要移动(字符串，用于显示)
-        private List<string> _hqMove;       // 行情检查时需要移动到的目的
+        private string _hqMoveStr;                      // 行情检查时需要移动(字符串，用于显示)
+        private List<string> _hqMove = new List<string>();       // 行情检查时需要移动到的目的
         private List<string> _hqFiles;      // 行情检查文件
 
 

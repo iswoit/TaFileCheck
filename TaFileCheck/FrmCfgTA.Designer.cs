@@ -56,6 +56,8 @@
             this.radioButton10 = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.radioButton13 = new System.Windows.Forms.RadioButton();
             this.radioButton11 = new System.Windows.Forms.RadioButton();
             this.radioButton12 = new System.Windows.Forms.RadioButton();
             this.label12 = new System.Windows.Forms.Label();
@@ -66,16 +68,7 @@
             this.radioButton17 = new System.Windows.Forms.RadioButton();
             this.radioButton18 = new System.Windows.Forms.RadioButton();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.radioButton15 = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.radioButton13 = new System.Windows.Forms.RadioButton();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.radioButton14 = new System.Windows.Forms.RadioButton();
@@ -83,6 +76,7 @@
             this.radioButton19 = new System.Windows.Forms.RadioButton();
             this.listBox7 = new System.Windows.Forms.ListBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -91,10 +85,9 @@
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.panel3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel4.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -304,7 +297,7 @@
             // 
             this.listBox3.FormattingEnabled = true;
             this.listBox3.ItemHeight = 12;
-            this.listBox3.Location = new System.Drawing.Point(233, 34);
+            this.listBox3.Location = new System.Drawing.Point(212, 34);
             this.listBox3.Name = "listBox3";
             this.listBox3.Size = new System.Drawing.Size(220, 88);
             this.listBox3.TabIndex = 3;
@@ -375,6 +368,24 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "检查后复制文件:";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(98, 71);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(92, 21);
+            this.textBox2.TabIndex = 29;
+            // 
+            // radioButton13
+            // 
+            this.radioButton13.AutoSize = true;
+            this.radioButton13.Location = new System.Drawing.Point(21, 21);
+            this.radioButton13.Name = "radioButton13";
+            this.radioButton13.Size = new System.Drawing.Size(59, 16);
+            this.radioButton13.TabIndex = 29;
+            this.radioButton13.TabStop = true;
+            this.radioButton13.Text = "不复制";
+            this.radioButton13.UseVisualStyleBackColor = true;
+            // 
             // radioButton11
             // 
             this.radioButton11.AutoSize = true;
@@ -400,7 +411,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(234, 17);
+            this.label12.Location = new System.Drawing.Point(210, 17);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(59, 12);
             this.label12.TabIndex = 26;
@@ -442,13 +453,11 @@
             // 
             // groupBox9
             // 
-            this.groupBox9.Controls.Add(this.textBox1);
-            this.groupBox9.Controls.Add(this.radioButton15);
             this.groupBox9.Controls.Add(this.radioButton17);
             this.groupBox9.Controls.Add(this.radioButton18);
             this.groupBox9.Controls.Add(this.label12);
             this.groupBox9.Controls.Add(this.listBox3);
-            this.groupBox9.Location = new System.Drawing.Point(411, 53);
+            this.groupBox9.Location = new System.Drawing.Point(26, 53);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(459, 128);
             this.groupBox9.TabIndex = 27;
@@ -460,10 +469,10 @@
             this.radioButton17.AutoSize = true;
             this.radioButton17.Location = new System.Drawing.Point(21, 43);
             this.radioButton17.Name = "radioButton17";
-            this.radioButton17.Size = new System.Drawing.Size(107, 16);
+            this.radioButton17.Size = new System.Drawing.Size(47, 16);
             this.radioButton17.TabIndex = 1;
             this.radioButton17.TabStop = true;
-            this.radioButton17.Text = "只复制定义文件";
+            this.radioButton17.Text = "复制";
             this.radioButton17.UseVisualStyleBackColor = true;
             // 
             // radioButton18
@@ -480,56 +489,12 @@
             // panel3
             // 
             this.panel3.Controls.Add(this.groupBox9);
-            this.panel3.Controls.Add(this.groupBox2);
             this.panel3.Controls.Add(this.label14);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 133);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(1269, 187);
             this.panel3.TabIndex = 30;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.listBox1);
-            this.groupBox2.Controls.Add(this.radioButton3);
-            this.groupBox2.Controls.Add(this.radioButton4);
-            this.groupBox2.Location = new System.Drawing.Point(26, 53);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(294, 121);
-            this.groupBox2.TabIndex = 9;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "行情文件列表:";
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(114, 20);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 88);
-            this.listBox1.TabIndex = 2;
-            // 
-            // radioButton3
-            // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(21, 58);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(59, 16);
-            this.radioButton3.TabIndex = 1;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "自定义";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            // 
-            // radioButton4
-            // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(21, 21);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(47, 16);
-            this.radioButton4.TabIndex = 0;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "全局";
-            this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
@@ -545,52 +510,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1269, 480);
             this.panel2.TabIndex = 31;
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.button1);
-            this.panel4.Controls.Add(this.button2);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 743);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(1269, 57);
-            this.panel4.TabIndex = 32;
-            // 
-            // radioButton15
-            // 
-            this.radioButton15.AutoSize = true;
-            this.radioButton15.Location = new System.Drawing.Point(21, 65);
-            this.radioButton15.Name = "radioButton15";
-            this.radioButton15.Size = new System.Drawing.Size(71, 16);
-            this.radioButton15.TabIndex = 27;
-            this.radioButton15.TabStop = true;
-            this.radioButton15.Text = "模糊匹配";
-            this.radioButton15.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(98, 64);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(92, 21);
-            this.textBox1.TabIndex = 28;
-            // 
-            // radioButton13
-            // 
-            this.radioButton13.AutoSize = true;
-            this.radioButton13.Location = new System.Drawing.Point(21, 21);
-            this.radioButton13.Name = "radioButton13";
-            this.radioButton13.Size = new System.Drawing.Size(59, 16);
-            this.radioButton13.TabIndex = 29;
-            this.radioButton13.TabStop = true;
-            this.radioButton13.Text = "不复制";
-            this.radioButton13.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(98, 71);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(92, 21);
-            this.textBox2.TabIndex = 29;
             // 
             // groupBox7
             // 
@@ -665,6 +584,16 @@
             this.label3.TabIndex = 23;
             this.label3.Text = "目标路径:";
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.button1);
+            this.panel4.Controls.Add(this.button2);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel4.Location = new System.Drawing.Point(0, 743);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(1269, 57);
+            this.panel4.TabIndex = 32;
+            // 
             // FrmCfgTA
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -692,13 +621,11 @@
             this.groupBox9.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel4.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            this.panel4.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -745,12 +672,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton15;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.RadioButton radioButton13;
         private System.Windows.Forms.GroupBox groupBox7;
