@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="GBK" ?> 
+<!--源程序名称: OFJ.xml
+    软件著作权: HFZQ
+    功能说明  : 开放式基金OFJ模板解析
+    作    者  : HFZQ
+    开发日期  : 2017-12-28
+  修改说明:
+  V1.0.0.0 20130805 HFZQ 新建
+  
+  
+-->
+<ofj>
+	<!--文件头-->
+	<header name="header">
+		<field name="文件标识" value="OFDCFIDX" />
+		<field name="文件版本号" value="20" />
+		<field name="文件创建人" />
+		<field name="文件接收人" />
+		<field name="日期" />
+		<field name="文件个数" />
+		
+		<field name="文件结束标识" value="OFDCFEND" />
+	</header>
+	
+	<!--文件体-->
+	
+	
+	<!--文件尾-->
+	<tailer name="tailer">
+		<field name="EndString" 				pos="1" />
+	  <field name="CheckSum" 					pos="2" />	
+	</tailer>
+	
+</ofj>
+

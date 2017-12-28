@@ -59,6 +59,7 @@
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\TaManager.cs" />
+    <Compile Include="Model\TaHq.cs" />
     <Compile Include="Util\CheckFilePathTimeout.cs" />
     <Compile Include="Util\Util.cs" />
     <Compile Include="Util\DoubleBufferListView.cs">

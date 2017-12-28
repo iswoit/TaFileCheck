@@ -5,25 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace TaFileCheck
 {
-    // 行情检查状态
-    public enum HqStatus
-    {
-        异常 = -1,
-        未开始 = 0,
-        尝试访问源路径 = 1,
-        访问源路径成功 = 2,
-        无法访问源路径 = 3,
-        文件移动到根目录中 = 4,
-        文件移动到根目录完成 = 5,
-        文件移动到根目录错误 = 6,
-        文件检查中 = 7,
-        文件已收齐 = 8,
-        文件未收齐 = 9,
-        文件拷贝中 = 10,
-        文件拷贝完成 = 11,
-        文件拷贝失败 = 12,
-        完成 = 13
-    }
+
 
     // 清算检查状态
     public enum QsStatus
@@ -50,10 +32,11 @@ namespace TaFileCheck
     /// </summary>
     public class Ta
     {
-        private string _id;                 // ta代码
-        private string _desc;               // 说明
-        private string _source;             // 文件所在路径
-        private bool _rootMove;             // 是否需要文件移动到根目录
+        protected string _id;                 // ta代码
+        protected string _desc;               // ta说明
+
+        protected string _taPath;               // ta文件所在路径
+        protected bool _taNeedRootMove;         // 是否需要文件移动到根目录
 
 
         // 行情检查相关变量
@@ -69,6 +52,7 @@ namespace TaFileCheck
         private string _hqMoveStr;                      // 行情检查时需要移动(字符串，用于显示)
         private List<string> _hqMove = new List<string>();       // 行情检查时需要移动到的目的
         private List<string> _hqFiles;      // 行情检查文件
+
 
 
         // 清算相关变量
@@ -110,70 +94,70 @@ namespace TaFileCheck
         /// <param name="rootMove"></param>
         /// <param name="hqMove"></param>
         /// <param name="hqFiles"></param>
-        public Ta(string id, string desc, string source, string rootMove, List<string> hqFiles, string hqMove, List<string> qsFiles, string qsMove, List<string> qsCILFiles)
-        {
-            _id = id;                                           // TA代码
-            _desc = desc;                                       // 描述
-            _source = Util.Filename_Date_Convert(source);       // 源文件
+        //public Ta(string id, string desc, string source, string rootMove, List<string> hqFiles, string hqMove, List<string> qsFiles, string qsMove, List<string> qsCILFiles)
+        //{
+        //    _id = id;                                           // TA代码
+        //    _desc = desc;                                       // 描述
+        //    _taPath = Util.Filename_Date_Convert(source);       // 源文件
 
-            if (!bool.TryParse(rootMove, out _rootMove))
-                _rootMove = false;
-
-
-            //*******行情相关处理
-            _hqMoveStr = hqMove;
-            // 检查完需要移动
-            string[] arr_hqMove = hqMove.Split(new char[] { '|', ';', '；', ',', '，' });
-            _hqMove = new List<string>();
-            foreach (string strTmp in arr_hqMove)
-            {
-                if (!string.IsNullOrEmpty(strTmp.Trim()))
-                    _hqMove.Add(Util.Filename_Date_Convert(strTmp.Trim()));
-            }
-
-            // 必收行情文件通用转义
-            _hqFiles = new List<string>();
-            foreach (string strTmp in hqFiles)
-            {
-                string strTmp_new = Util.Filename_Date_Convert(strTmp);     // 日期转义
-                strTmp_new = ReplaceTaFileNameWithPattern(strTmp_new, _id); // {ta}通配符转义
-                _hqFiles.Add(strTmp_new);
-            }
-
-            _hqStatus = HqStatus.未开始;
+        //    if (!bool.TryParse(rootMove, out _taNeedRootMove))
+        //        _taNeedRootMove = false;
 
 
-            //********清算相关处理
-            _qsMoveStr = qsMove;
+        //    //*******行情相关处理
+        //    _hqMoveStr = hqMove;
+        //    // 检查完需要移动
+        //    string[] arr_hqMove = hqMove.Split(new char[] { '|', ';', '；', ',', '，' });
+        //    _hqMove = new List<string>();
+        //    foreach (string strTmp in arr_hqMove)
+        //    {
+        //        if (!string.IsNullOrEmpty(strTmp.Trim()))
+        //            _hqMove.Add(Util.Filename_Date_Convert(strTmp.Trim()));
+        //    }
 
-            string[] arr_qsMove = qsMove.Split(new char[] { '|', ';', '；', ',', '，' });
-            _qsMove = new List<string>();
-            foreach (string strTmp in arr_qsMove)
-            {
-                if (!string.IsNullOrEmpty(strTmp.Trim()))
-                    _qsMove.Add(Util.Filename_Date_Convert(strTmp.Trim()));
-            }
+        //    // 必收行情文件通用转义
+        //    _hqFiles = new List<string>();
+        //    foreach (string strTmp in hqFiles)
+        //    {
+        //        string strTmp_new = Util.Filename_Date_Convert(strTmp);     // 日期转义
+        //        strTmp_new = ReplaceTaFileNameWithPattern(strTmp_new, _id); // {ta}通配符转义
+        //        _hqFiles.Add(strTmp_new);
+        //    }
 
-            _qsFiles = new List<string>();
-            foreach (string strTmp in qsFiles)
-            {
-                string strTmp_New = Util.Filename_Date_Convert(strTmp);
-                strTmp_New = ReplaceTaFileNameWithPattern(strTmp_New, _id);
-                _qsFiles.Add(strTmp_New);
-            }
-
-            _qsStatus = QsStatus.未开始;
-
-            _qsCILFiles = new List<string>();
-            foreach (string strTmp in qsCILFiles)
-            {
-                string strTmp_New = Util.Filename_Date_Convert(strTmp);
-                strTmp_New = ReplaceTaFileNameWithPattern(strTmp_New, _id);
-                _qsCILFiles.Add(strTmp_New);
-            }
+        //    _hqStatus = HqStatus.未开始;
 
 
-        }
+        //    //********清算相关处理
+        //    _qsMoveStr = qsMove;
+
+        //    string[] arr_qsMove = qsMove.Split(new char[] { '|', ';', '；', ',', '，' });
+        //    _qsMove = new List<string>();
+        //    foreach (string strTmp in arr_qsMove)
+        //    {
+        //        if (!string.IsNullOrEmpty(strTmp.Trim()))
+        //            _qsMove.Add(Util.Filename_Date_Convert(strTmp.Trim()));
+        //    }
+
+        //    _qsFiles = new List<string>();
+        //    foreach (string strTmp in qsFiles)
+        //    {
+        //        string strTmp_New = Util.Filename_Date_Convert(strTmp);
+        //        strTmp_New = ReplaceTaFileNameWithPattern(strTmp_New, _id);
+        //        _qsFiles.Add(strTmp_New);
+        //    }
+
+        //    _qsStatus = QsStatus.未开始;
+
+        //    _qsCILFiles = new List<string>();
+        //    foreach (string strTmp in qsCILFiles)
+        //    {
+        //        string strTmp_New = Util.Filename_Date_Convert(strTmp);
+        //        strTmp_New = ReplaceTaFileNameWithPattern(strTmp_New, _id);
+        //        _qsCILFiles.Add(strTmp_New);
+        //    }
+
+
+        //}
 
 
 
@@ -190,12 +174,12 @@ namespace TaFileCheck
 
         public string Source
         {
-            get { return _source; }
+            get { return _taPath; }
         }
 
         public bool RootMove
         {
-            get { return _rootMove; }
+            get { return _taNeedRootMove; }
         }
 
         public string HqMoveStr
