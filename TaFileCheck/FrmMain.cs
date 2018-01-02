@@ -24,7 +24,7 @@ namespace TaFileCheck
             {
                 _taManager = new TaManager();
                 InitHqList();
-                InitQsList();
+                //InitQsList();
             }
             catch (Exception ex)
             {
@@ -40,17 +40,17 @@ namespace TaFileCheck
         private void InitHqList()
         {
             lvHqList.Items.Clear();
-            for (int i = 0; i < _taManager.TaList.Count; i++)
+            for (int i = 0; i < _taManager.TaHqList.Count; i++)
             {
                 ListViewItem lvi = new ListViewItem((i + 1).ToString());
-                lvi.SubItems.Add(_taManager.TaList[i].Id);
-                lvi.SubItems.Add(_taManager.TaList[i].Desc);
-                lvi.SubItems.Add(_taManager.TaList[i].Source);
-                lvi.SubItems.Add(_taManager.TaList[i].HqMoveStr);
-                lvi.SubItems.Add(_taManager.TaList[i].HqStatus.ToString());
+                lvi.SubItems.Add(_taManager.TaHqList[i].Id);
+                lvi.SubItems.Add(_taManager.TaHqList[i].Desc);
+                lvi.SubItems.Add(_taManager.TaHqList[i].SourcePath);
+                lvi.SubItems.Add(_taManager.TaHqList[i].DestPathsString);
+                lvi.SubItems.Add(_taManager.TaHqList[i].HqStatus.ToString());
                 lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
-                lvi.Tag = _taManager.TaList[i];
+                lvi.Tag = _taManager.TaHqList[i];
 
                 lvHqList.Items.Add(lvi);
 
@@ -71,15 +71,14 @@ namespace TaFileCheck
             // 进度列表
             try
             {
-                for (int i = 0; i < _taManager.TaList.Count; i++)
+                for (int i = 0; i < _taManager.TaHqList.Count; i++)
                 {
-                    Ta tmpTa = (Ta)lvHqList.Items[i].Tag;   // 配置对象
-                    lvHqList.Items[i].SubItems[5].Text = tmpTa.HqStatus.ToString();             // 状态
-                    lvHqList.Items[i].SubItems[6].Text = tmpTa.IsHqFileExists ? "√" : "×";      // 行情文件到齐
-                    lvHqList.Items[i].SubItems[7].Text = tmpTa.IsHqOK ? "√" : "×";              // 标志到齐
+                    TaHq tmpTaHq = (TaHq)lvHqList.Items[i].Tag;   // 配置对象
+                    lvHqList.Items[i].SubItems[5].Text = tmpTaHq.HqStatus.ToString();             // 状态
+                    lvHqList.Items[i].SubItems[6].Text = tmpTaHq.IsOK ? "√" : "×";              // 标志到齐
 
 
-                    if (tmpTa.IsHqRunning)
+                    if (tmpTaHq.IsRunning)
                     {
                         lvHqList.Items[i].BackColor = Color.LightBlue;
                         lvHqList.Items[i].EnsureVisible();
@@ -119,17 +118,17 @@ namespace TaFileCheck
         {
             /* 1.源路径是否可访问
              * 2.按照rootmove配置移动文件
-             * 3.拼接文件路径，判断文件是否存在
-             * 4.如果需要拷贝，则拷贝(多目的地)
+             * 3.根据索引获取文件列表
+             * 4.判断文件是否存在
+             * 5.如果需要拷贝，则拷贝(多目的地)
              */
 
             try
             {
                 BackgroundWorker bgWorker = sender as BackgroundWorker;
 
-                foreach (Ta tmpTa in _taManager.TaList)
+                foreach (TaHq tmpTa in _taManager.TaHqList)
                 {
-
                     if (true == bgWorker.CancellationPending)
                     {
                         e.Cancel = true;
@@ -139,9 +138,11 @@ namespace TaFileCheck
 
 
                     // 0.开始
-                    tmpTa.IsHqRunning = true;
+                    tmpTa.IsRunning = true;
                     bgWorker.ReportProgress(1);
                     Thread.Sleep(50);
+
+
 
                     // 1.源路径是否可访问
                     try
@@ -149,18 +150,20 @@ namespace TaFileCheck
                         tmpTa.HqStatus = HqStatus.尝试访问源路径;
                         bgWorker.ReportProgress(1);
 
-                        CheckFilePathTimeout timeout = new CheckFilePathTimeout(new DoHandler(_taManager.IsSourcePathAvailabel)); // 委托
-                        bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 10), tmpTa.Source);       // 超过10秒失败
+                        CheckFilePathTimeout timeout = new CheckFilePathTimeout(new DoHandler(_taManager.IsPathAvailabel)); // 委托
+                        bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 10), tmpTa.SourcePath);       // 超过10秒失败
                         bool isAvailable = timeout.bReturn;     // 是否可访问
                         if (isTimeout == true || isAvailable == false)
                         {
-                            tmpTa.IsHqSourceAvailable = false;
-                            tmpTa.HqStatus = HqStatus.无法访问源路径;
+                            tmpTa.IsSourceAvailable = false;
+                            tmpTa.HqStatus = HqStatus.访问源路径失败;
                             bgWorker.ReportProgress(1);
+                            tmpTa.IsRunning = false;
+                            continue;
                         }
                         else
                         {
-                            tmpTa.IsHqSourceAvailable = true;
+                            tmpTa.IsSourceAvailable = true;
                             tmpTa.HqStatus = HqStatus.访问源路径成功;
                             bgWorker.ReportProgress(1);
                         }
@@ -168,79 +171,124 @@ namespace TaFileCheck
                     catch (Exception ex)
                     {
                         UserState us = new UserState(true, string.Format("TA {0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
+                        tmpTa.IsRunning = false;
                         bgWorker.ReportProgress(1, us);
+                        continue;
                     }
 
 
 
                     // 2.按照rootmove配置移动文件（把子目录中的文件都移动到根目录）
-                    if (tmpTa.IsHqSourceAvailable)
+                    if (tmpTa.NeedRootMove)
                     {
                         try
                         {
                             tmpTa.HqStatus = HqStatus.文件移动到根目录中;
                             bgWorker.ReportProgress(1);
 
-                            _taManager.RootMove(tmpTa);
+                            tmpTa.MoveFilesToRoot();
 
                             tmpTa.HqStatus = HqStatus.文件移动到根目录完成;
-                            tmpTa.IsHqRootMoveOK = true;
                             bgWorker.ReportProgress(1);
                         }
                         catch (Exception ex)
                         {
                             tmpTa.HqStatus = HqStatus.文件移动到根目录错误;
-                            tmpTa.IsHqRootMoveOK = false;
                             UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
+                            tmpTa.IsRunning = false;
                             bgWorker.ReportProgress(1, us);
-                        }
-                    }
-
-
-
-                    // 3.拼接文件路径，判断行情文件是否到齐
-                    if (tmpTa.IsHqSourceAvailable)
-                    {
-                        tmpTa.HqStatus = HqStatus.文件检查中;
-                        bgWorker.ReportProgress(1);
-
-                        tmpTa.IsHqFileExists = _taManager.IsHqFlagFileExists(tmpTa);
-                        tmpTa.HqStatus = tmpTa.IsHqFileExists == true ? HqStatus.文件已收齐 : HqStatus.文件未收齐;
-                        bgWorker.ReportProgress(1);
-                        if (!tmpTa.IsHqFileExists)
-                        {
-                            tmpTa.IsHqRunning = false;
-                            tmpTa.HqStatus = HqStatus.文件未收齐;
-                            bgWorker.ReportProgress(1);
                             continue;
                         }
-                        else
-                        {
-                            tmpTa.HqStatus = HqStatus.文件已收齐;
-                            bgWorker.ReportProgress(1);
-                        }
                     }
 
 
 
-                    // 4.如果需要拷贝，则拷贝(多目的地)
-                    if (tmpTa.IsHqSourceAvailable && tmpTa.IsHqNeedMove)
+                    // 3.解析索引文件，获取文件列表
+                    try
+                    {
+                        switch (tmpTa.HqCheckType)
+                        {
+                            case HqCheckType.通过通用索引文件:
+                            case HqCheckType.通过指定索引文件:
+                                {
+                                    // 判断索引文件是否存在，然后解析文件列表
+                                    string idxFilePath = Path.Combine(tmpTa.SourcePath, tmpTa.IdxFile);
+                                    if (!File.Exists(idxFilePath))
+                                    {
+                                        tmpTa.HqStatus = HqStatus.行情索引文件不存在;
+                                        UserState us = new UserState(true, string.Format("TA {0}行情索引文件不存在: {1}", tmpTa.Id, tmpTa.IdxFile));
+                                        tmpTa.IsRunning = false;
+                                        bgWorker.ReportProgress(1, us);
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        // 清空hqFiles，解析文件，填入
+                                        tmpTa.ParseIdxFile();
+                                    }
+
+                                    break;
+                                }
+
+                            case HqCheckType.通过文件列表:
+                                {
+                                    // 什么都不用做，构造函数已经填进去了
+                                    break;
+                                }
+                        }
+
+                        tmpTa.IsIdxFileParse = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        tmpTa.IsIdxFileParse = false;
+                        UserState us = new UserState(true, string.Format("TA {0}解析索引文件出错: {1}", tmpTa.Id, ex.Message));
+                        tmpTa.IsRunning = false;
+                        bgWorker.ReportProgress(1, us);
+                        continue;
+                    }
+
+
+
+                    // 4.判断行情文件是否到齐
+                    tmpTa.HqStatus = HqStatus.文件检查中;
+                    bgWorker.ReportProgress(1);
+
+                    tmpTa.UpdateFileExistsStatus();
+                    
+                    if (!tmpTa.IsAllFileArrived)
+                    {
+                        tmpTa.IsRunning = false;
+                        tmpTa.HqStatus = HqStatus.文件未收齐;
+                        bgWorker.ReportProgress(1);
+                        continue;
+                    }
+                    else
+                    {
+                        tmpTa.HqStatus = HqStatus.文件已收齐;
+                        bgWorker.ReportProgress(1);
+                    }
+
+
+
+                    // 5.如果需要拷贝，则拷贝(多目的地)
+                    if (tmpTa.DestPaths.Count > 0)
                     {
                         try
                         {
                             tmpTa.HqStatus = HqStatus.文件拷贝中;
                             bgWorker.ReportProgress(1);
 
-                            _taManager.HqMove(tmpTa);
+                            tmpTa.FileMove();
 
                             tmpTa.HqStatus = HqStatus.文件拷贝完成;
-                            tmpTa.IsHqCopyOK = true;
+                            tmpTa.IsCopyOK = true;
                             bgWorker.ReportProgress(1);
                         }
                         catch (Exception ex)
                         {
                             tmpTa.HqStatus = HqStatus.文件拷贝失败;
-                            tmpTa.IsHqCopyOK = false;
+                            tmpTa.IsCopyOK = false;
                             UserState us = new UserState(true, string.Format("TA {0}文件拷贝出错: {1}", tmpTa.Id, ex.Message));
                             bgWorker.ReportProgress(1, us);
                         }
@@ -249,13 +297,13 @@ namespace TaFileCheck
 
 
                     // 最终
-                    if (tmpTa.IsHqOK)
+                    if (tmpTa.IsOK)
                     {
                         tmpTa.HqStatus = HqStatus.完成;
                     }
 
                     // 结束
-                    tmpTa.IsHqRunning = false;
+                    tmpTa.IsRunning = false;
                     bgWorker.ReportProgress(1);
                 }
 
@@ -307,9 +355,9 @@ namespace TaFileCheck
                 //lbStatus.BackColor = Color.Red;
 
                 // 状态清空
-                for (int i = 0; i < _taManager.TaList.Count; i++)
+                for (int i = 0; i < _taManager.TaHqList.Count; i++)
                 {
-                    _taManager.TaList[i].IsHqRunning = false;
+                    _taManager.TaHqList[i].IsRunning = false;
                 }
             }
             else
@@ -339,7 +387,7 @@ namespace TaFileCheck
                 {
                     ListViewItem lvi = lvHqList.GetItemAt(e.X, e.Y);
                     if (lvi != null)
-                        toolTip.Show(((Ta)lvi.Tag).HqToolTip, lvHqList, new Point(e.X + 30, e.Y + 20), 200000);
+                        toolTip.Show(((TaHq)lvi.Tag).HqToolTip, lvHqList, new Point(e.X + 30, e.Y + 20), 200000);
                     else
                         toolTip.Hide(lvHqList);
                 }
@@ -370,66 +418,66 @@ namespace TaFileCheck
 
         private void InitQsList()
         {
-            lvQsList.Items.Clear();
-            for (int i = 0; i < _taManager.TaList.Count; i++)
-            {
-                ListViewItem lvi = new ListViewItem((i + 1).ToString());
-                lvi.SubItems.Add(_taManager.TaList[i].Id);
-                lvi.SubItems.Add(_taManager.TaList[i].Desc);
-                lvi.SubItems.Add(_taManager.TaList[i].Source);
-                lvi.SubItems.Add(_taManager.TaList[i].QsMoveStr);
-                lvi.SubItems.Add(_taManager.TaList[i].QsStatus.ToString());
-                lvi.SubItems.Add(string.Empty);
-                lvi.SubItems.Add(string.Empty);
-                lvi.SubItems.Add(string.Empty);
-                lvi.Tag = _taManager.TaList[i];
+            //lvQsList.Items.Clear();
+            //for (int i = 0; i < _taManager.TaList.Count; i++)
+            //{
+            //    ListViewItem lvi = new ListViewItem((i + 1).ToString());
+            //    lvi.SubItems.Add(_taManager.TaList[i].Id);
+            //    lvi.SubItems.Add(_taManager.TaList[i].Desc);
+            //    lvi.SubItems.Add(_taManager.TaList[i].Source);
+            //    lvi.SubItems.Add(_taManager.TaList[i].QsMoveStr);
+            //    lvi.SubItems.Add(_taManager.TaList[i].QsStatus.ToString());
+            //    lvi.SubItems.Add(string.Empty);
+            //    lvi.SubItems.Add(string.Empty);
+            //    lvi.SubItems.Add(string.Empty);
+            //    lvi.Tag = _taManager.TaList[i];
 
-                lvQsList.Items.Add(lvi);
+            //    lvQsList.Items.Add(lvi);
 
 
-                lvQsList.Columns[0].Width = -1;
-                //lvQsList.Columns[1].Width = -1;
-                //lvQsList.Columns[2].Width = -1;
-                //lvQsList.Columns[3].Width = -1;
-                //lvQsList.Columns[4].Width = -1;
-                //lvQsList.Columns[5].Width = -1;
-                //lvQsList.Columns[6].Width = -1;
-            }
+            //    lvQsList.Columns[0].Width = -1;
+            //    //lvQsList.Columns[1].Width = -1;
+            //    //lvQsList.Columns[2].Width = -1;
+            //    //lvQsList.Columns[3].Width = -1;
+            //    //lvQsList.Columns[4].Width = -1;
+            //    //lvQsList.Columns[5].Width = -1;
+            //    //lvQsList.Columns[6].Width = -1;
+            //}
         }
 
         private void UpdateQsList()
         {
-            lvQsList.BeginUpdate();
-            // 进度列表
-            try
-            {
-                for (int i = 0; i < _taManager.TaList.Count; i++)
-                {
-                    Ta tmpTa = (Ta)lvQsList.Items[i].Tag;   // 配置对象
-                    lvQsList.Items[i].SubItems[5].Text = tmpTa.QsStatus.ToString();             // 状态
-                    lvQsList.Items[i].SubItems[6].Text = tmpTa.IsQsFileExists ? "√" : "×";      // 行情文件到齐
-                    lvQsList.Items[i].SubItems[7].Text = tmpTa.IsQsOK ? "√" : "×";              // 标志到齐
+            //lvQsList.BeginUpdate();
+            //// 进度列表
+            //try
+            //{
+            //    for (int i = 0; i < _taManager.TaList.Count; i++)
+            //    {
+            //        Ta tmpTa = (Ta)lvQsList.Items[i].Tag;   // 配置对象
+            //        lvQsList.Items[i].SubItems[5].Text = tmpTa.QsStatus.ToString();             // 状态
+            //        lvQsList.Items[i].SubItems[6].Text = tmpTa.IsQsFileExists ? "√" : "×";      // 行情文件到齐
+            //        lvQsList.Items[i].SubItems[7].Text = tmpTa.IsQsOK ? "√" : "×";              // 标志到齐
 
 
-                    if (tmpTa.IsQsRunning)
-                    {
-                        lvQsList.Items[i].BackColor = Color.LightBlue;
-                        lvQsList.Items[i].EnsureVisible();
-                    }
-                    else
-                    {
-                        lvQsList.Items[i].BackColor = SystemColors.Window;
-                    }
-                }
+            //        if (tmpTa.IsQsRunning)
+            //        {
+            //            lvQsList.Items[i].BackColor = Color.LightBlue;
+            //            lvQsList.Items[i].EnsureVisible();
+            //        }
+            //        else
+            //        {
+            //            lvQsList.Items[i].BackColor = SystemColors.Window;
+            //        }
+            //    }
 
-                lbIsQsAllOK.Text = _taManager.IsQsAllOK ? "是" : "否";
-            }
-            catch (Exception)
-            {
-                // ui异常过滤
-            }
+            //    lbIsQsAllOK.Text = _taManager.IsQsAllOK ? "是" : "否";
+            //}
+            //catch (Exception)
+            //{
+            //    // ui异常过滤
+            //}
 
-            lvQsList.EndUpdate();
+            //lvQsList.EndUpdate();
 
         }
 
@@ -456,181 +504,181 @@ namespace TaFileCheck
              * 5.处理CIL文件
              */
 
-            try
-            {
-                BackgroundWorker bgWorker = sender as BackgroundWorker;
+            //try
+            //{
+            //    BackgroundWorker bgWorker = sender as BackgroundWorker;
 
-                foreach (Ta tmpTa in _taManager.TaList)
-                {
+            //    foreach (Ta tmpTa in _taManager.TaList)
+            //    {
 
-                    if (true == bgWorker.CancellationPending)
-                    {
-                        e.Cancel = true;
-                        return;
-                    }
-
-
-
-                    // 0.开始
-                    tmpTa.IsQsRunning = true;
-                    bgWorker.ReportProgress(1);
-                    Thread.Sleep(50);
-
-                    // 1.源路径是否可访问
-                    try
-                    {
-                        tmpTa.QsStatus = QsStatus.尝试访问源路径;
-                        bgWorker.ReportProgress(1);
-
-                        CheckFilePathTimeout timeout = new CheckFilePathTimeout(new DoHandler(_taManager.IsSourcePathAvailabel)); // 委托
-                        bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 10), tmpTa.Source);       // 超过10秒失败
-                        bool isAvailable = timeout.bReturn;     // 是否可访问
-                        if (isTimeout == true || isAvailable == false)
-                        {
-                            tmpTa.IsQsSourceAvailable = false;
-                            tmpTa.QsStatus = QsStatus.无法访问源路径;
-                            bgWorker.ReportProgress(1);
-                        }
-                        else
-                        {
-                            tmpTa.IsQsSourceAvailable = true;
-                            tmpTa.QsStatus = QsStatus.访问源路径成功;
-                            bgWorker.ReportProgress(1);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        UserState us = new UserState(true, string.Format("TA {0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
-                        bgWorker.ReportProgress(1, us);
-                    }
+            //        if (true == bgWorker.CancellationPending)
+            //        {
+            //            e.Cancel = true;
+            //            return;
+            //        }
 
 
 
-                    // 2.按照rootmove配置移动文件（把子目录中的文件都移动到根目录）
-                    if (tmpTa.IsQsSourceAvailable)
-                    {
-                        try
-                        {
-                            tmpTa.QsStatus = QsStatus.文件移动到根目录中;
-                            bgWorker.ReportProgress(1);
+            //        // 0.开始
+            //        tmpTa.IsQsRunning = true;
+            //        bgWorker.ReportProgress(1);
+            //        Thread.Sleep(50);
 
-                            _taManager.RootMove(tmpTa);
+            //        // 1.源路径是否可访问
+            //        try
+            //        {
+            //            tmpTa.QsStatus = QsStatus.尝试访问源路径;
+            //            bgWorker.ReportProgress(1);
 
-                            tmpTa.QsStatus = QsStatus.文件移动到根目录完成;
-                            tmpTa.IsQsRootMoveOK = true;
-                            bgWorker.ReportProgress(1);
-                        }
-                        catch (Exception ex)
-                        {
-                            tmpTa.QsStatus = QsStatus.文件移动到根目录错误;
-                            tmpTa.IsQsRootMoveOK = false;
-                            UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
-                            bgWorker.ReportProgress(1, us);
-                        }
-                    }
-
-
-
-                    // 3.拼接文件路径，判断行情文件是否到齐
-                    if (tmpTa.IsQsSourceAvailable)
-                    {
-                        tmpTa.QsStatus = QsStatus.文件检查中;
-                        bgWorker.ReportProgress(1);
-
-                        tmpTa.IsQsFileExists = _taManager.IsQsFlagFileExists(tmpTa);
-                        tmpTa.QsStatus = tmpTa.IsQsFileExists == true ? QsStatus.文件已收齐 : QsStatus.文件未收齐;
-                        bgWorker.ReportProgress(1);
-                        if (!tmpTa.IsQsFileExists)
-                        {
-                            tmpTa.IsQsRunning = false;
-                            tmpTa.QsStatus = QsStatus.文件未收齐;
-                            bgWorker.ReportProgress(1);
-                            continue;
-                        }
-                        else
-                        {
-                            tmpTa.QsStatus = QsStatus.文件已收齐;
-                            bgWorker.ReportProgress(1);
-                        }
-                    }
+            //            CheckFilePathTimeout timeout = new CheckFilePathTimeout(new DoHandler(_taManager.IsSourcePathAvailabel)); // 委托
+            //            bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 10), tmpTa.Source);       // 超过10秒失败
+            //            bool isAvailable = timeout.bReturn;     // 是否可访问
+            //            if (isTimeout == true || isAvailable == false)
+            //            {
+            //                tmpTa.IsQsSourceAvailable = false;
+            //                tmpTa.QsStatus = QsStatus.无法访问源路径;
+            //                bgWorker.ReportProgress(1);
+            //            }
+            //            else
+            //            {
+            //                tmpTa.IsQsSourceAvailable = true;
+            //                tmpTa.QsStatus = QsStatus.访问源路径成功;
+            //                bgWorker.ReportProgress(1);
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            UserState us = new UserState(true, string.Format("TA {0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
+            //            bgWorker.ReportProgress(1, us);
+            //        }
 
 
 
-                    // 4.如果需要拷贝，则拷贝(多目的地)
-                    if (tmpTa.IsQsSourceAvailable && tmpTa.IsQsNeedMove)
-                    {
-                        try
-                        {
-                            tmpTa.QsStatus = QsStatus.文件拷贝中;
-                            bgWorker.ReportProgress(1);
+            //        // 2.按照rootmove配置移动文件（把子目录中的文件都移动到根目录）
+            //        if (tmpTa.IsQsSourceAvailable)
+            //        {
+            //            try
+            //            {
+            //                tmpTa.QsStatus = QsStatus.文件移动到根目录中;
+            //                bgWorker.ReportProgress(1);
 
-                            _taManager.QsMove(tmpTa);
+            //                _taManager.RootMove(tmpTa);
 
-                            tmpTa.QsStatus = QsStatus.文件拷贝完成;
-                            tmpTa.IsQsCopyOK = true;
-                            bgWorker.ReportProgress(1);
-                        }
-                        catch (Exception ex)
-                        {
-                            tmpTa.QsStatus = QsStatus.文件拷贝失败;
-                            tmpTa.IsQsCopyOK = false;
-                            UserState us = new UserState(true, string.Format("TA {0}文件拷贝出错: {1}", tmpTa.Id, ex.Message));
-                            bgWorker.ReportProgress(1, us);
-                        }
-                    }
-
-
-
-                    // 5.CIL文件是否到齐
-
-
-                    // 6.CIL文件修改文件日期
-                    foreach (string strTmpFile in tmpTa.QsCILFiles)
-                    {
-                        try
-                        {
-                            string strTmpPath = Path.Combine(tmpTa.Source, strTmpFile);
-                            if (!File.Exists(strTmpPath))
-                            {
-                                UserState us = new UserState(true, string.Format(@"TA {0}修改ETF退补款文件出错: 文件{1}不存在.", tmpTa.Id, strTmpFile));
-                                bgWorker.ReportProgress(1, us);
-                            }
-                            else
-                            {
-                                File.SetLastWriteTime(strTmpPath, _taManager.DateNow);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            UserState us = new UserState(true, string.Format("TA {0}修改ETF退补款{1}文件出错: {2}", tmpTa.Id, strTmpFile, ex.Message));
-                            bgWorker.ReportProgress(1, us);
-                        }
-                    }
+            //                tmpTa.QsStatus = QsStatus.文件移动到根目录完成;
+            //                tmpTa.IsQsRootMoveOK = true;
+            //                bgWorker.ReportProgress(1);
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                tmpTa.QsStatus = QsStatus.文件移动到根目录错误;
+            //                tmpTa.IsQsRootMoveOK = false;
+            //                UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
+            //                bgWorker.ReportProgress(1, us);
+            //            }
+            //        }
 
 
 
-                    // 7.CIL文件拷贝
+            //        // 3.拼接文件路径，判断行情文件是否到齐
+            //        if (tmpTa.IsQsSourceAvailable)
+            //        {
+            //            tmpTa.QsStatus = QsStatus.文件检查中;
+            //            bgWorker.ReportProgress(1);
+
+            //            tmpTa.IsQsFileExists = _taManager.IsQsFlagFileExists(tmpTa);
+            //            tmpTa.QsStatus = tmpTa.IsQsFileExists == true ? QsStatus.文件已收齐 : QsStatus.文件未收齐;
+            //            bgWorker.ReportProgress(1);
+            //            if (!tmpTa.IsQsFileExists)
+            //            {
+            //                tmpTa.IsQsRunning = false;
+            //                tmpTa.QsStatus = QsStatus.文件未收齐;
+            //                bgWorker.ReportProgress(1);
+            //                continue;
+            //            }
+            //            else
+            //            {
+            //                tmpTa.QsStatus = QsStatus.文件已收齐;
+            //                bgWorker.ReportProgress(1);
+            //            }
+            //        }
 
 
 
-                    // 最终
-                    if (tmpTa.IsQsOK)
-                    {
-                        tmpTa.QsStatus = QsStatus.完成;
-                    }
+            //        // 4.如果需要拷贝，则拷贝(多目的地)
+            //        if (tmpTa.IsQsSourceAvailable && tmpTa.IsQsNeedMove)
+            //        {
+            //            try
+            //            {
+            //                tmpTa.QsStatus = QsStatus.文件拷贝中;
+            //                bgWorker.ReportProgress(1);
 
-                    // 结束
-                    tmpTa.IsQsRunning = false;
-                    bgWorker.ReportProgress(1);
-                }
+            //                _taManager.QsMove(tmpTa);
+
+            //                tmpTa.QsStatus = QsStatus.文件拷贝完成;
+            //                tmpTa.IsQsCopyOK = true;
+            //                bgWorker.ReportProgress(1);
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                tmpTa.QsStatus = QsStatus.文件拷贝失败;
+            //                tmpTa.IsQsCopyOK = false;
+            //                UserState us = new UserState(true, string.Format("TA {0}文件拷贝出错: {1}", tmpTa.Id, ex.Message));
+            //                bgWorker.ReportProgress(1, us);
+            //            }
+            //        }
 
 
-                e.Result = true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            //        // 5.CIL文件是否到齐
+
+
+            //        // 6.CIL文件修改文件日期
+            //        foreach (string strTmpFile in tmpTa.QsCILFiles)
+            //        {
+            //            try
+            //            {
+            //                string strTmpPath = Path.Combine(tmpTa.Source, strTmpFile);
+            //                if (!File.Exists(strTmpPath))
+            //                {
+            //                    UserState us = new UserState(true, string.Format(@"TA {0}修改ETF退补款文件出错: 文件{1}不存在.", tmpTa.Id, strTmpFile));
+            //                    bgWorker.ReportProgress(1, us);
+            //                }
+            //                else
+            //                {
+            //                    File.SetLastWriteTime(strTmpPath, _taManager.DateNow);
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                UserState us = new UserState(true, string.Format("TA {0}修改ETF退补款{1}文件出错: {2}", tmpTa.Id, strTmpFile, ex.Message));
+            //                bgWorker.ReportProgress(1, us);
+            //            }
+            //        }
+
+
+
+            //        // 7.CIL文件拷贝
+
+
+
+            //        // 最终
+            //        if (tmpTa.IsQsOK)
+            //        {
+            //            tmpTa.QsStatus = QsStatus.完成;
+            //        }
+
+            //        // 结束
+            //        tmpTa.IsQsRunning = false;
+            //        bgWorker.ReportProgress(1);
+            //    }
+
+
+            //    e.Result = true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception(ex.Message);
+            //}
         }
 
         private void bwQs_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -671,10 +719,10 @@ namespace TaFileCheck
                 //lbStatus.BackColor = Color.Red;
 
                 // 状态清空
-                for (int i = 0; i < _taManager.TaList.Count; i++)
-                {
-                    _taManager.TaList[i].IsQsRunning = false;
-                }
+                //for (int i = 0; i < _taManager.TaList.Count; i++)
+                //{
+                //    _taManager.TaList[i].IsQsRunning = false;
+                //}
             }
             else
             {

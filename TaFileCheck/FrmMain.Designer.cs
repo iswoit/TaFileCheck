@@ -55,10 +55,9 @@
             this.No = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TaID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Desc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Source = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.HqMove = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.SourcePath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.DestPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Status = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.IsFileExists = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IsOK = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lvQsList = new TaFileCheck.DoubleBufferListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -131,11 +130,11 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 363);
+            this.label3.Location = new System.Drawing.Point(9, 343);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 6;
-            this.label3.Text = "异常信息:";
+            this.label3.Text = "日志信息:";
             // 
             // label2
             // 
@@ -164,12 +163,12 @@
             this.tbHqLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbHqLog.BackColor = System.Drawing.SystemColors.Window;
-            this.tbHqLog.Location = new System.Drawing.Point(8, 378);
+            this.tbHqLog.Location = new System.Drawing.Point(8, 358);
             this.tbHqLog.Multiline = true;
             this.tbHqLog.Name = "tbHqLog";
             this.tbHqLog.ReadOnly = true;
             this.tbHqLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbHqLog.Size = new System.Drawing.Size(766, 58);
+            this.tbHqLog.Size = new System.Drawing.Size(919, 78);
             this.tbHqLog.TabIndex = 2;
             // 
             // ctxHq
@@ -317,10 +316,9 @@
             this.No,
             this.TaID,
             this.Desc,
-            this.Source,
-            this.HqMove,
+            this.SourcePath,
+            this.DestPath,
             this.Status,
-            this.IsFileExists,
             this.IsOK});
             this.lvHqList.ContextMenuStrip = this.ctxHq;
             this.lvHqList.FullRowSelect = true;
@@ -328,7 +326,7 @@
             this.lvHqList.Location = new System.Drawing.Point(8, 22);
             this.lvHqList.MultiSelect = false;
             this.lvHqList.Name = "lvHqList";
-            this.lvHqList.Size = new System.Drawing.Size(1087, 324);
+            this.lvHqList.Size = new System.Drawing.Size(1087, 298);
             this.lvHqList.TabIndex = 0;
             this.lvHqList.UseCompatibleStateImageBehavior = false;
             this.lvHqList.View = System.Windows.Forms.View.Details;
@@ -350,25 +348,20 @@
             this.Desc.Text = "描述";
             this.Desc.Width = 120;
             // 
-            // Source
+            // SourcePath
             // 
-            this.Source.Text = "文件路径";
-            this.Source.Width = 150;
+            this.SourcePath.Text = "文件路径";
+            this.SourcePath.Width = 150;
             // 
-            // HqMove
+            // DestPath
             // 
-            this.HqMove.Text = "拷贝路径";
-            this.HqMove.Width = 150;
+            this.DestPath.Text = "拷贝目的路径";
+            this.DestPath.Width = 150;
             // 
             // Status
             // 
             this.Status.Text = "状态";
-            this.Status.Width = 100;
-            // 
-            // IsFileExists
-            // 
-            this.IsFileExists.Text = "文件到齐";
-            this.IsFileExists.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.Status.Width = 120;
             // 
             // IsOK
             // 
@@ -484,18 +477,17 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TextBox tbHqLog;
         private System.Windows.Forms.ColumnHeader TaID;
-        private System.Windows.Forms.ColumnHeader Source;
+        private System.Windows.Forms.ColumnHeader SourcePath;
         private System.Windows.Forms.ColumnHeader Status;
         private System.Windows.Forms.ColumnHeader IsOK;
         private System.Windows.Forms.ColumnHeader No;
         private System.Windows.Forms.Button btnHqExecute;
         private System.ComponentModel.BackgroundWorker bwHq;
         private System.Windows.Forms.ColumnHeader Desc;
-        private System.Windows.Forms.ColumnHeader HqMove;
+        private System.Windows.Forms.ColumnHeader DestPath;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolTip toolTip;
-        private System.Windows.Forms.ColumnHeader IsFileExists;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbIsHqAllOK;
         private System.Windows.Forms.Label label5;

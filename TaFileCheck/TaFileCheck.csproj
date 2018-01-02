@@ -59,13 +59,13 @@
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Manager\TaManager.cs" />
+    <Compile Include="Model\Ta.cs" />
     <Compile Include="Model\TaHq.cs" />
     <Compile Include="Util\CheckFilePathTimeout.cs" />
     <Compile Include="Util\Util.cs" />
     <Compile Include="Util\DoubleBufferListView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Model\Ta.cs" />
     <Compile Include="Model\UserState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
