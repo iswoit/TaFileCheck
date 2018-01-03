@@ -11,6 +11,7 @@ namespace TaFileCheck
         private string _sourcePath;                          // 行情路径
         private HqCheckType _hqCheckType;              // 行情文件检查模式
         private string _idxFile;                       // 行情索引文件(模式0和模式1用得到)
+        private int _idxFileCnt;                       // 行情索引对应的行号
         private Dictionary<string, bool> _hqFiles;     // 行情文件列表
         private Dictionary<string, bool> _destPaths;   // 行情文件到齐后移动的目的
 
@@ -38,7 +39,7 @@ namespace TaFileCheck
         /// <param name="idxFile"></param>
         /// <param name="hqFiles"></param>
         /// <param name="hqDestPath"></param>
-        public TaHq(string id, string desc, string hqSource, string needRootMove, string hqCheckType, string idxFile, List<string> hqFiles, List<string> hqDestPath)
+        public TaHq(string id, string desc, string hqSource, string needRootMove, string hqCheckType, string idxFile, int idxFileCnt, List<string> hqFiles, List<string> hqDestPath)
         {
             //********1.TA行情配置变量初始化
             _id = id;           // 代码
@@ -59,6 +60,7 @@ namespace TaFileCheck
             // 行情索引
             idxFile = Ta.ReplaceTaFileNameWithPattern(idxFile, id);
             _idxFile = idxFile;
+            _idxFileCnt = idxFileCnt;
 
             // 行情文件列表
             _hqFiles = new Dictionary<string, bool>();
@@ -152,7 +154,7 @@ namespace TaFileCheck
                         else if (fileCount == 0)
                             break;
 
-                        if (idx == 5)  // 第5行，数量
+                        if (idx == (_idxFileCnt - 1))  // 第5行，数量
                         {
                             fileCount = int.Parse(strContent);
                         }
@@ -191,6 +193,34 @@ namespace TaFileCheck
         /// </summary>
         public void FileMove()
         {
+            List<string> tmpList = new List<string>();
+            tmpList.AddRange(_destPaths.Keys);
+            foreach (string tmp in tmpList)
+            {
+                try
+                {
+                    if (Directory.Exists(tmp))
+                    {
+                        foreach (KeyValuePair<string, bool> kvFile in _hqFiles)
+                        {
+                            File.Copy(Path.Combine(_sourcePath, kvFile.Key),
+                                Path.Combine(tmp, kvFile.Key),
+                                true);
+                        }
+
+                        _destPaths[tmp] = true;
+                    }
+                    else
+                    {
+                        throw new Exception(string.Format("路径{0}不存在", tmp));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+
             foreach (KeyValuePair<string, bool> kvDestPath in _destPaths)  // 遍历目的地
             {
                 try
@@ -370,6 +400,9 @@ namespace TaFileCheck
         {
             get
             {
+                if (_hqCheckType == HqCheckType.通过索引文件 && _isIdxFileParse == false)
+                    return string.Empty;
+
                 // 缺失文件
                 StringBuilder sbMissingFiles = new StringBuilder();
                 if (_isIdxFileParse == false && _hqFiles.Count == 0)
@@ -386,7 +419,7 @@ namespace TaFileCheck
                         if (sbMissingFiles.Length > 0)
                             sbMissingFiles.Insert(0, "缺以下文件:\n");
                         else
-                            sbMissingFiles.Append("文件已收齐");
+                            sbMissingFiles.Append("文件已收齐\n");
                     }
                 }
 

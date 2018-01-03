@@ -107,6 +107,7 @@ namespace TaFileCheck
         {
             if (!bwHq.IsBusy)
             {
+                lbIsHqRunning.Text = "正在运行...";
                 bwHq.RunWorkerAsync();
                 btnHqExecute.Text = "检查中...";
             }
@@ -379,6 +380,8 @@ namespace TaFileCheck
                 //lbStatus.BackColor = Color.ForestGreen;
             }
 
+            lbIsHqRunning.Text = "运行完毕";
+
             btnHqExecute.Text = "检查";
         }
 
@@ -415,13 +418,13 @@ namespace TaFileCheck
                 e.Cancel = true;
         }
 
-
         private void ctxHqModify_Click(object sender, EventArgs e)
         {
             ListViewItem lvi = lvHqList.SelectedItems[0];
             if (lvi != null)
             {
-                FrmHqCfg frmHqCfg = new FrmHqCfg((TaHq)lvi.Tag);
+                string taId = ((TaHq)lvi.Tag).Id;
+                FrmCfg frmHqCfg = new FrmCfg(taId);
                 frmHqCfg.ShowDialog();
             }
         }
@@ -769,6 +772,10 @@ namespace TaFileCheck
 
         #endregion 清算处理逻辑
 
+
+
+
+        
 
     }
 }

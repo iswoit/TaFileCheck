@@ -11,6 +11,7 @@ namespace TaFileCheck
         private List<TaHq> _taHqList;    // ta行情对象列表
         //private List<TaQs> _taQsList = new List<TaQs>();    // ta清算对象列表
         private string _taHqIdx;                                    // ta行情索引文件
+        private int _taHqIdxCnt;                                    // ta行情数的行数
         private string _taQsIdx;                                    // ta清算索引文件
 
         private DateTime _dtNow = DateTime.Now;    // 当前时间
@@ -49,6 +50,17 @@ namespace TaFileCheck
                 else
                     throw new Exception("无法找到配置文件节点<hqidx>(行情索引文件名)，请检查配置文件格式是否正确!");
 
+                // 找TA行情通配索引
+                XmlNode xnHqIdxCnt = rootNode.SelectSingleNode("//hqidxcnt");
+                if (xnHqIdxCnt != null)
+                {
+                    if(!int.TryParse(xnHqIdxCnt.InnerText.Trim(),out _taHqIdxCnt))
+                    {
+                        throw new Exception("请确定节点<hqidxcnt>(行情索引文件中文件数量所在行)为数字!");
+                    }
+                }
+                else
+                    throw new Exception("无法找到配置文件节点<hqidxcnt>(行情索引文件中文件数量所在行)，请检查配置文件格式是否正确!");
 
 
                 // 找TA清算通配索引
@@ -132,7 +144,7 @@ namespace TaFileCheck
                                 }//eof switch ta attr
                             }//eof foreach ta
 
-                            _taHqList.Add(new TaHq(id, desc, hqSource, rootMove, hqchecktype, hqIdx, hqFiles, hqDestPath));
+                            _taHqList.Add(new TaHq(id, desc, hqSource, rootMove, hqchecktype, hqIdx, _taHqIdxCnt, hqFiles, hqDestPath));
 
 
                             // Part2.清算配置（还没写）

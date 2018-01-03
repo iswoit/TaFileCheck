@@ -1,6 +1,6 @@
 ﻿namespace TaFileCheck
 {
-    partial class FrmHqCfg
+    partial class FrmCfg
     {
         /// <summary>
         /// Required designer variable.
