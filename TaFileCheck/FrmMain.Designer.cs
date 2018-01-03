@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tbCtl = new System.Windows.Forms.TabControl();
+            this.tabHq = new System.Windows.Forms.TabPage();
             this.lbIsHqAllOK = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -38,8 +38,8 @@
             this.btnHqExecute = new System.Windows.Forms.Button();
             this.tbHqLog = new System.Windows.Forms.TextBox();
             this.ctxHq = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ctxHqShow = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.ctxHqModify = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabQs = new System.Windows.Forms.TabPage();
             this.lbIsQsAllOK = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.listView2 = new System.Windows.Forms.ListView();
@@ -71,39 +71,39 @@
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tbCtl.SuspendLayout();
+            this.tabHq.SuspendLayout();
             this.ctxHq.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabQs.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // tbCtl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1125, 476);
-            this.tabControl1.TabIndex = 1;
+            this.tbCtl.Controls.Add(this.tabHq);
+            this.tbCtl.Controls.Add(this.tabQs);
+            this.tbCtl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tbCtl.Location = new System.Drawing.Point(0, 0);
+            this.tbCtl.Name = "tbCtl";
+            this.tbCtl.SelectedIndex = 0;
+            this.tbCtl.Size = new System.Drawing.Size(1125, 476);
+            this.tbCtl.TabIndex = 1;
             // 
-            // tabPage1
+            // tabHq
             // 
-            this.tabPage1.Controls.Add(this.lbIsHqAllOK);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.label3);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.btnHqExecute);
-            this.tabPage1.Controls.Add(this.tbHqLog);
-            this.tabPage1.Controls.Add(this.lvHqList);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1117, 450);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "TA行情文件检查";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabHq.Controls.Add(this.lbIsHqAllOK);
+            this.tabHq.Controls.Add(this.label4);
+            this.tabHq.Controls.Add(this.label3);
+            this.tabHq.Controls.Add(this.label2);
+            this.tabHq.Controls.Add(this.btnHqExecute);
+            this.tabHq.Controls.Add(this.tbHqLog);
+            this.tabHq.Controls.Add(this.lvHqList);
+            this.tabHq.Location = new System.Drawing.Point(4, 22);
+            this.tabHq.Name = "tabHq";
+            this.tabHq.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHq.Size = new System.Drawing.Size(1117, 450);
+            this.tabHq.TabIndex = 0;
+            this.tabHq.Text = "TA行情文件检查";
+            this.tabHq.UseVisualStyleBackColor = true;
             // 
             // lbIsHqAllOK
             // 
@@ -174,35 +174,36 @@
             // ctxHq
             // 
             this.ctxHq.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ctxHqShow});
+            this.ctxHqModify});
             this.ctxHq.Name = "ctxHq";
             this.ctxHq.Size = new System.Drawing.Size(125, 26);
             this.ctxHq.Opening += new System.ComponentModel.CancelEventHandler(this.ctxHq_Opening);
             // 
-            // ctxHqShow
+            // ctxHqModify
             // 
-            this.ctxHqShow.Name = "ctxHqShow";
-            this.ctxHqShow.Size = new System.Drawing.Size(124, 22);
-            this.ctxHqShow.Text = "显示详情";
+            this.ctxHqModify.Name = "ctxHqModify";
+            this.ctxHqModify.Size = new System.Drawing.Size(124, 22);
+            this.ctxHqModify.Text = "修改配置";
+            this.ctxHqModify.Click += new System.EventHandler(this.ctxHqModify_Click);
             // 
-            // tabPage2
+            // tabQs
             // 
-            this.tabPage2.Controls.Add(this.lbIsQsAllOK);
-            this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Controls.Add(this.listView2);
-            this.tabPage2.Controls.Add(this.label7);
-            this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.tbQsLog);
-            this.tabPage2.Controls.Add(this.btnQsExecute);
-            this.tabPage2.Controls.Add(this.lvQsList);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1117, 450);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "TA清算文件拷贝";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabQs.Controls.Add(this.lbIsQsAllOK);
+            this.tabQs.Controls.Add(this.label8);
+            this.tabQs.Controls.Add(this.listView2);
+            this.tabQs.Controls.Add(this.label7);
+            this.tabQs.Controls.Add(this.label6);
+            this.tabQs.Controls.Add(this.tbQsLog);
+            this.tabQs.Controls.Add(this.btnQsExecute);
+            this.tabQs.Controls.Add(this.lvQsList);
+            this.tabQs.Controls.Add(this.label5);
+            this.tabQs.Location = new System.Drawing.Point(4, 22);
+            this.tabQs.Name = "tabQs";
+            this.tabQs.Padding = new System.Windows.Forms.Padding(3);
+            this.tabQs.Size = new System.Drawing.Size(1117, 450);
+            this.tabQs.TabIndex = 1;
+            this.tabQs.Text = "TA清算文件拷贝";
+            this.tabQs.UseVisualStyleBackColor = true;
             // 
             // lbIsQsAllOK
             // 
@@ -456,15 +457,15 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1125, 476);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tbCtl);
             this.Name = "FrmMain";
             this.Text = "开基文件检查";
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tbCtl.ResumeLayout(false);
+            this.tabHq.ResumeLayout(false);
+            this.tabHq.PerformLayout();
             this.ctxHq.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabQs.ResumeLayout(false);
+            this.tabQs.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -472,9 +473,9 @@
         #endregion
 
         private DoubleBufferListView lvHqList;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl tbCtl;
+        private System.Windows.Forms.TabPage tabHq;
+        private System.Windows.Forms.TabPage tabQs;
         private System.Windows.Forms.TextBox tbHqLog;
         private System.Windows.Forms.ColumnHeader TaID;
         private System.Windows.Forms.ColumnHeader SourcePath;
@@ -512,7 +513,7 @@
         private System.Windows.Forms.Label lbIsQsAllOK;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ContextMenuStrip ctxHq;
-        private System.Windows.Forms.ToolStripMenuItem ctxHqShow;
+        private System.Windows.Forms.ToolStripMenuItem ctxHqModify;
     }
 }
 

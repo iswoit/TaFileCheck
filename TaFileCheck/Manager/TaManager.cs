@@ -45,15 +45,18 @@ namespace TaFileCheck
                 // 找TA行情通配索引
                 XmlNode xnHqIdx = rootNode.SelectSingleNode("//hqidx");
                 if (xnHqIdx != null)
-                {
                     _taHqIdx = Util.Filename_Date_Convert(xnHqIdx.InnerText.Trim());
-                }
+                else
+                    throw new Exception("无法找到配置文件节点<hqidx>(行情索引文件名)，请检查配置文件格式是否正确!");
+
 
 
                 // 找TA清算通配索引
                 XmlNode xnQsIdx = rootNode.SelectSingleNode("//qsidx");
                 if (xnQsIdx != null)
                     _taQsIdx = Util.Filename_Date_Convert(xnQsIdx.InnerText.Trim());
+                else
+                    throw new Exception("无法找到配置文件节点<qsidx>(清算索引文件名)，请检查配置文件格式是否正确!");
 
 
                 // 直接找talist子节点。形成ta对象，加入到TaManager列表。
@@ -69,8 +72,9 @@ namespace TaFileCheck
                             // Part1.行情配置
                             string id = string.Empty;                                   // ta代码
                             string desc = string.Empty;                                 // 备注（仅仅显示）
+                            string rootMove = string.Empty;
+
                             string hqSource = string.Empty;
-                            string hqRootMove = string.Empty;
                             string hqchecktype = string.Empty;
                             string hqIdx = _taHqIdx;
                             List<string> hqFiles = new List<string>();
@@ -90,19 +94,11 @@ namespace TaFileCheck
                                     case "hqsource":
                                         hqSource = Util.Filename_Date_Convert(xnTaChildAttr.InnerText.Trim());
                                         break;
-                                    case "hqrootmove":
-                                        hqRootMove = xnTaChildAttr.InnerText.Trim();
+                                    case "rootmove":
+                                        rootMove = xnTaChildAttr.InnerText.Trim();
                                         break;
                                     case "hqchecktype":
                                         hqchecktype = xnTaChildAttr.InnerText.Trim();
-                                        break;
-                                    case "hqidx":
-                                        {
-                                            if (!string.IsNullOrEmpty(xnTaChildAttr.InnerText.Trim()))
-                                            {
-                                                hqIdx = Util.Filename_Date_Convert(xnTaChildAttr.InnerText.Trim());
-                                            }
-                                        }
                                         break;
                                     case "hqfiles":
                                         {
@@ -136,7 +132,7 @@ namespace TaFileCheck
                                 }//eof switch ta attr
                             }//eof foreach ta
 
-                            _taHqList.Add(new TaHq(id, desc, hqSource, hqRootMove, hqchecktype, hqIdx, hqFiles, hqDestPath));
+                            _taHqList.Add(new TaHq(id, desc, hqSource, rootMove, hqchecktype, hqIdx, hqFiles, hqDestPath));
 
 
                             // Part2.清算配置（还没写）

@@ -9,7 +9,6 @@ namespace TaFileCheck
     {
         // 行情基本变量
         private string _sourcePath;                          // 行情路径
-        private bool _needRootMove;                    // 行情移动到根目录
         private HqCheckType _hqCheckType;              // 行情文件检查模式
         private string _idxFile;                       // 行情索引文件(模式0和模式1用得到)
         private Dictionary<string, bool> _hqFiles;     // 行情文件列表
@@ -18,13 +17,8 @@ namespace TaFileCheck
         // 行情运行变量
         private HqStatus _status;                      // 任务状态
         private bool _isRunning;                       // 行情检查运行中
-        private bool _isSourceAvailable;                 // 行情文件源目录是否可以访问
+        private bool _isSourceAvailable;               // 行情文件源目录是否可以访问
         private bool _isIdxFileParse;                  // 行情索引文件解析完成
-        private bool _isAllFilesExist;                 // 所有行情文件都存在(可省略)
-        private bool _isCopyOK;                        // 行情文件拷贝完成(可省略)
-
-
-        private List<string> _hqMissingFiles = new List<string>();  // 缺失的文件列表
 
 
 
@@ -44,7 +38,7 @@ namespace TaFileCheck
         /// <param name="idxFile"></param>
         /// <param name="hqFiles"></param>
         /// <param name="hqDestPath"></param>
-        public TaHq(string id, string desc, string hqSource, string hqRootMove, string hqCheckType, string idxFile, List<string> hqFiles, List<string> hqDestPath)
+        public TaHq(string id, string desc, string hqSource, string needRootMove, string hqCheckType, string idxFile, List<string> hqFiles, List<string> hqDestPath)
         {
             //********1.TA行情配置变量初始化
             _id = id;           // 代码
@@ -52,7 +46,7 @@ namespace TaFileCheck
             _sourcePath = hqSource;     // 行情路径
 
             // 行情移动到根目录
-            if (!bool.TryParse(hqRootMove, out _needRootMove))
+            if (!bool.TryParse(needRootMove, out _needRootMove))
                 _needRootMove = false;
 
             // 行情文件检查模式
@@ -81,8 +75,6 @@ namespace TaFileCheck
             _isRunning = false;
             _isSourceAvailable = false;
             _isIdxFileParse = false;
-            _isAllFilesExist = false;
-            _isCopyOK = false;
         }
 
 
@@ -201,18 +193,25 @@ namespace TaFileCheck
         {
             foreach (KeyValuePair<string, bool> kvDestPath in _destPaths)  // 遍历目的地
             {
-                if (Directory.Exists(kvDestPath.Key))
+                try
                 {
-                    foreach (KeyValuePair<string, bool> kvFile in _hqFiles)
+                    if (Directory.Exists(kvDestPath.Key))
                     {
-                        File.Copy(Path.Combine(_sourcePath, kvFile.Key),
-                            Path.Combine(kvDestPath.Key, kvFile.Key),
-                            true);
+                        foreach (KeyValuePair<string, bool> kvFile in _hqFiles)
+                        {
+                            File.Copy(Path.Combine(_sourcePath, kvFile.Key),
+                                Path.Combine(kvDestPath.Key, kvFile.Key),
+                                true);
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception(string.Format("路径{0}不存在", kvDestPath.Key));
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    throw new Exception(string.Format("路径{0}不存在", kvDestPath.Key));
+                    throw new Exception(ex.Message);
                 }
             }
         }
@@ -231,13 +230,7 @@ namespace TaFileCheck
             get { return _sourcePath; }
         }
 
-        /// <summary>
-        /// 行情是否需要文件移动到根目录
-        /// </summary>
-        public bool NeedRootMove
-        {
-            get { return _needRootMove; }
-        }
+
 
         /// <summary>
         /// 行情检查模式
@@ -348,35 +341,82 @@ namespace TaFileCheck
             }
         }
 
-
         /// <summary>
-        /// 文件拷贝完成
+        /// 是否拷贝完成
         /// </summary>
         public bool IsCopyOK
         {
-            get { return _isCopyOK; }
-            set { _isCopyOK = value; }
+            get
+            {
+                if (_destPaths.Count > 0)
+                {
+                    foreach (KeyValuePair<string, bool> kv in _destPaths)
+                    {
+                        if (kv.Value == false)
+                            return false;
+                    }
+                }
+                return true;
+            }
         }
 
 
+
+
+        /// <summary>
+        /// 行情鼠标提示：主要显示文件完成情况
+        /// </summary>
         public string HqToolTip
         {
             get
             {
-                if (_hqMissingFiles.Count > 0)
-                {
-                    string strReturn = "缺以下文件：";
-                    foreach (string strTmp in _hqMissingFiles)
-                    {
-                        strReturn += System.Environment.NewLine;
-                        strReturn += strTmp;
-                    }
-
-                    return strReturn;
-                }
+                // 缺失文件
+                StringBuilder sbMissingFiles = new StringBuilder();
+                if (_isIdxFileParse == false && _hqFiles.Count == 0)
+                    sbMissingFiles.Append("索引文件未解析");
                 else
-                    return string.Empty;
+                {
+                    if (_hqFiles.Count > 0)
+                    {
+                        foreach (KeyValuePair<string, bool> kv in _hqFiles)
+                        {
+                            if (kv.Value == false)
+                                sbMissingFiles.AppendLine(kv.Key);
+                        }
+                        if (sbMissingFiles.Length > 0)
+                            sbMissingFiles.Insert(0, "缺以下文件:\n");
+                        else
+                            sbMissingFiles.Append("文件已收齐");
+                    }
+                }
 
+
+                // 未拷贝路径
+                StringBuilder sbNotCopiedDests = new StringBuilder();
+                if (_destPaths.Count > 0)
+                {
+                    foreach (KeyValuePair<string, bool> kv in _destPaths)
+                    {
+                        if (kv.Value == false)
+                            sbNotCopiedDests.AppendLine(kv.Key);
+                    }
+                    if (sbNotCopiedDests.Length > 0)
+                        sbNotCopiedDests.Insert(0, "文件未拷贝至以下路径:\n");
+                    else
+                        sbNotCopiedDests.Append("文件已拷贝完成");
+                }
+
+
+
+
+                // 输出处理
+                if (sbMissingFiles.Length == 0 && sbNotCopiedDests.Length == 0)
+                    return string.Empty;
+                else
+                    sbNotCopiedDests.Insert(0, "\n");
+
+
+                return sbMissingFiles.ToString() + sbNotCopiedDests.ToString();
             }
         }
 
@@ -391,21 +431,16 @@ namespace TaFileCheck
         {
             get
             {
-                if (!_isSourceAvailable)
+                if (!_isSourceAvailable)    // 源路径可访问
                     return false;
-                if (!_isAllFilesExist)
+                if (!_isIdxFileParse)       // 解析文件列表成功
                     return false;
-                if (_destPaths.Count > 0)
-                {
-                    if (_isCopyOK)
-                        return true;
-                    else
-                        return false;
-                }
-                else
-                {
-                    return true;
-                }
+                if (!IsAllFileArrived)      // 所有源文件到齐
+                    return false;
+                if (!IsCopyOK)              // 如果需要移动
+                    return false;
+
+                return true;
             }
         }
         #endregion******************************属性
@@ -416,9 +451,8 @@ namespace TaFileCheck
     // 行情文件检查模式
     public enum HqCheckType
     {
-        通过通用索引文件 = 0,
-        通过指定索引文件 = 1,
-        通过文件列表 = 2
+        通过索引文件 = 0,
+        通过文件列表 = 1
     }
 
 

@@ -30,6 +30,9 @@ namespace TaFileCheck
             {
                 MessageBox.Show(ex.Message);
             }
+
+            // 临时屏蔽清算
+            this.tbCtl.TabPages[1].Parent = null;
         }
 
 
@@ -142,7 +145,12 @@ namespace TaFileCheck
                     bgWorker.ReportProgress(1);
                     Thread.Sleep(50);
 
-
+                    if (tmpTa.IsOK)
+                    {
+                        tmpTa.IsRunning = false;
+                        bgWorker.ReportProgress(1);
+                        continue;
+                    }
 
                     // 1.源路径是否可访问
                     try
@@ -170,8 +178,11 @@ namespace TaFileCheck
                     }
                     catch (Exception ex)
                     {
-                        UserState us = new UserState(true, string.Format("TA {0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
+                        tmpTa.IsSourceAvailable = false;
+                        tmpTa.HqStatus = HqStatus.访问源路径失败;
                         tmpTa.IsRunning = false;
+
+                        UserState us = new UserState(true, string.Format("TA {0}尝试访问源路径出错: {1}", tmpTa.Id, ex.Message));
                         bgWorker.ReportProgress(1, us);
                         continue;
                     }
@@ -194,8 +205,9 @@ namespace TaFileCheck
                         catch (Exception ex)
                         {
                             tmpTa.HqStatus = HqStatus.文件移动到根目录错误;
-                            UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
                             tmpTa.IsRunning = false;
+
+                            UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
                             bgWorker.ReportProgress(1, us);
                             continue;
                         }
@@ -208,17 +220,15 @@ namespace TaFileCheck
                     {
                         switch (tmpTa.HqCheckType)
                         {
-                            case HqCheckType.通过通用索引文件:
-                            case HqCheckType.通过指定索引文件:
+                            case HqCheckType.通过索引文件:
                                 {
                                     // 判断索引文件是否存在，然后解析文件列表
                                     string idxFilePath = Path.Combine(tmpTa.SourcePath, tmpTa.IdxFile);
                                     if (!File.Exists(idxFilePath))
                                     {
                                         tmpTa.HqStatus = HqStatus.行情索引文件不存在;
-                                        UserState us = new UserState(true, string.Format("TA {0}行情索引文件不存在: {1}", tmpTa.Id, tmpTa.IdxFile));
                                         tmpTa.IsRunning = false;
-                                        bgWorker.ReportProgress(1, us);
+                                        bgWorker.ReportProgress(1);
                                         continue;
                                     }
                                     else
@@ -255,7 +265,7 @@ namespace TaFileCheck
                     bgWorker.ReportProgress(1);
 
                     tmpTa.UpdateFileExistsStatus();
-                    
+
                     if (!tmpTa.IsAllFileArrived)
                     {
                         tmpTa.IsRunning = false;
@@ -282,13 +292,11 @@ namespace TaFileCheck
                             tmpTa.FileMove();
 
                             tmpTa.HqStatus = HqStatus.文件拷贝完成;
-                            tmpTa.IsCopyOK = true;
                             bgWorker.ReportProgress(1);
                         }
                         catch (Exception ex)
                         {
                             tmpTa.HqStatus = HqStatus.文件拷贝失败;
-                            tmpTa.IsCopyOK = false;
                             UserState us = new UserState(true, string.Format("TA {0}文件拷贝出错: {1}", tmpTa.Id, ex.Message));
                             bgWorker.ReportProgress(1, us);
                         }
@@ -362,6 +370,7 @@ namespace TaFileCheck
             }
             else
             {
+                UpdateHqList();
                 //UpdateFileSourceInfo();
                 //UpdateFileListInfo();
 
@@ -404,6 +413,17 @@ namespace TaFileCheck
             int i = lvHqList.SelectedItems.Count;
             if (i <= 0)
                 e.Cancel = true;
+        }
+
+
+        private void ctxHqModify_Click(object sender, EventArgs e)
+        {
+            ListViewItem lvi = lvHqList.SelectedItems[0];
+            if (lvi != null)
+            {
+                FrmHqCfg frmHqCfg = new FrmHqCfg((TaHq)lvi.Tag);
+                frmHqCfg.ShowDialog();
+            }
         }
 
         #endregion 行情检查逻辑
@@ -744,9 +764,10 @@ namespace TaFileCheck
 
 
 
+
+
+
         #endregion 清算处理逻辑
-
-
 
 
     }

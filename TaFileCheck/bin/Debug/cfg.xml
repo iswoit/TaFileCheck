@@ -9,884 +9,447 @@
 		<ta>
 			<id>01</id><!--ID-->
 			<desc>南方基金</desc><!--备注-->
-			
+			<rootmove>false</rootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqsource>D:\qsfile\TA_IN\01\</hqsource>
-			<hqrootmove>false</hqrootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
 			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
+				<path>D:\zzz\</path>
 			</hqdestpath>
 			
 			
-			<qssource>D:\qsfile\TA_IN\01\</qssource>
-			<qsrootmove>false</qsrootmove>
-			<qschecktype>0</qschecktype>
-			<qsfiles></qsfiles>
-			<qsdestpath>
-				<path></path>
-			</qsdestpath>
-			<cil>
-				<file></file>
-				<file></file>
-			</cil>
 		</ta>
 		<ta>
 			<id>02</id>
 			<desc>国泰基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\02\</hqsource>
-			<hqrootmove>false</hqrootmove>
 			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
 		</ta>
 		<ta>
 			<id>03</id>
 			<desc>华夏基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\03\</hqsource>
-			<hqrootmove>false</hqrootmove>
 			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
 		</ta>
 		<ta>
 			<id>04</id>
 			<desc>华安基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\04\</hqsource>
-			<hqrootmove>false</hqrootmove>
 			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
 		</ta>
 		<ta>
 			<id>05</id>
 			<desc>博时基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\05\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>06</id>
 			<desc>鹏华基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\06\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>07</id>
 			<desc>嘉实基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\07\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>08</id>
 			<desc>长盛基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\08\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>09</id>
 			<desc>大成基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\09\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>10</id>
 			<desc>富国基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\10\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>11</id>
 			<desc>易方达</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\11\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>12</id>
 			<desc>国投瑞银</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\12\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>13</id>
 			<desc>宝盈基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\13\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>15</id>
 			<desc>银河基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\15\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>16</id>
 			<desc>融通基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\16\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>17</id>
 			<desc>招商基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\17\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>18</id>
 			<desc>银华基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\18\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>19</id>
 			<desc>万家基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\19\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>1L</id>
 			<desc>圆信永丰</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\1L\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>1P</id>
 			<desc>兴银基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\1P\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>21</id>
 			<desc>金鹰基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\21\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>22</id>
 			<desc>泰达宏利</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\22\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>24</id>
 			<desc>华宝兴业</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\24\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>25</id>
 			<desc>国联安</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\25\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>26</id>
 			<desc>景顺长城</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\26\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>27</id>
 			<desc>广发基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\27\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>29</id>
 			<desc>泰信基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\29\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>32</id>
 			<desc>诺安基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\32\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>33</id>
 			<desc>摩根士丹</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\33\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>34</id>
 			<desc>兴业全球</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\34\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>35</id>
 			<desc>天治基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\35\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>36</id>
 			<desc>光大保德</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\36\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>37</id>
 			<desc>上投摩根</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\37\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>39</id>
 			<desc>中海基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\39\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>3R</id>
 			<desc>嘉合基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\3R\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>40</id>
 			<desc>东方基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\40\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>41</id>
 			<desc>华富基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\41\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>42</id>
 			<desc>天弘基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\42\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>45</id>
 			<desc>国海富兰</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\45\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>46</id>
 			<desc>华泰柏瑞</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\46\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>47</id>
 			<desc>汇添富</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\47\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>48</id>
 			<desc>工银瑞信</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\48\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>4E</id>
 			<desc>兴瀚资管</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\4E\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>4J</id>
 			<desc>中欧盛世</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\4J\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>53</id>
 			<desc>建信基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\53\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>55</id>
 			<desc>信诚基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\55\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>57</id>
 			<desc>诺德基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\57\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>58</id>
 			<desc>东吴基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\58\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>59</id>
 			<desc>中邮基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\59\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>61</id>
 			<desc>信达澳银</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\61\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>62</id>
 			<desc>金元比联</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\62\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>63</id>
 			<desc>华商基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\63\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>69</id>
 			<desc>民生加银</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\69\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>72</id>
 			<desc>财通基金</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\72\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>76</id>
 			<desc>国金通用</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\76\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>88</id>
 			<desc>招商证券</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\88\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>98</id><!--ID-->
 			<desc>中登深市</desc><!--备注-->
+			<rootmove>false</rootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqsource>I:\VSAT\CJHZ\KFJJ\</hqsource>
-			<hqrootmove>false</hqrootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
 		</ta>
 		<ta>
 			<id>99</id><!--ID-->
 			<desc>中登沪市</desc><!--备注-->
+			<rootmove>false</rootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqsource>I:\VSAT\CJHZ\KFJJ\</hqsource>
-			<hqrootmove>false</hqrootmove><!--是否需要把子目录下的文件全都移动到根目录-->
 			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
 		</ta>
 		<ta>
 			<id>NB</id>
 			<desc>国金道富</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\NB\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>Q8</id>
 			<desc>兴证期货</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\Q8\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>QN</id>
 			<desc>兴业期货</desc>
+			<rootmove>false</rootmove>
 			<hqsource>D:\qsfile\TA_IN\QN\</hqsource>
-			<hqrootmove>false</hqrootmove>
-			<hqchecktype>0</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
-			<hqfiles>
-				<file></file>
-			</hqfiles>
-			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path></path>
-			</hqdestpath>
+			<hqchecktype>0</hqchecktype>
 		</ta>
 		<ta>
 			<id>D01</id><!--ID-->
 			<desc>兴业银行</desc><!--备注-->
+			<rootmove>false</rootmove>
 			<hqsource>\\10.32.96.23\dd\XY_JRCP\</hqsource>
-			<hqrootmove>false</hqrootmove><!--是否需要把子目录下的文件全都移动到根目录-->
-			<hqchecktype>2</hqchecktype><!--0：用ofj索引判断  1:用配置项hqfiles判断-->
-			<hqidx></hqidx>
+			<hqchecktype>1</hqchecktype><!--0：用ofj索引判断  2:用配置项hqfiles判断-->
 			<hqfiles><!--替换全局变量-->
 				<file>YYPT_00001_02052_YYYYMMDD_INX_01.TXT</file>
 				<file>YYPT_00001_02052_YYYYMMDD_07.TXT</file>
 			</hqfiles>
 			<hqdestpath><!--表示行情文件检查完后需要移动的目的路径，多个目的用半角分号分割（应该仅中登和多金需要移动）-->
-				<path>D:\qsfile\jrcp\</path>
+				<path></path>
 			</hqdestpath>
 		</ta>
 	</talist>
