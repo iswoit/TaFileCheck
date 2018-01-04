@@ -404,15 +404,21 @@
       <id>98</id>
       <desc>中登深市</desc>
       <rootmove>false</rootmove>
-      <hqsource>I:\VSAT\CJHZ\KFJJ\</hqsource>
+      <hqsource>D:\qsfile\TA_IN\98\</hqsource>
       <hqchecktype>0</hqchecktype>
+      <hqfiles />
+      <hqdestpath>
+        <path>D:\zzz\</path>
+      </hqdestpath>
     </ta>
     <ta>
       <id>99</id>
       <desc>中登沪市</desc>
       <rootmove>false</rootmove>
-      <hqsource>I:\VSAT\CJHZ\KFJJ\</hqsource>
+      <hqsource>D:\qsfile\TA_IN\99\</hqsource>
       <hqchecktype>0</hqchecktype>
+      <hqfiles />
+      <hqdestpath />
     </ta>
     <ta>
       <id>NB</id>

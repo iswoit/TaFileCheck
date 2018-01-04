@@ -6,3 +6,4 @@ D:\Codes\C#\TaFileCheck\TaFileCheck\obj\Release\TaFileCheck.Properties.Resources
 D:\Codes\C#\TaFileCheck\TaFileCheck\obj\Release\TaFileCheck.csproj.GenerateResource.Cache
 D:\Codes\C#\TaFileCheck\TaFileCheck\obj\Release\TaFileCheck.exe
 D:\Codes\C#\TaFileCheck\TaFileCheck\obj\Release\TaFileCheck.pdb
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\Release\TaFileCheck.csprojResolveAssemblyReference.cache

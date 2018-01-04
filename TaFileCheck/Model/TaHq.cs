@@ -128,13 +128,13 @@ namespace TaFileCheck
 
 
         /// <summary>
-        /// 解析索引文件
+        /// 解析索引文件，放入list列表
         /// </summary>
         public void ParseIdxFile()
         {
             _hqFiles.Clear();
             string idxFilePath = Path.Combine(_sourcePath, _idxFile);
-            _hqFiles.Add(idxFilePath, true);
+            _hqFiles.Add(_idxFile, true);
 
             using (FileStream fs = new FileStream(idxFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
@@ -159,12 +159,13 @@ namespace TaFileCheck
                             fileCount = int.Parse(strContent);
                         }
 
-
                         idx++;
                     }
 
-                }
-            }
+                    sr.Close();
+                }//eof sr
+                fs.Close();
+            }//eof fs
 
         }
 
@@ -193,26 +194,28 @@ namespace TaFileCheck
         /// </summary>
         public void FileMove()
         {
-            List<string> tmpList = new List<string>();
-            tmpList.AddRange(_destPaths.Keys);
-            foreach (string tmp in tmpList)
+            List<string> tmpDestPathList = new List<string>();
+            tmpDestPathList.AddRange(_destPaths.Keys);
+            foreach (string tmpDestPath in tmpDestPathList)
             {
                 try
                 {
-                    if (Directory.Exists(tmp))
+                    if (Directory.Exists(tmpDestPath))
                     {
                         foreach (KeyValuePair<string, bool> kvFile in _hqFiles)
                         {
-                            File.Copy(Path.Combine(_sourcePath, kvFile.Key),
-                                Path.Combine(tmp, kvFile.Key),
-                                true);
+                            string strSourceFilePath = Path.Combine(_sourcePath, kvFile.Key);
+                            string strDestFilePath = Path.Combine(tmpDestPath, kvFile.Key);
+
+                            File.Copy(strSourceFilePath, strDestFilePath, true);
+                            //Util.CopyFileWithStream(strSourceFilePath, strDestFilePath);
                         }
 
-                        _destPaths[tmp] = true;
+                        _destPaths[tmpDestPath] = true;
                     }
                     else
                     {
-                        throw new Exception(string.Format("路径{0}不存在", tmp));
+                        throw new Exception(string.Format("路径{0}不存在", tmpDestPath));
                     }
                 }
                 catch (Exception ex)
@@ -221,29 +224,7 @@ namespace TaFileCheck
                 }
             }
 
-            foreach (KeyValuePair<string, bool> kvDestPath in _destPaths)  // 遍历目的地
-            {
-                try
-                {
-                    if (Directory.Exists(kvDestPath.Key))
-                    {
-                        foreach (KeyValuePair<string, bool> kvFile in _hqFiles)
-                        {
-                            File.Copy(Path.Combine(_sourcePath, kvFile.Key),
-                                Path.Combine(kvDestPath.Key, kvFile.Key),
-                                true);
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception(string.Format("路径{0}不存在", kvDestPath.Key));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
-            }
+
         }
 
 
@@ -403,50 +384,26 @@ namespace TaFileCheck
                 if (_hqCheckType == HqCheckType.通过索引文件 && _isIdxFileParse == false)
                     return string.Empty;
 
-                // 缺失文件
+                // 文件到齐状态
                 StringBuilder sbMissingFiles = new StringBuilder();
-                if (_isIdxFileParse == false && _hqFiles.Count == 0)
-                    sbMissingFiles.Append("索引文件未解析");
-                else
+                sbMissingFiles.AppendLine("文件到齐状态:");
+                foreach (KeyValuePair<string, bool> kv in _hqFiles)
                 {
-                    if (_hqFiles.Count > 0)
-                    {
-                        foreach (KeyValuePair<string, bool> kv in _hqFiles)
-                        {
-                            if (kv.Value == false)
-                                sbMissingFiles.AppendLine(kv.Key);
-                        }
-                        if (sbMissingFiles.Length > 0)
-                            sbMissingFiles.Insert(0, "缺以下文件:\n");
-                        else
-                            sbMissingFiles.Append("文件已收齐\n");
-                    }
+                    sbMissingFiles.AppendFormat("{1} {0}", kv.Key,kv.Value==true? "√" : "×").AppendLine();
+                    
                 }
+                
 
-
-                // 未拷贝路径
+                // 文件拷贝状态
                 StringBuilder sbNotCopiedDests = new StringBuilder();
                 if (_destPaths.Count > 0)
                 {
+                    sbNotCopiedDests.AppendLine().AppendLine("文件是否已拷贝:");
                     foreach (KeyValuePair<string, bool> kv in _destPaths)
                     {
-                        if (kv.Value == false)
-                            sbNotCopiedDests.AppendLine(kv.Key);
+                        sbNotCopiedDests.AppendFormat("{1} {0}", kv.Key, kv.Value == true ? "√" : "×").AppendLine();
                     }
-                    if (sbNotCopiedDests.Length > 0)
-                        sbNotCopiedDests.Insert(0, "文件未拷贝至以下路径:\n");
-                    else
-                        sbNotCopiedDests.Append("文件已拷贝完成");
                 }
-
-
-
-
-                // 输出处理
-                if (sbMissingFiles.Length == 0 && sbNotCopiedDests.Length == 0)
-                    return string.Empty;
-                else
-                    sbNotCopiedDests.Insert(0, "\n");
 
 
                 return sbMissingFiles.ToString() + sbNotCopiedDests.ToString();

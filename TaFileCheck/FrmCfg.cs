@@ -182,6 +182,9 @@ namespace TaFileCheck
         private void btnFileAdd_Click(object sender, EventArgs e)
         {
             string strFile = tbFileAdd.Text.Trim();
+            if (string.IsNullOrEmpty(strFile))
+                return;
+
             foreach (object x in boxFileList.Items)
             {
                 if (string.Compare(x.ToString(), strFile, true) == 0)
@@ -201,7 +204,9 @@ namespace TaFileCheck
         {
             if (boxFileList.SelectedItem != null)
             {
-                boxFileList.Items.Remove(boxFileList.SelectedItem);
+                DialogResult dr = MessageBox.Show("确定移除?", "确认", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.OK)
+                    boxFileList.Items.Remove(boxFileList.SelectedItem);
             }
         }
 
@@ -209,13 +214,18 @@ namespace TaFileCheck
         {
             if (boxDestPath.SelectedItem != null)
             {
-                boxDestPath.Items.Remove(boxDestPath.SelectedItem);
+                DialogResult dr = MessageBox.Show("确定移除?", "确认", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.OK)
+                    boxDestPath.Items.Remove(boxDestPath.SelectedItem);
             }
         }
 
         private void btnDestPathAdd_Click(object sender, EventArgs e)
         {
             string strPath = tbDestPathAdd.Text.Trim();
+            if (string.IsNullOrEmpty(strPath))
+                return;
+
             foreach (object x in boxDestPath.Items)
             {
                 if (string.Compare(x.ToString(), strPath, true) == 0)
@@ -314,7 +324,7 @@ namespace TaFileCheck
                     Close();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

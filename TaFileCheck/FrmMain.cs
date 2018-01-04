@@ -160,7 +160,7 @@ namespace TaFileCheck
                         bgWorker.ReportProgress(1);
 
                         CheckFilePathTimeout timeout = new CheckFilePathTimeout(new DoHandler(_taManager.IsPathAvailabel)); // 委托
-                        bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 10), tmpTa.SourcePath);       // 超过10秒失败
+                        bool isTimeout = timeout.DoWithTimeout(new TimeSpan(0, 0, 0, 15), tmpTa.SourcePath);       // 超过15秒失败
                         bool isAvailable = timeout.bReturn;     // 是否可访问
                         if (isTimeout == true || isAvailable == false)
                         {
