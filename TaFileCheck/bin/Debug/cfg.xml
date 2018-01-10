@@ -407,9 +407,7 @@
       <hqsource>D:\qsfile\TA_IN\98\</hqsource>
       <hqchecktype>0</hqchecktype>
       <hqfiles />
-      <hqdestpath>
-        <path>D:\zzz\</path>
-      </hqdestpath>
+      <hqdestpath />
     </ta>
     <ta>
       <id>99</id>

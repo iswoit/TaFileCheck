@@ -45,8 +45,12 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnDestPathDel = new System.Windows.Forms.Button();
+            this.btnDestPathAdd = new System.Windows.Forms.Button();
+            this.tbDestPathAdd = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.tbFileAdd = new System.Windows.Forms.TextBox();
             this.btnFileDel = new System.Windows.Forms.Button();
             this.btnFileAdd = new System.Windows.Forms.Button();
@@ -55,10 +59,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.boxFileList = new System.Windows.Forms.ListBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tbDestPathAdd = new System.Windows.Forms.TextBox();
-            this.btnDestPathDel = new System.Windows.Forms.Button();
-            this.btnDestPathAdd = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -104,18 +104,18 @@
             // 
             this.groupBox1.Controls.Add(this.rbRootMoveNo);
             this.groupBox1.Controls.Add(this.rbRootMoveYes);
-            this.groupBox1.Location = new System.Drawing.Point(427, 40);
+            this.groupBox1.Location = new System.Drawing.Point(414, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(160, 42);
+            this.groupBox1.Size = new System.Drawing.Size(230, 42);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "子目录文件移动到根目录:";
+            this.groupBox1.Text = "子目录文件移动到根目录(仅txt文件):";
             // 
             // rbRootMoveNo
             // 
             this.rbRootMoveNo.AutoSize = true;
             this.rbRootMoveNo.Checked = true;
-            this.rbRootMoveNo.Location = new System.Drawing.Point(91, 17);
+            this.rbRootMoveNo.Location = new System.Drawing.Point(134, 17);
             this.rbRootMoveNo.Name = "rbRootMoveNo";
             this.rbRootMoveNo.Size = new System.Drawing.Size(35, 16);
             this.rbRootMoveNo.TabIndex = 1;
@@ -126,7 +126,7 @@
             // rbRootMoveYes
             // 
             this.rbRootMoveYes.AutoSize = true;
-            this.rbRootMoveYes.Location = new System.Drawing.Point(33, 17);
+            this.rbRootMoveYes.Location = new System.Drawing.Point(46, 17);
             this.rbRootMoveYes.Name = "rbRootMoveYes";
             this.rbRootMoveYes.Size = new System.Drawing.Size(35, 16);
             this.rbRootMoveYes.TabIndex = 0;
@@ -235,6 +235,33 @@
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "检查后复制文件:";
             // 
+            // btnDestPathDel
+            // 
+            this.btnDestPathDel.Location = new System.Drawing.Point(289, 106);
+            this.btnDestPathDel.Name = "btnDestPathDel";
+            this.btnDestPathDel.Size = new System.Drawing.Size(35, 23);
+            this.btnDestPathDel.TabIndex = 32;
+            this.btnDestPathDel.Text = "-";
+            this.btnDestPathDel.UseVisualStyleBackColor = true;
+            this.btnDestPathDel.Click += new System.EventHandler(this.btnDestPathDel_Click);
+            // 
+            // btnDestPathAdd
+            // 
+            this.btnDestPathAdd.Location = new System.Drawing.Point(289, 137);
+            this.btnDestPathAdd.Name = "btnDestPathAdd";
+            this.btnDestPathAdd.Size = new System.Drawing.Size(35, 23);
+            this.btnDestPathAdd.TabIndex = 31;
+            this.btnDestPathAdd.Text = "+";
+            this.btnDestPathAdd.UseVisualStyleBackColor = true;
+            this.btnDestPathAdd.Click += new System.EventHandler(this.btnDestPathAdd_Click);
+            // 
+            // tbDestPathAdd
+            // 
+            this.tbDestPathAdd.Location = new System.Drawing.Point(23, 137);
+            this.tbDestPathAdd.Name = "tbDestPathAdd";
+            this.tbDestPathAdd.Size = new System.Drawing.Size(260, 21);
+            this.tbDestPathAdd.TabIndex = 30;
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.groupBox2);
@@ -262,6 +289,15 @@
             this.groupBox2.TabIndex = 28;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "检查模式:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(132, 163);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(227, 12);
+            this.label7.TabIndex = 31;
+            this.label7.Text = "*支持yyyymmdd、yymmdd、mmdd日期通配符";
             // 
             // tbFileAdd
             // 
@@ -342,43 +378,7 @@
             this.panel4.Size = new System.Drawing.Size(841, 57);
             this.panel4.TabIndex = 32;
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(132, 163);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(227, 12);
-            this.label7.TabIndex = 31;
-            this.label7.Text = "*支持yyyymmdd、yymmdd、mmdd日期通配符";
-            // 
-            // tbDestPathAdd
-            // 
-            this.tbDestPathAdd.Location = new System.Drawing.Point(23, 137);
-            this.tbDestPathAdd.Name = "tbDestPathAdd";
-            this.tbDestPathAdd.Size = new System.Drawing.Size(260, 21);
-            this.tbDestPathAdd.TabIndex = 30;
-            // 
-            // btnDestPathDel
-            // 
-            this.btnDestPathDel.Location = new System.Drawing.Point(289, 106);
-            this.btnDestPathDel.Name = "btnDestPathDel";
-            this.btnDestPathDel.Size = new System.Drawing.Size(35, 23);
-            this.btnDestPathDel.TabIndex = 32;
-            this.btnDestPathDel.Text = "-";
-            this.btnDestPathDel.UseVisualStyleBackColor = true;
-            this.btnDestPathDel.Click += new System.EventHandler(this.btnDestPathDel_Click);
-            // 
-            // btnDestPathAdd
-            // 
-            this.btnDestPathAdd.Location = new System.Drawing.Point(289, 137);
-            this.btnDestPathAdd.Name = "btnDestPathAdd";
-            this.btnDestPathAdd.Size = new System.Drawing.Size(35, 23);
-            this.btnDestPathAdd.TabIndex = 31;
-            this.btnDestPathAdd.Text = "+";
-            this.btnDestPathAdd.UseVisualStyleBackColor = true;
-            this.btnDestPathAdd.Click += new System.EventHandler(this.btnDestPathAdd_Click);
-            // 
-            // FrmHqCfg
+            // FrmCfg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -387,7 +387,7 @@
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
-            this.Name = "FrmHqCfg";
+            this.Name = "FrmCfg";
             this.Text = "TA行情配置";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

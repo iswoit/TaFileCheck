@@ -83,6 +83,7 @@ namespace TaFileCheck
 
         /// <summary>
         /// 把子文件移至根目录
+        /// 20180110:只移动txt文件
         /// </summary>
         public void MoveFilesToRoot()
         {
@@ -104,8 +105,8 @@ namespace TaFileCheck
                     FileInfo[] tmpSubFiles = tmpDir.GetFiles();
                     foreach (FileInfo tmpSubFile in tmpSubFiles)
                     {
-                        // 只处理txt和dbf结尾的文件
-                        if (tmpSubFile.Extension.ToLower() == ".txt" || tmpSubFile.Extension.ToLower() == ".dbf")
+                        // 只处理txt文件
+                        if (tmpSubFile.Extension.ToLower() == ".txt")
                         {
                             // 已经存在就删除，覆盖拷贝
                             if (File.Exists(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name)))
@@ -389,10 +390,10 @@ namespace TaFileCheck
                 sbMissingFiles.AppendLine("文件到齐状态:");
                 foreach (KeyValuePair<string, bool> kv in _hqFiles)
                 {
-                    sbMissingFiles.AppendFormat("{1} {0}", kv.Key,kv.Value==true? "√" : "×").AppendLine();
-                    
+                    sbMissingFiles.AppendFormat("{1} {0}", kv.Key, kv.Value == true ? "√" : "×").AppendLine();
+
                 }
-                
+
 
                 // 文件拷贝状态
                 StringBuilder sbNotCopiedDests = new StringBuilder();
