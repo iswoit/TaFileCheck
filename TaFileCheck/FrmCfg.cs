@@ -38,7 +38,8 @@ namespace TaFileCheck
         {
             string id = string.Empty;                                   // ta代码
             string desc = string.Empty;                                 // 备注（仅仅显示）
-            string rootMove = string.Empty;
+            string rootMove = string.Empty;                             // 文件移动到根目录
+            List<string> rootMovePath = new List<string>();             // 针对rootMove=2的，存路径
 
             string hqSource = string.Empty;
             string hqchecktype = string.Empty;
@@ -71,6 +72,18 @@ namespace TaFileCheck
                             case "rootmove":
                                 rootMove = xnTaAttr.InnerText.Trim();
                                 break;
+                            case "rootmovepath":
+                                if (xnTaAttr.ChildNodes.Count > 0)
+                                {
+                                    rootMovePath.Clear();
+                                    foreach (XmlNode xnTaChildAttrValue in xnTaAttr.ChildNodes)
+                                    {
+                                        if (!string.IsNullOrEmpty(xnTaChildAttrValue.InnerText))
+                                            rootMovePath.Add(xnTaChildAttrValue.InnerText);
+                                    }
+                                }
+                                break;
+
                             case "hqchecktype":
                                 hqchecktype = xnTaAttr.InnerText.Trim();
                                 break;
@@ -118,12 +131,20 @@ namespace TaFileCheck
             tbDesc.Text = desc;
             tbSourcePath.Text = hqSource;
 
-            bool bRootMove = false;
-            bool.TryParse(rootMove, out bRootMove);
-            if (bRootMove)
-                rbRootMoveYes.Checked = true;
-            else
+            int iRootMove;
+            int.TryParse(rootMove, out iRootMove);
+            if (iRootMove == 0)
                 rbRootMoveNo.Checked = true;
+            else if (iRootMove == 1)
+                rbRootMoveYes.Checked = true;
+            else if (iRootMove == 2)
+                rbRootMoveSpecified.Checked = true;
+
+            // 针对rootMove类型是2:自定义的
+            foreach (string str in rootMovePath)
+            {
+                boxRootMovePath.Items.Add(str);
+            }
 
 
             HqCheckType _hqCheckType;
@@ -176,6 +197,24 @@ namespace TaFileCheck
                 tbFileAdd.Enabled = true;
                 btnFileAdd.Enabled = true;
                 btnFileDel.Enabled = true;
+            }
+        }
+
+        private void rbRootMove_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbRootMoveNo.Checked|| rbRootMoveYes.Checked)
+            {
+                boxRootMovePath.Enabled = false;
+                tbRootMovePathAdd.Enabled = false;
+                btnRootMovePathAdd.Enabled = false;
+                btnRootMovePathDel.Enabled = false;
+            }
+            else if (rbRootMoveSpecified.Checked)
+            {
+                boxRootMovePath.Enabled = true;
+                tbRootMovePathAdd.Enabled = true;
+                btnRootMovePathAdd.Enabled = true;
+                btnRootMovePathDel.Enabled = true;
             }
         }
 
@@ -239,6 +278,58 @@ namespace TaFileCheck
             tbDestPathAdd.Text = string.Empty;
         }
 
+
+
+        private void btnRootMovePathAdd_Click(object sender, EventArgs e)
+        {
+            string strPath = tbRootMovePathAdd.Text.Trim();
+            if (string.IsNullOrEmpty(strPath))
+                return;
+
+            // 必须是【路径】字段的子目录
+            if (string.IsNullOrEmpty(tbSourcePath.Text.Trim()))
+            {
+                MessageBox.Show("请先设置\"路径\"后再添加本项目!");
+                return;
+            }
+            else
+            {
+                if (!strPath.Contains(tbSourcePath.Text.Trim()))
+                {
+                    MessageBox.Show("设置的路径必须是\"路径\"的子目录!");
+                    return;
+                }
+            }
+
+            // 重复判断
+            foreach (object x in boxRootMovePath.Items)
+            {
+                if (string.Compare(x.ToString(), strPath, true) == 0)
+                {
+                    MessageBox.Show("已经存在同名路径，无法重复添加!");
+                    return;
+                }
+            }
+
+            boxRootMovePath.Items.Add(strPath);
+            tbRootMovePathAdd.Text = string.Empty;
+        }
+
+        private void btnRootMovePathDel_Click(object sender, EventArgs e)
+        {
+            if (boxRootMovePath.SelectedItem != null)
+            {
+                DialogResult dr = MessageBox.Show("确定移除根目录移动路劲?", "确认", MessageBoxButtons.OKCancel);
+                if (dr == DialogResult.OK)
+                    boxRootMovePath.Items.Remove(boxRootMovePath.SelectedItem);
+            }
+        }
+
+        /// <summary>
+        /// 确定按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnOK_Click(object sender, EventArgs e)
         {
             try
@@ -272,17 +363,38 @@ namespace TaFileCheck
                             xeNew.InnerText = tbDesc.Text.Trim();
                             xnTa.AppendChild(xeNew);
 
-                            // rootmove
+                            // rootmove(0:不移动 1:全部移动 2:指定)
                             xeNew = doc.CreateElement("rootmove");
-                            xeNew.InnerText = rbRootMoveYes.Checked ? "true" : "false";
+                            int tmpRootMoveValue = 0;
+                            if (rbRootMoveNo.Checked)
+                                tmpRootMoveValue = 0;
+                            else if (rbRootMoveYes.Checked)
+                                tmpRootMoveValue = 1;
+                            else if (rbRootMoveSpecified.Checked)
+                                tmpRootMoveValue = 2;
+                            xeNew.InnerText = tmpRootMoveValue.ToString();
                             xnTa.AppendChild(xeNew);
+
+                            // rootmovepath
+                            xeNew = doc.CreateElement("rootmovepath");
+                            if (tmpRootMoveValue == 2)
+                            {
+                                foreach (object x in boxRootMovePath.Items)
+                                {
+                                    XmlElement xeNewChild = doc.CreateElement("file");
+                                    xeNewChild.InnerText = x.ToString();        // 子路径
+                                    xeNew.AppendChild(xeNewChild);
+                                }
+                            }
+                            xnTa.AppendChild(xeNew);
+
 
                             // hqsource
                             xeNew = doc.CreateElement("hqsource");
                             xeNew.InnerText = tbSourcePath.Text.Trim();
                             xnTa.AppendChild(xeNew);
 
-                            // checktype
+                            // hqchecktype
                             string strhqchecktype = string.Empty;
                             if (rbCheckType0.Checked)
                                 strhqchecktype = "0";
@@ -329,5 +441,7 @@ namespace TaFileCheck
                 MessageBox.Show(ex.Message);
             }
         }
+
+        
     }
 }

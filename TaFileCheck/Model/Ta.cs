@@ -34,7 +34,7 @@ namespace TaFileCheck
     {
         protected string _id;                 // ta代码
         protected string _desc;               // ta说明
-        protected bool _needRootMove;         // 是否需要移动到根目录
+        
 
 
 
@@ -65,13 +65,7 @@ namespace TaFileCheck
         }
 
 
-        /// <summary>
-        /// 行情是否需要文件移动到根目录
-        /// </summary>
-        public bool NeedRootMove
-        {
-            get { return _needRootMove; }
-        }
+
 
 
 

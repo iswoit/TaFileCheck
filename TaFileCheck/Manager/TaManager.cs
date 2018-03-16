@@ -85,6 +85,7 @@ namespace TaFileCheck
                             string id = string.Empty;                                   // ta代码
                             string desc = string.Empty;                                 // 备注（仅仅显示）
                             string rootMove = string.Empty;
+                            List<string> rootMovePath = new List<string>(); 
 
                             string hqSource = string.Empty;
                             string hqchecktype = string.Empty;
@@ -108,6 +109,19 @@ namespace TaFileCheck
                                         break;
                                     case "rootmove":
                                         rootMove = xnTaChildAttr.InnerText.Trim();
+                                        break;
+                                    case "rootmovepath":
+                                        if (xnTaChildAttr.ChildNodes.Count > 0)
+                                        {
+                                            rootMovePath.Clear();
+                                            foreach (XmlNode xnTaChildAttrValue in xnTaChildAttr.ChildNodes)
+                                            {
+                                                string tmpValue = Util.Filename_Date_Convert(xnTaChildAttrValue.InnerText.Trim());
+                                                tmpValue = Ta.ReplaceTaFileNameWithPattern(tmpValue, id);
+                                                if (!string.IsNullOrEmpty(tmpValue))
+                                                    rootMovePath.Add(tmpValue);
+                                            }
+                                        }
                                         break;
                                     case "hqchecktype":
                                         hqchecktype = xnTaChildAttr.InnerText.Trim();

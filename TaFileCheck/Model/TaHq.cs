@@ -8,6 +8,8 @@ namespace TaFileCheck
     public class TaHq : Ta
     {
         // 行情基本变量
+        private int _rootMove;                          // 文件移动到根目录类型(0:不移动 1:全移动 2:指定子目录)
+        private List<string> _rootMovePath;
         private string _sourcePath;                          // 行情路径
         private HqCheckType _hqCheckType;              // 行情文件检查模式
         private string _idxFile;                       // 行情索引文件(模式0和模式1用得到)
@@ -233,6 +235,15 @@ namespace TaFileCheck
 
 
         #region********************************属性
+
+
+        /// <summary>
+        /// 行情是否需要文件移动到根目录
+        /// </summary>
+        public bool NeedRootMove
+        {
+            get { return _needRootMove; }
+        }
 
         /// <summary>
         /// 行情源路径
