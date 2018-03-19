@@ -8,8 +8,8 @@ namespace TaFileCheck
     public class TaHq : Ta
     {
         // 行情基本变量
-        private int _rootMove;                          // 文件移动到根目录类型(0:不移动 1:全移动 2:指定子目录)
-        private List<string> _rootMovePath;
+        private int _hqRootMove;                          // 文件移动到根目录类型(0:不移动 1:全移动 2:指定子目录)
+        private List<string> _hqRootMovePath;
         private string _sourcePath;                          // 行情路径
         private HqCheckType _hqCheckType;              // 行情文件检查模式
         private string _idxFile;                       // 行情索引文件(模式0和模式1用得到)
@@ -41,16 +41,19 @@ namespace TaFileCheck
         /// <param name="idxFile"></param>
         /// <param name="hqFiles"></param>
         /// <param name="hqDestPath"></param>
-        public TaHq(string id, string desc, string hqSource, string needRootMove, string hqCheckType, string idxFile, int idxFileCnt, List<string> hqFiles, List<string> hqDestPath)
+        public TaHq(string id, string desc, string hqSource, string hqRootMove, List<string> hqRootMovePath, string hqCheckType, string idxFile, int idxFileCnt, List<string> hqFiles, List<string> hqDestPath)
         {
             //********1.TA行情配置变量初始化
             _id = id;           // 代码
             _desc = desc;       // 描述
             _sourcePath = hqSource;     // 行情路径
 
-            // 行情移动到根目录
-            if (!bool.TryParse(needRootMove, out _needRootMove))
-                _needRootMove = false;
+            // 行情移动到根目录模式
+            if (!int.TryParse(hqRootMove, out _hqRootMove))
+                _hqRootMove = 0;        // 默认是0，不移动
+
+            // 行情移动到根目录，模式2额外
+            _hqRootMovePath = hqRootMovePath;
 
             // 行情文件检查模式
             int tmpHqCheckType = 0;
@@ -82,19 +85,83 @@ namespace TaFileCheck
         }
 
 
+        /// <summary>
+        /// 按照配置，移动文件到根目录
+        /// </summary>
+        public void MoveFilesToRoot()
+        {
+            switch (_hqRootMove)
+            {
+                case 0:     // 0:不移动
+                    break;
+                case 1:     // 1:全移动
+                    MoveAllFilesToRoot();
+                    break;
+                case 2:     //
+                    MoveSubFilesToRoot();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        /// <summary>
+        /// 移动指定子文件夹到根目录
+        /// </summary>
+        private void MoveSubFilesToRoot()
+        {
+            DirectoryInfo rootFolderDI = new DirectoryInfo(_sourcePath);      // 根目录
+
+            foreach (string subPath in _hqRootMovePath)     // 循环每个子文件夹
+            {
+                DirectoryInfo subFolderDI = new DirectoryInfo(subPath);       // 子文件夹
+
+                Queue<DirectoryInfo> queue = new Queue<DirectoryInfo>();    // 广度优先队列
+                queue.Enqueue(subFolderDI);                                 // 根节点入队
+                while (queue.Count != 0)
+                {
+                    DirectoryInfo tmpDI = queue.Dequeue();              // 临时目录
+
+                    // 对于文件，移到根目录（但是排除根目录的文件）
+                    if (!string.Equals(rootFolderDI.FullName, tmpDI.FullName, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        FileInfo[] tmpSubFiles = tmpDI.GetFiles();
+                        foreach (FileInfo tmpSubFile in tmpSubFiles)
+                        {
+                            // 只处理txt文件
+                            if (tmpSubFile.Extension.ToLower() == ".txt")
+                            {
+                                // 已经存在就删除，覆盖拷贝
+                                if (File.Exists(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name)))
+                                    File.Delete(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name));
+
+                                tmpSubFile.MoveTo(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name));
+                            }
+                        }
+                    }
+
+                    // 对于文件夹，加入队列进行循环
+                    DirectoryInfo[] tmpSubDirs = tmpDI.GetDirectories();
+                    foreach (DirectoryInfo tmpSubDir in tmpSubDirs)
+                    {
+                        queue.Enqueue(tmpSubDir);
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// 把子文件移至根目录
         /// 20180110:只移动txt文件
         /// </summary>
-        public void MoveFilesToRoot()
+        private void MoveAllFilesToRoot()
         {
             DirectoryInfo dirRoot = new DirectoryInfo(_sourcePath);
 
-            Queue<DirectoryInfo> queue = new Queue<DirectoryInfo>();
+            Queue<DirectoryInfo> queue = new Queue<DirectoryInfo>();    // 队列
 
-            dirRoot.GetFiles();
-            dirRoot.GetDirectories();
 
             queue.Enqueue(dirRoot);
             while (queue.Count != 0)
@@ -240,9 +307,15 @@ namespace TaFileCheck
         /// <summary>
         /// 行情是否需要文件移动到根目录
         /// </summary>
-        public bool NeedRootMove
+        public int HqRootMove
         {
-            get { return _needRootMove; }
+            get { return _hqRootMove; }
+        }
+
+
+        public List<string> HqRootMovePath
+        {
+            get { return _hqRootMovePath; }
         }
 
         /// <summary>

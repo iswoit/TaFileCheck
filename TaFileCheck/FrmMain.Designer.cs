@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.tbCtl = new System.Windows.Forms.TabControl();
             this.tabHq = new System.Windows.Forms.TabPage();
+            this.lbIsHqRunning = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.lbIsHqAllOK = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -71,8 +73,6 @@
             this.bwHq = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.bwQs = new System.ComponentModel.BackgroundWorker();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lbIsHqRunning = new System.Windows.Forms.Label();
             this.tbCtl.SuspendLayout();
             this.tabHq.SuspendLayout();
             this.ctxHq.SuspendLayout();
@@ -109,13 +109,33 @@
             this.tabHq.Text = "TA行情文件检查";
             this.tabHq.UseVisualStyleBackColor = true;
             // 
+            // lbIsHqRunning
+            // 
+            this.lbIsHqRunning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbIsHqRunning.AutoSize = true;
+            this.lbIsHqRunning.Location = new System.Drawing.Point(1011, 350);
+            this.lbIsHqRunning.Name = "lbIsHqRunning";
+            this.lbIsHqRunning.Size = new System.Drawing.Size(41, 12);
+            this.lbIsHqRunning.TabIndex = 10;
+            this.lbIsHqRunning.Text = "未运行";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(946, 350);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 12);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "运行状态:";
+            // 
             // lbIsHqAllOK
             // 
             this.lbIsHqAllOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lbIsHqAllOK.AutoSize = true;
-            this.lbIsHqAllOK.Location = new System.Drawing.Point(1011, 378);
+            this.lbIsHqAllOK.Font = new System.Drawing.Font("SimSun", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lbIsHqAllOK.Location = new System.Drawing.Point(1010, 374);
             this.lbIsHqAllOK.Name = "lbIsHqAllOK";
-            this.lbIsHqAllOK.Size = new System.Drawing.Size(23, 12);
+            this.lbIsHqAllOK.Size = new System.Drawing.Size(35, 16);
             this.lbIsHqAllOK.TabIndex = 8;
             this.lbIsHqAllOK.Text = "N/A";
             // 
@@ -134,7 +154,7 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 343);
+            this.label3.Location = new System.Drawing.Point(9, 331);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(59, 12);
             this.label3.TabIndex = 6;
@@ -167,12 +187,12 @@
             this.tbHqLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbHqLog.BackColor = System.Drawing.SystemColors.Window;
-            this.tbHqLog.Location = new System.Drawing.Point(8, 358);
+            this.tbHqLog.Location = new System.Drawing.Point(8, 346);
             this.tbHqLog.Multiline = true;
             this.tbHqLog.Name = "tbHqLog";
             this.tbHqLog.ReadOnly = true;
             this.tbHqLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbHqLog.Size = new System.Drawing.Size(864, 78);
+            this.tbHqLog.Size = new System.Drawing.Size(864, 90);
             this.tbHqLog.TabIndex = 2;
             // 
             // lvHqList
@@ -455,25 +475,6 @@
             this.bwQs.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwQs_DoWork);
             this.bwQs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwQs_ProgressChanged);
             this.bwQs.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwQs_RunWorkerCompleted);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(946, 358);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 12);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "运行状态:";
-            // 
-            // lbIsHqRunning
-            // 
-            this.lbIsHqRunning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lbIsHqRunning.AutoSize = true;
-            this.lbIsHqRunning.Location = new System.Drawing.Point(1011, 358);
-            this.lbIsHqRunning.Name = "lbIsHqRunning";
-            this.lbIsHqRunning.Size = new System.Drawing.Size(41, 12);
-            this.lbIsHqRunning.TabIndex = 10;
-            this.lbIsHqRunning.Text = "未运行";
             // 
             // FrmMain
             // 

@@ -84,8 +84,8 @@ namespace TaFileCheck
                             // Part1.行情配置
                             string id = string.Empty;                                   // ta代码
                             string desc = string.Empty;                                 // 备注（仅仅显示）
-                            string rootMove = string.Empty;
-                            List<string> rootMovePath = new List<string>(); 
+                            string hqRootMove = string.Empty;
+                            List<string> hqRootMovePath = new List<string>(); 
 
                             string hqSource = string.Empty;
                             string hqchecktype = string.Empty;
@@ -107,19 +107,19 @@ namespace TaFileCheck
                                     case "hqsource":
                                         hqSource = Util.Filename_Date_Convert(xnTaChildAttr.InnerText.Trim());
                                         break;
-                                    case "rootmove":
-                                        rootMove = xnTaChildAttr.InnerText.Trim();
+                                    case "hqrootmove":
+                                        hqRootMove = xnTaChildAttr.InnerText.Trim();
                                         break;
-                                    case "rootmovepath":
+                                    case "hqrootmovepath":
                                         if (xnTaChildAttr.ChildNodes.Count > 0)
                                         {
-                                            rootMovePath.Clear();
+                                            hqRootMovePath.Clear();
                                             foreach (XmlNode xnTaChildAttrValue in xnTaChildAttr.ChildNodes)
                                             {
                                                 string tmpValue = Util.Filename_Date_Convert(xnTaChildAttrValue.InnerText.Trim());
                                                 tmpValue = Ta.ReplaceTaFileNameWithPattern(tmpValue, id);
                                                 if (!string.IsNullOrEmpty(tmpValue))
-                                                    rootMovePath.Add(tmpValue);
+                                                    hqRootMovePath.Add(tmpValue);
                                             }
                                         }
                                         break;
@@ -158,7 +158,7 @@ namespace TaFileCheck
                                 }//eof switch ta attr
                             }//eof foreach ta
 
-                            _taHqList.Add(new TaHq(id, desc, hqSource, rootMove, hqchecktype, hqIdx, _taHqIdxCnt, hqFiles, hqDestPath));
+                            _taHqList.Add(new TaHq(id, desc, hqSource, hqRootMove,hqRootMovePath, hqchecktype, hqIdx, _taHqIdxCnt, hqFiles, hqDestPath));
 
 
                             // Part2.清算配置（还没写）
@@ -206,6 +206,41 @@ namespace TaFileCheck
         public List<TaHq> TaHqList
         {
             get { return _taHqList; }
+        }
+
+        /// <summary>
+        /// 行情文件完成数
+        /// </summary>
+        public int TaHqOKCnt
+        {
+            get
+            {
+                int iRet = 0;
+                foreach(TaHq taHq in _taHqList)
+                {
+                    if (taHq.IsOK)
+                        iRet++;
+                }
+
+                return iRet;
+            }
+        }
+
+        /// <summary>
+        /// 未完成的TA列表
+        /// </summary>
+        public List<TaHq> TaHqNotPreparedList
+        {
+            get
+            {
+                List<TaHq> retList = new List<TaHq>();
+                foreach(TaHq taHq in _taHqList)
+                {
+                    if (taHq.IsOK == false)
+                        retList.Add(taHq);
+                }
+                return retList;
+            }
         }
 
 

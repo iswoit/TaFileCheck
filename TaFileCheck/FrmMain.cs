@@ -92,7 +92,17 @@ namespace TaFileCheck
                     }
                 }
 
-                lbIsHqAllOK.Text = _taManager.IsHqAllOK ? "是" : "否";
+                if (_taManager.IsHqAllOK)
+                {
+                    lbIsHqAllOK.Text = "是";
+                    lbIsHqAllOK.ForeColor = Color.Green;
+                }
+                else
+                {
+                    lbIsHqAllOK.Text = "否";
+                    lbIsHqAllOK.ForeColor = Color.Red;
+                }
+
             }
             catch (Exception)
             {
@@ -190,29 +200,27 @@ namespace TaFileCheck
 
 
 
-                    // 2.按照rootmove配置移动文件（把子目录中的文件都移动到根目录）
-                    if (tmpTa.NeedRootMove)
+                    // 2.按照hqrootmove配置移动文件（0:不移动 1:根目录都移动 2:指定子文件夹移动到根目录）
+                    try
                     {
-                        try
-                        {
-                            tmpTa.HqStatus = HqStatus.文件移动到根目录中;
-                            bgWorker.ReportProgress(1);
+                        tmpTa.HqStatus = HqStatus.文件移动到根目录中;
+                        bgWorker.ReportProgress(1);
 
-                            tmpTa.MoveFilesToRoot();
+                        tmpTa.MoveFilesToRoot();
 
-                            tmpTa.HqStatus = HqStatus.文件移动到根目录完成;
-                            bgWorker.ReportProgress(1);
-                        }
-                        catch (Exception ex)
-                        {
-                            tmpTa.HqStatus = HqStatus.文件移动到根目录错误;
-                            tmpTa.IsRunning = false;
-
-                            UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
-                            bgWorker.ReportProgress(1, us);
-                            continue;
-                        }
+                        tmpTa.HqStatus = HqStatus.文件移动到根目录完成;
+                        bgWorker.ReportProgress(1);
                     }
+                    catch (Exception ex)
+                    {
+                        tmpTa.HqStatus = HqStatus.文件移动到根目录错误;
+                        tmpTa.IsRunning = false;
+
+                        UserState us = new UserState(true, string.Format("TA {0}文件移动到根目录出错: {1}", tmpTa.Id, ex.Message));
+                        bgWorker.ReportProgress(1, us);
+                        continue;
+                    }
+
 
 
 
@@ -372,16 +380,30 @@ namespace TaFileCheck
             else
             {
                 UpdateHqList();
-                //UpdateFileSourceInfo();
-                //UpdateFileListInfo();
+
 
                 //// 处理状态标签
                 //lbStatus.Text = "完成，等待下一轮";
                 //lbStatus.BackColor = Color.ForestGreen;
             }
 
-            lbIsHqRunning.Text = "运行完毕";
+            // 输出日志
+            Print_Hq_Error_Message(string.Format(@"检查完毕: 文件进度({0}/{1}), 是否完成: {2}.", _taManager.TaHqOKCnt, _taManager.TaHqList.Count, _taManager.IsHqAllOK ? "是" : "否"));
+            // 
+            if (_taManager.IsHqAllOK == false)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("以下TA行情未就绪:");
+                foreach (TaHq taHq in _taManager.TaHqNotPreparedList)
+                {
+                    sb.Append(" " + taHq.Id);
+                }
 
+                Print_Hq_Error_Message(sb.ToString());
+            }
+
+
+            lbIsHqRunning.Text = "运行完毕";
             btnHqExecute.Text = "检查";
         }
 
@@ -775,7 +797,7 @@ namespace TaFileCheck
 
 
 
-        
+
 
     }
 }

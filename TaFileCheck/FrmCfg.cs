@@ -69,10 +69,10 @@ namespace TaFileCheck
                             case "hqsource":
                                 hqSource = xnTaAttr.InnerText.Trim();
                                 break;
-                            case "rootmove":
+                            case "hqrootmove":
                                 rootMove = xnTaAttr.InnerText.Trim();
                                 break;
-                            case "rootmovepath":
+                            case "hqrootmovepath":
                                 if (xnTaAttr.ChildNodes.Count > 0)
                                 {
                                     rootMovePath.Clear();
@@ -202,7 +202,7 @@ namespace TaFileCheck
 
         private void rbRootMove_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbRootMoveNo.Checked|| rbRootMoveYes.Checked)
+            if (rbRootMoveNo.Checked || rbRootMoveYes.Checked)
             {
                 boxRootMovePath.Enabled = false;
                 tbRootMovePathAdd.Enabled = false;
@@ -237,7 +237,7 @@ namespace TaFileCheck
             tbFileAdd.Text = string.Empty;
         }
 
-        #endregion 文件检查模式相关
+
 
         private void btnFileDel_Click(object sender, EventArgs e)
         {
@@ -278,8 +278,6 @@ namespace TaFileCheck
             tbDestPathAdd.Text = string.Empty;
         }
 
-
-
         private void btnRootMovePathAdd_Click(object sender, EventArgs e)
         {
             string strPath = tbRootMovePathAdd.Text.Trim();
@@ -297,6 +295,11 @@ namespace TaFileCheck
                 if (!strPath.Contains(tbSourcePath.Text.Trim()))
                 {
                     MessageBox.Show("设置的路径必须是\"路径\"的子目录!");
+                    return;
+                }
+                else if (string.Compare(strPath, tbSourcePath.Text.Trim(), true) == 0)
+                {
+                    MessageBox.Show("不能设为根目录!");
                     return;
                 }
             }
@@ -325,6 +328,8 @@ namespace TaFileCheck
             }
         }
 
+        #endregion 文件检查模式相关
+
         /// <summary>
         /// 确定按钮
         /// </summary>
@@ -337,6 +342,18 @@ namespace TaFileCheck
                 DialogResult dr = MessageBox.Show("是否保存修改?", "确认", MessageBoxButtons.OKCancel);
                 if (dr == DialogResult.OK)
                 {
+                    // 逻辑检查
+                    // 如果设为2，但是一个路径都没填，报错
+                    if (rbRootMoveSpecified.Checked)
+                    {
+                        if (boxRootMovePath.Items.Count <= 0)
+                        {
+                            MessageBox.Show("请添加至少一个子文件目录!");
+                            return;
+                        }
+                    }
+
+
                     XmlDocument doc = new XmlDocument();
                     XmlReaderSettings settings = new XmlReaderSettings();
                     settings.IgnoreComments = true;     //忽略文档里面的注释
@@ -364,7 +381,7 @@ namespace TaFileCheck
                             xnTa.AppendChild(xeNew);
 
                             // rootmove(0:不移动 1:全部移动 2:指定)
-                            xeNew = doc.CreateElement("rootmove");
+                            xeNew = doc.CreateElement("hqrootmove");
                             int tmpRootMoveValue = 0;
                             if (rbRootMoveNo.Checked)
                                 tmpRootMoveValue = 0;
@@ -376,7 +393,7 @@ namespace TaFileCheck
                             xnTa.AppendChild(xeNew);
 
                             // rootmovepath
-                            xeNew = doc.CreateElement("rootmovepath");
+                            xeNew = doc.CreateElement("hqrootmovepath");
                             if (tmpRootMoveValue == 2)
                             {
                                 foreach (object x in boxRootMovePath.Items)
@@ -442,6 +459,6 @@ namespace TaFileCheck
             }
         }
 
-        
+
     }
 }

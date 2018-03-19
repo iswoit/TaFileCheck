@@ -33,6 +33,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tbDesc = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnRootMovePathDel = new System.Windows.Forms.Button();
+            this.btnRootMovePathAdd = new System.Windows.Forms.Button();
+            this.tbRootMovePathAdd = new System.Windows.Forms.TextBox();
+            this.boxRootMovePath = new System.Windows.Forms.ListBox();
+            this.rbRootMoveSpecified = new System.Windows.Forms.RadioButton();
             this.rbRootMoveNo = new System.Windows.Forms.RadioButton();
             this.rbRootMoveYes = new System.Windows.Forms.RadioButton();
             this.label5 = new System.Windows.Forms.Label();
@@ -59,11 +64,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.boxFileList = new System.Windows.Forms.ListBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.rbRootMoveSpecified = new System.Windows.Forms.RadioButton();
-            this.btnRootMovePathDel = new System.Windows.Forms.Button();
-            this.btnRootMovePathAdd = new System.Windows.Forms.Button();
-            this.tbRootMovePathAdd = new System.Windows.Forms.TextBox();
-            this.boxRootMovePath = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -114,12 +114,60 @@
             this.groupBox1.Controls.Add(this.rbRootMoveSpecified);
             this.groupBox1.Controls.Add(this.rbRootMoveNo);
             this.groupBox1.Controls.Add(this.rbRootMoveYes);
-            this.groupBox1.Location = new System.Drawing.Point(414, 15);
+            this.groupBox1.Location = new System.Drawing.Point(479, 41);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(413, 149);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "子目录文件移动到根目录(仅txt文件):";
+            // 
+            // btnRootMovePathDel
+            // 
+            this.btnRootMovePathDel.Location = new System.Drawing.Point(366, 83);
+            this.btnRootMovePathDel.Name = "btnRootMovePathDel";
+            this.btnRootMovePathDel.Size = new System.Drawing.Size(35, 23);
+            this.btnRootMovePathDel.TabIndex = 36;
+            this.btnRootMovePathDel.Text = "-";
+            this.btnRootMovePathDel.UseVisualStyleBackColor = true;
+            this.btnRootMovePathDel.Click += new System.EventHandler(this.btnRootMovePathDel_Click);
+            // 
+            // btnRootMovePathAdd
+            // 
+            this.btnRootMovePathAdd.Location = new System.Drawing.Point(366, 114);
+            this.btnRootMovePathAdd.Name = "btnRootMovePathAdd";
+            this.btnRootMovePathAdd.Size = new System.Drawing.Size(35, 23);
+            this.btnRootMovePathAdd.TabIndex = 35;
+            this.btnRootMovePathAdd.Text = "+";
+            this.btnRootMovePathAdd.UseVisualStyleBackColor = true;
+            this.btnRootMovePathAdd.Click += new System.EventHandler(this.btnRootMovePathAdd_Click);
+            // 
+            // tbRootMovePathAdd
+            // 
+            this.tbRootMovePathAdd.Location = new System.Drawing.Point(100, 114);
+            this.tbRootMovePathAdd.Name = "tbRootMovePathAdd";
+            this.tbRootMovePathAdd.Size = new System.Drawing.Size(260, 21);
+            this.tbRootMovePathAdd.TabIndex = 34;
+            // 
+            // boxRootMovePath
+            // 
+            this.boxRootMovePath.FormattingEnabled = true;
+            this.boxRootMovePath.ItemHeight = 12;
+            this.boxRootMovePath.Location = new System.Drawing.Point(100, 20);
+            this.boxRootMovePath.Name = "boxRootMovePath";
+            this.boxRootMovePath.Size = new System.Drawing.Size(260, 88);
+            this.boxRootMovePath.TabIndex = 33;
+            // 
+            // rbRootMoveSpecified
+            // 
+            this.rbRootMoveSpecified.AutoSize = true;
+            this.rbRootMoveSpecified.Location = new System.Drawing.Point(18, 76);
+            this.rbRootMoveSpecified.Name = "rbRootMoveSpecified";
+            this.rbRootMoveSpecified.Size = new System.Drawing.Size(47, 16);
+            this.rbRootMoveSpecified.TabIndex = 2;
+            this.rbRootMoveSpecified.TabStop = true;
+            this.rbRootMoveSpecified.Text = "指定";
+            this.rbRootMoveSpecified.UseVisualStyleBackColor = true;
+            this.rbRootMoveSpecified.CheckedChanged += new System.EventHandler(this.rbRootMove_CheckedChanged);
             // 
             // rbRootMoveNo
             // 
@@ -146,7 +194,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(36, 95);
+            this.label5.Location = new System.Drawing.Point(36, 46);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(35, 12);
             this.label5.TabIndex = 7;
@@ -154,7 +202,7 @@
             // 
             // tbSourcePath
             // 
-            this.tbSourcePath.Location = new System.Drawing.Point(77, 92);
+            this.tbSourcePath.Location = new System.Drawing.Point(77, 41);
             this.tbSourcePath.Name = "tbSourcePath";
             this.tbSourcePath.Size = new System.Drawing.Size(295, 21);
             this.tbSourcePath.TabIndex = 8;
@@ -199,18 +247,16 @@
             // 
             // panel1
             // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.tbID);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.tbDesc);
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.tbSourcePath);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(841, 186);
+            this.panel1.Size = new System.Drawing.Size(921, 106);
             this.panel1.TabIndex = 29;
             // 
             // label4
@@ -225,7 +271,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(12, 19);
+            this.label14.Location = new System.Drawing.Point(12, 15);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(83, 12);
             this.label14.TabIndex = 6;
@@ -238,9 +284,9 @@
             this.groupBox9.Controls.Add(this.tbDestPathAdd);
             this.groupBox9.Controls.Add(this.label12);
             this.groupBox9.Controls.Add(this.boxDestPath);
-            this.groupBox9.Location = new System.Drawing.Point(473, 43);
+            this.groupBox9.Location = new System.Drawing.Point(479, 211);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(354, 190);
+            this.groupBox9.Size = new System.Drawing.Size(413, 190);
             this.groupBox9.TabIndex = 27;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "检查后复制文件:";
@@ -274,13 +320,17 @@
             // 
             // panel3
             // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel3.Controls.Add(this.groupBox2);
             this.panel3.Controls.Add(this.groupBox9);
             this.panel3.Controls.Add(this.label14);
+            this.panel3.Controls.Add(this.groupBox1);
+            this.panel3.Controls.Add(this.tbSourcePath);
+            this.panel3.Controls.Add(this.label5);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 186);
+            this.panel3.Location = new System.Drawing.Point(0, 106);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(841, 304);
+            this.panel3.Size = new System.Drawing.Size(921, 473);
             this.panel3.TabIndex = 30;
             // 
             // groupBox2
@@ -293,7 +343,7 @@
             this.groupBox2.Controls.Add(this.rbCheckType0);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.boxFileList);
-            this.groupBox2.Location = new System.Drawing.Point(14, 43);
+            this.groupBox2.Location = new System.Drawing.Point(14, 201);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(453, 190);
             this.groupBox2.TabIndex = 28;
@@ -380,68 +430,21 @@
             // 
             // panel4
             // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel4.Controls.Add(this.btnOK);
             this.panel4.Controls.Add(this.btnCancel);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(0, 433);
+            this.panel4.Location = new System.Drawing.Point(0, 533);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(841, 57);
+            this.panel4.Size = new System.Drawing.Size(921, 46);
             this.panel4.TabIndex = 32;
-            // 
-            // rbRootMoveSpecified
-            // 
-            this.rbRootMoveSpecified.AutoSize = true;
-            this.rbRootMoveSpecified.Location = new System.Drawing.Point(18, 76);
-            this.rbRootMoveSpecified.Name = "rbRootMoveSpecified";
-            this.rbRootMoveSpecified.Size = new System.Drawing.Size(47, 16);
-            this.rbRootMoveSpecified.TabIndex = 2;
-            this.rbRootMoveSpecified.TabStop = true;
-            this.rbRootMoveSpecified.Text = "指定";
-            this.rbRootMoveSpecified.UseVisualStyleBackColor = true;
-            this.rbRootMoveSpecified.CheckedChanged += new System.EventHandler(this.rbRootMove_CheckedChanged);
-            // 
-            // btnRootMovePathDel
-            // 
-            this.btnRootMovePathDel.Location = new System.Drawing.Point(366, 83);
-            this.btnRootMovePathDel.Name = "btnRootMovePathDel";
-            this.btnRootMovePathDel.Size = new System.Drawing.Size(35, 23);
-            this.btnRootMovePathDel.TabIndex = 36;
-            this.btnRootMovePathDel.Text = "-";
-            this.btnRootMovePathDel.UseVisualStyleBackColor = true;
-            this.btnRootMovePathDel.Click += new System.EventHandler(this.btnRootMovePathDel_Click);
-            // 
-            // btnRootMovePathAdd
-            // 
-            this.btnRootMovePathAdd.Location = new System.Drawing.Point(366, 114);
-            this.btnRootMovePathAdd.Name = "btnRootMovePathAdd";
-            this.btnRootMovePathAdd.Size = new System.Drawing.Size(35, 23);
-            this.btnRootMovePathAdd.TabIndex = 35;
-            this.btnRootMovePathAdd.Text = "+";
-            this.btnRootMovePathAdd.UseVisualStyleBackColor = true;
-            this.btnRootMovePathAdd.Click += new System.EventHandler(this.btnRootMovePathAdd_Click);
-            // 
-            // tbRootMovePathAdd
-            // 
-            this.tbRootMovePathAdd.Location = new System.Drawing.Point(100, 114);
-            this.tbRootMovePathAdd.Name = "tbRootMovePathAdd";
-            this.tbRootMovePathAdd.Size = new System.Drawing.Size(260, 21);
-            this.tbRootMovePathAdd.TabIndex = 34;
-            // 
-            // boxRootMovePath
-            // 
-            this.boxRootMovePath.FormattingEnabled = true;
-            this.boxRootMovePath.ItemHeight = 12;
-            this.boxRootMovePath.Location = new System.Drawing.Point(100, 20);
-            this.boxRootMovePath.Name = "boxRootMovePath";
-            this.boxRootMovePath.Size = new System.Drawing.Size(260, 88);
-            this.boxRootMovePath.TabIndex = 33;
             // 
             // FrmCfg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(841, 490);
+            this.ClientSize = new System.Drawing.Size(921, 579);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
