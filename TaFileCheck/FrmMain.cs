@@ -50,8 +50,8 @@ namespace TaFileCheck
                 lvi.SubItems.Add(_taManager.TaHqList[i].Desc);
                 lvi.SubItems.Add(_taManager.TaHqList[i].SourcePath);
                 lvi.SubItems.Add(_taManager.TaHqList[i].DestPathsString);
+                lvi.SubItems.Add(_taManager.TaHqList[i].HqStartTime.HasValue ? _taManager.TaHqList[i].HqStartTime.Value.ToString("HH:mm") : "任意");
                 lvi.SubItems.Add(_taManager.TaHqList[i].HqStatus.ToString());
-                lvi.SubItems.Add(string.Empty);
                 lvi.SubItems.Add(string.Empty);
                 lvi.Tag = _taManager.TaHqList[i];
 
@@ -77,8 +77,8 @@ namespace TaFileCheck
                 for (int i = 0; i < _taManager.TaHqList.Count; i++)
                 {
                     TaHq tmpTaHq = (TaHq)lvHqList.Items[i].Tag;   // 配置对象
-                    lvHqList.Items[i].SubItems[5].Text = tmpTaHq.HqStatus.ToString();             // 状态
-                    lvHqList.Items[i].SubItems[6].Text = tmpTaHq.IsOK ? "√" : "×";              // 标志到齐
+                    lvHqList.Items[i].SubItems[6].Text = tmpTaHq.HqStatus.ToString();             // 状态
+                    lvHqList.Items[i].SubItems[7].Text = tmpTaHq.IsOK ? "√" : "×";              // 标志到齐
 
 
                     if (tmpTaHq.IsRunning)
@@ -88,7 +88,19 @@ namespace TaFileCheck
                     }
                     else
                     {
-                        lvHqList.Items[i].BackColor = SystemColors.Window;
+                        if (tmpTaHq.IsOK == false)
+                        {
+                            if (tmpTaHq.IsRequired == false)   // 时间点未到
+                            {
+                                lvHqList.Items[i].BackColor = Color.LightYellow;
+                            }
+                            else
+                                lvHqList.Items[i].BackColor = Color.Pink;
+                        }
+                        else
+                        {
+                            lvHqList.Items[i].BackColor = SystemColors.Window;
+                        }
                     }
                 }
 
@@ -162,6 +174,26 @@ namespace TaFileCheck
                         bgWorker.ReportProgress(1);
                         continue;
                     }
+
+
+                    // 如果项有时间，更新是否检查标志
+                    if (tmpTa.HqStartTime.HasValue)
+                    {
+                        DateTime dtNow = DateTime.Now;
+                        DateTime dtTmp = new DateTime(dtNow.Year, dtNow.Month, dtNow.Day, tmpTa.HqStartTime.Value.Hour, tmpTa.HqStartTime.Value.Minute, tmpTa.HqStartTime.Value.Second);
+                        if (dtNow >= dtTmp)
+                        {
+                            tmpTa.IsRequired = true;
+                        }
+                        else
+                        {
+                            tmpTa.IsRequired = false;
+                        }
+                    }
+                    else
+                        tmpTa.IsRequired = true;
+
+
 
                     // 1.源路径是否可访问
                     try
@@ -387,20 +419,31 @@ namespace TaFileCheck
                 //lbStatus.BackColor = Color.ForestGreen;
             }
 
-            // 输出日志
-            Print_Hq_Error_Message(string.Format(@"检查完毕: 文件进度({0}/{1}), 是否完成: {2}.", _taManager.TaHqOKCnt, _taManager.TaHqList.Count, _taManager.IsHqAllOK ? "是" : "否"));
-            // 
-            if (_taManager.IsHqAllOK == false)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("以下TA行情未就绪:");
-                foreach (TaHq taHq in _taManager.TaHqNotPreparedList)
-                {
-                    sb.Append(" " + taHq.Id);
-                }
+            // 输出日志(进度百分数)
+            Print_Hq_Error_Message(string.Format(@"检查完毕: 全部进度({0}/{1}), 必收进度({0}/{3}), 是否完成: {2}.",
+                _taManager.TaHqOKCnt,
+                _taManager.TaHqList.Count,
+                _taManager.IsHqAllOK ? "是" : "否",
+                _taManager.TaHqRequiredOKCnt
+                ));
 
-                Print_Hq_Error_Message(sb.ToString());
+
+            // 输出日志(未就绪文件)
+            string strMissedTas = string.Empty;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("以下TA行情未就绪:");
+            foreach (TaHq taHq in _taManager.TaHqNotPreparedList)
+            {
+                sb.Append(" " + taHq.Id);
+                if (taHq.IsRequired == false)
+                    sb.Append("(时间未到)");
             }
+            if (sb.Length > 0)
+                strMissedTas = "以下TA行情未就绪:" + sb.ToString();
+
+            if (strMissedTas.Length > 0)
+                Print_Hq_Error_Message(sb.ToString());
+
 
 
             lbIsHqRunning.Text = "运行完毕";

@@ -16,6 +16,8 @@ namespace TaFileCheck
         private int _idxFileCnt;                       // 行情索引对应的行号
         private Dictionary<string, bool> _hqFiles;     // 行情文件列表
         private Dictionary<string, bool> _destPaths;   // 行情文件到齐后移动的目的
+        private DateTime? _hqStartTime;                // 20180709-行情开始检查的时间（早于时间点则不检查）
+        private bool _isRequired;                      // 20180709-是否必须（时间不到就是非必须）
 
         // 行情运行变量
         private HqStatus _status;                      // 任务状态
@@ -41,7 +43,7 @@ namespace TaFileCheck
         /// <param name="idxFile"></param>
         /// <param name="hqFiles"></param>
         /// <param name="hqDestPath"></param>
-        public TaHq(string id, string desc, string hqSource, string hqRootMove, List<string> hqRootMovePath, string hqCheckType, string idxFile, int idxFileCnt, List<string> hqFiles, List<string> hqDestPath)
+        public TaHq(string id, string desc, string hqSource, string hqRootMove, List<string> hqRootMovePath, string hqCheckType, string idxFile, int idxFileCnt, List<string> hqFiles, List<string> hqDestPath, string hqStartTime)
         {
             //********1.TA行情配置变量初始化
             _id = id;           // 代码
@@ -76,6 +78,14 @@ namespace TaFileCheck
             _destPaths = new Dictionary<string, bool>();
             foreach (string tmpStr in hqDestPath)
                 _destPaths.Add(tmpStr, false);
+
+
+            // 20180709行情开始检查时间
+            DateTime tmpDT;
+            if (DateTime.TryParse(hqStartTime, out tmpDT))
+                _hqStartTime = tmpDT;
+
+            _isRequired = true;
 
 
             //********2.TA行情运行时变量初始化
@@ -381,6 +391,24 @@ namespace TaFileCheck
             get { return _destPaths; }
         }
 
+
+        /// <summary>
+        /// 行情开始检查时间
+        /// </summary>
+        public DateTime? HqStartTime
+        {
+            get { return _hqStartTime; }
+        }
+
+        /// <summary>
+        /// 是否需要检查
+        /// </summary>
+        public bool IsRequired
+        {
+            get { return _isRequired; }
+            set { _isRequired = value; }
+        }
+
         /// <summary>
         /// TA行情状态
         /// </summary>
@@ -518,6 +546,22 @@ namespace TaFileCheck
                 return true;
             }
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsRequiredOK
+        {
+            get
+            {
+                if (_isRequired == false)
+                    return true;
+                else
+                    return IsOK;
+            }
+        }
+
         #endregion******************************属性
 
     }

@@ -45,6 +45,7 @@ namespace TaFileCheck
             string hqchecktype = string.Empty;
             List<string> hqFiles = new List<string>();
             List<string> hqDestPath = new List<string>();
+            string hqStartTime = string.Empty;                          // 行情开始检查时间
 
             XmlDocument doc = new XmlDocument();
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -113,6 +114,9 @@ namespace TaFileCheck
                                     }
                                     break;
                                 }
+                            case "hqstarttime":
+                                hqStartTime = xnTaAttr.InnerText.Trim();
+                                break;
                         }//eof switch ta attr
                     }
                 }
@@ -172,6 +176,27 @@ namespace TaFileCheck
                 boxDestPath.Items.Add(str);
             }
 
+
+            // 20180710-hq检查时间
+            DateTime tmpDT;
+            if (DateTime.TryParse(hqStartTime, out tmpDT))
+            {
+                rbSpecificTime.Checked = true;
+                nCheckHour.Enabled = true;
+                nCheckMinute.Enabled = true;
+
+                nCheckHour.Value = tmpDT.Hour;
+                nCheckMinute.Value = tmpDT.Minute;
+            }
+            else
+            {
+                rbAnyTime.Checked = true;
+                nCheckHour.Enabled = false;
+                nCheckMinute.Enabled = false;
+            }
+
+
+
         }
 
 
@@ -217,6 +242,27 @@ namespace TaFileCheck
                 btnRootMovePathDel.Enabled = true;
             }
         }
+
+
+        /// <summary>
+        /// 切换指定检查时间按钮的事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void rbCheckTime(object sender, EventArgs e)
+        {
+            if (rbAnyTime.Checked)
+            {
+                nCheckHour.Enabled = false;
+                nCheckMinute.Enabled = false;
+            }
+            else if (rbSpecificTime.Checked)
+            {
+                nCheckHour.Enabled = true;
+                nCheckMinute.Enabled = true;
+            }
+        }
+
 
         private void btnFileAdd_Click(object sender, EventArgs e)
         {
@@ -440,6 +486,23 @@ namespace TaFileCheck
                                 xeNew.AppendChild(xeNewChild);
                             }
                             xnTa.AppendChild(xeNew);
+
+
+                            // hqstarttime（开始检查时间）
+                            xeNew = doc.CreateElement("hqstarttime");
+                            string strHqStartTime = string.Empty;
+                            if (rbAnyTime.Checked)
+                            {
+                                strHqStartTime = String.Empty;
+                            }
+                            else if (rbSpecificTime.Checked)
+                            {
+                                strHqStartTime = string.Format("{0}:{1}", nCheckHour.Value.ToString(), nCheckMinute.Value.ToString());
+                            }
+
+                            xeNew.InnerText = strHqStartTime;
+                            xnTa.AppendChild(xeNew);
+
                         }
                         else
                         {

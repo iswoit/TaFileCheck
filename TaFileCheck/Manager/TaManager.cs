@@ -54,7 +54,7 @@ namespace TaFileCheck
                 XmlNode xnHqIdxCnt = rootNode.SelectSingleNode("//hqidxcnt");
                 if (xnHqIdxCnt != null)
                 {
-                    if(!int.TryParse(xnHqIdxCnt.InnerText.Trim(),out _taHqIdxCnt))
+                    if (!int.TryParse(xnHqIdxCnt.InnerText.Trim(), out _taHqIdxCnt))
                     {
                         throw new Exception("请确定节点<hqidxcnt>(行情索引文件中文件数量所在行)为数字!");
                     }
@@ -85,13 +85,14 @@ namespace TaFileCheck
                             string id = string.Empty;                                   // ta代码
                             string desc = string.Empty;                                 // 备注（仅仅显示）
                             string hqRootMove = string.Empty;
-                            List<string> hqRootMovePath = new List<string>(); 
+                            List<string> hqRootMovePath = new List<string>();
 
                             string hqSource = string.Empty;
                             string hqchecktype = string.Empty;
                             string hqIdx = _taHqIdx;
                             List<string> hqFiles = new List<string>();
                             List<string> hqDestPath = new List<string>();
+                            string hqStartTime = string.Empty;
 
 
                             foreach (XmlNode xnTaChildAttr in xnTaChild)
@@ -155,10 +156,13 @@ namespace TaFileCheck
                                             }
                                             break;
                                         }
+                                    case "hqstarttime":
+                                        hqStartTime = xnTaChildAttr.InnerText.Trim();
+                                        break;
                                 }//eof switch ta attr
                             }//eof foreach ta
 
-                            _taHqList.Add(new TaHq(id, desc, hqSource, hqRootMove,hqRootMovePath, hqchecktype, hqIdx, _taHqIdxCnt, hqFiles, hqDestPath));
+                            _taHqList.Add(new TaHq(id, desc, hqSource, hqRootMove, hqRootMovePath, hqchecktype, hqIdx, _taHqIdxCnt, hqFiles, hqDestPath, hqStartTime));
 
 
                             // Part2.清算配置（还没写）
@@ -216,7 +220,7 @@ namespace TaFileCheck
             get
             {
                 int iRet = 0;
-                foreach(TaHq taHq in _taHqList)
+                foreach (TaHq taHq in _taHqList)
                 {
                     if (taHq.IsOK)
                         iRet++;
@@ -226,6 +230,28 @@ namespace TaFileCheck
             }
         }
 
+
+        /// <summary>
+        /// IsRequired的完成数
+        /// </summary>
+        public int TaHqRequiredOKCnt
+        {
+            get
+            {
+                int iRet = 0;
+                foreach (TaHq taHq in _taHqList)
+                {
+                    if (taHq.IsRequired)
+                    {
+                        iRet++;
+                    }
+                }
+
+                return iRet;
+            }
+        }
+
+
         /// <summary>
         /// 未完成的TA列表
         /// </summary>
@@ -234,7 +260,7 @@ namespace TaFileCheck
             get
             {
                 List<TaHq> retList = new List<TaHq>();
-                foreach(TaHq taHq in _taHqList)
+                foreach (TaHq taHq in _taHqList)
                 {
                     if (taHq.IsOK == false)
                         retList.Add(taHq);
@@ -246,6 +272,7 @@ namespace TaFileCheck
 
         /// <summary>
         /// TA行情文件全就绪
+        /// 20180709-只判断IsRequired是true的文件
         /// </summary>
         public bool IsHqAllOK
         {
@@ -253,7 +280,7 @@ namespace TaFileCheck
             {
                 foreach (TaHq tmpTa in _taHqList)
                 {
-                    if (!tmpTa.IsOK)
+                    if (!tmpTa.IsRequiredOK)
                         return false;
                 }
 

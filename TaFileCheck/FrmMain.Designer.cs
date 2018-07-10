@@ -73,6 +73,7 @@
             this.bwHq = new System.ComponentModel.BackgroundWorker();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.bwQs = new System.ComponentModel.BackgroundWorker();
+            this.StartTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tbCtl.SuspendLayout();
             this.tabHq.SuspendLayout();
             this.ctxHq.SuspendLayout();
@@ -206,6 +207,7 @@
             this.Desc,
             this.SourcePath,
             this.DestPath,
+            this.StartTime,
             this.Status,
             this.IsOK});
             this.lvHqList.ContextMenuStrip = this.ctxHq;
@@ -476,6 +478,12 @@
             this.bwQs.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwQs_ProgressChanged);
             this.bwQs.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwQs_RunWorkerCompleted);
             // 
+            // StartTime
+            // 
+            this.StartTime.Text = "开始检查时间";
+            this.StartTime.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.StartTime.Width = 88;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -540,6 +548,7 @@
         private System.Windows.Forms.ToolStripMenuItem ctxHqModify;
         private System.Windows.Forms.Label lbIsHqRunning;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ColumnHeader StartTime;
     }
 }
 
