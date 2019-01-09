@@ -3,17 +3,32 @@
   <hqidx>OFJ_{ta}_671_yyyymmdd.TXT</hqidx>
   <hqidxcnt>6</hqidxcnt>
   <qsidx>OFI_{ta}_671_yyyymmdd.TXT</qsidx>
+  
+  <!--恒生数据库取交易日-->
+  <MarketDbConn>
+    <Ip>10.32.20.30</Ip>
+    <Port>1521</Port>
+    <Service>ufcx</Service>
+    <Acc>rcwh</Acc>
+    <Pwd>zx1132007</Pwd>
+    <Table>hs_user.exchangedate</Table><!--交易日表-->
+    <ColDate>INIT_DATE</ColDate><!--日期列-->
+    <ColMarket>EXCHANGE_TYPE</ColMarket><!--市场列-->
+    <ColStatus>TRADE_FLAG</ColStatus><!--状态列。恒生逻辑: 1为交易日，其他或者无数据为非交易日-->
+  </MarketDbConn>
+  
   <talist>
     <ta>
       <id>01</id>
       <desc>南方基金</desc>
+	  <hqsource>D:\qsfile\TA_IN\01\</hqsource>
       <hqrootmove>0</hqrootmove>
       <hqrootmovepath />
-      <hqsource>D:\qsfile\TA_IN\01\</hqsource>
       <hqchecktype>0</hqchecktype>
       <hqfiles />
       <hqdestpath />
       <hqstarttime>23:0</hqstarttime>
+	  <hqisyesterday>1</hqisyesterday>
     </ta>
     <ta>
       <id>02</id>

@@ -1,0 +1,8 @@
+D:\Codes\C#\TaFileCheck\TaFileCheck\bin\x86\Release\TaFileCheck.exe
+D:\Codes\C#\TaFileCheck\TaFileCheck\bin\x86\Release\TaFileCheck.pdb
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\x86\Release\TaFileCheck.FrmCfg.resources
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\x86\Release\TaFileCheck.FrmMain.resources
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\x86\Release\TaFileCheck.Properties.Resources.resources
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\x86\Release\TaFileCheck.csproj.GenerateResource.Cache
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\x86\Release\TaFileCheck.exe
+D:\Codes\C#\TaFileCheck\TaFileCheck\obj\x86\Release\TaFileCheck.pdb

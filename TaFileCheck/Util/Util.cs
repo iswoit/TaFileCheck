@@ -19,21 +19,21 @@ namespace TaFileCheck
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static string Filename_Date_Convert(string fileName)
+        public static string Filename_Date_Convert(string fileName,DateTime dtJYR,DateTime dtLastJYR)
         {
             string strTmp = fileName;   // 返回值
 
-            DateTime dtNow = DateTime.Now;
+            // 替换上一日
+            strTmp = Regex.Replace(strTmp, "yyyymmdd-", dtLastJYR.ToString("yyyyMMdd"), RegexOptions.IgnoreCase);  // 1.替换yyyymmdd
+            strTmp = Regex.Replace(strTmp, "yymmdd-", dtLastJYR.ToString("yyMMdd"), RegexOptions.IgnoreCase);      // 2.替换yymmdd
+            strTmp = Regex.Replace(strTmp, "mmdd-", string.Format("{0}{1}", dtLastJYR.Month.ToString().PadLeft(2, '0'), dtLastJYR.Day.ToString().PadLeft(2, '0')), RegexOptions.IgnoreCase);          // 3.替换mmdd
+            strTmp = Regex.Replace(strTmp, "mdd-", string.Format("{0}{1}", arr_mdd_convert[dtLastJYR.Month - 1], dtLastJYR.Day.ToString().PadLeft(2, '0')), RegexOptions.IgnoreCase);            // 4.替换mdd
 
-            string yyyymmdd_replacement = dtNow.ToString("yyyyMMdd");
-            string yymmdd_replacement = dtNow.ToString("yyMMdd");
-            string mmdd_replacement = string.Format("{0}{1}", dtNow.Month.ToString().PadLeft(2, '0'), dtNow.Day.ToString().PadLeft(2, '0'));
-            string mdd_replacement = string.Format("{0}{1}", arr_mdd_convert[dtNow.Month - 1], dtNow.Day.ToString().PadLeft(2, '0'));
 
-            strTmp = Regex.Replace(strTmp, "yyyymmdd", yyyymmdd_replacement, RegexOptions.IgnoreCase);  // 1.替换yyyymmdd
-            strTmp = Regex.Replace(strTmp, "yymmdd", yymmdd_replacement, RegexOptions.IgnoreCase);      // 2.替换yymmdd
-            strTmp = Regex.Replace(strTmp, "mmdd", mmdd_replacement, RegexOptions.IgnoreCase);          // 3.替换mmdd
-            strTmp = Regex.Replace(strTmp, "mdd", mdd_replacement, RegexOptions.IgnoreCase);            // 4.替换mdd
+            strTmp = Regex.Replace(strTmp, "yyyymmdd", dtJYR.ToString("yyyyMMdd"), RegexOptions.IgnoreCase);  // 1.替换yyyymmdd
+            strTmp = Regex.Replace(strTmp, "yymmdd", dtJYR.ToString("yyMMdd"), RegexOptions.IgnoreCase);      // 2.替换yymmdd
+            strTmp = Regex.Replace(strTmp, "mmdd", string.Format("{0}{1}", dtJYR.Month.ToString().PadLeft(2, '0'), dtJYR.Day.ToString().PadLeft(2, '0')), RegexOptions.IgnoreCase);          // 3.替换mmdd
+            strTmp = Regex.Replace(strTmp, "mdd", string.Format("{0}{1}", arr_mdd_convert[dtJYR.Month - 1], dtJYR.Day.ToString().PadLeft(2, '0')), RegexOptions.IgnoreCase);            // 4.替换mdd
             return strTmp;
         }
 
