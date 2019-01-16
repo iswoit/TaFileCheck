@@ -139,15 +139,13 @@ namespace TaFileCheck
                         FileInfo[] tmpSubFiles = tmpDI.GetFiles();
                         foreach (FileInfo tmpSubFile in tmpSubFiles)
                         {
-                            // 只处理txt文件
-                            if (tmpSubFile.Extension.ToLower() == ".txt")
-                            {
-                                // 已经存在就删除，覆盖拷贝
-                                if (File.Exists(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name)))
-                                    File.Delete(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name));
 
-                                tmpSubFile.MoveTo(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name));
-                            }
+                            // 已经存在就删除，覆盖拷贝
+                            if (File.Exists(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name)))
+                                File.Delete(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name));
+
+                            tmpSubFile.MoveTo(System.IO.Path.Combine(rootFolderDI.FullName, tmpSubFile.Name));
+
                         }
                     }
 
@@ -184,15 +182,13 @@ namespace TaFileCheck
                     FileInfo[] tmpSubFiles = tmpDir.GetFiles();
                     foreach (FileInfo tmpSubFile in tmpSubFiles)
                     {
-                        // 只处理txt文件
-                        if (tmpSubFile.Extension.ToLower() == ".txt")
-                        {
-                            // 已经存在就删除，覆盖拷贝
-                            if (File.Exists(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name)))
-                                File.Delete(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name));
 
-                            tmpSubFile.MoveTo(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name));
-                        }
+                        // 已经存在就删除，覆盖拷贝
+                        if (File.Exists(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name)))
+                            File.Delete(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+
+                        tmpSubFile.MoveTo(System.IO.Path.Combine(dirRoot.FullName, tmpSubFile.Name));
+
                     }
                 }
 

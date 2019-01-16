@@ -54,6 +54,13 @@
             this.btnDestPathAdd = new System.Windows.Forms.Button();
             this.tbDestPathAdd = new System.Windows.Forms.TextBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.nCheckMinute = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nCheckHour = new System.Windows.Forms.NumericUpDown();
+            this.rbAnyTime = new System.Windows.Forms.RadioButton();
+            this.rbSpecificTime = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tbFileAdd = new System.Windows.Forms.TextBox();
@@ -64,22 +71,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.boxFileList = new System.Windows.Forms.ListBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.rbAnyTime = new System.Windows.Forms.RadioButton();
-            this.rbSpecificTime = new System.Windows.Forms.RadioButton();
-            this.nCheckHour = new System.Windows.Forms.NumericUpDown();
-            this.label6 = new System.Windows.Forms.Label();
-            this.nCheckMinute = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nCheckMinute)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nCheckHour)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.panel4.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nCheckHour)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nCheckMinute)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -129,7 +129,7 @@
             this.groupBox1.Size = new System.Drawing.Size(413, 149);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "子目录文件移动到根目录(仅txt文件):";
+            this.groupBox1.Text = "子目录文件移动到根目录(所有文件):";
             // 
             // btnRootMovePathDel
             // 
@@ -344,6 +344,85 @@
             this.panel3.Size = new System.Drawing.Size(921, 473);
             this.panel3.TabIndex = 30;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.nCheckMinute);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.nCheckHour);
+            this.groupBox3.Controls.Add(this.rbAnyTime);
+            this.groupBox3.Controls.Add(this.rbSpecificTime);
+            this.groupBox3.Location = new System.Drawing.Point(35, 89);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(270, 100);
+            this.groupBox3.TabIndex = 29;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "检查时间:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(221, 60);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(17, 12);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "分";
+            // 
+            // nCheckMinute
+            // 
+            this.nCheckMinute.Location = new System.Drawing.Point(179, 56);
+            this.nCheckMinute.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.nCheckMinute.Name = "nCheckMinute";
+            this.nCheckMinute.Size = new System.Drawing.Size(36, 21);
+            this.nCheckMinute.TabIndex = 9;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(156, 60);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "时";
+            // 
+            // nCheckHour
+            // 
+            this.nCheckHour.Location = new System.Drawing.Point(114, 56);
+            this.nCheckHour.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.nCheckHour.Name = "nCheckHour";
+            this.nCheckHour.Size = new System.Drawing.Size(36, 21);
+            this.nCheckHour.TabIndex = 4;
+            // 
+            // rbAnyTime
+            // 
+            this.rbAnyTime.AutoSize = true;
+            this.rbAnyTime.Location = new System.Drawing.Point(25, 28);
+            this.rbAnyTime.Name = "rbAnyTime";
+            this.rbAnyTime.Size = new System.Drawing.Size(47, 16);
+            this.rbAnyTime.TabIndex = 3;
+            this.rbAnyTime.Text = "任意";
+            this.rbAnyTime.UseVisualStyleBackColor = true;
+            this.rbAnyTime.CheckedChanged += new System.EventHandler(this.rbCheckTime);
+            // 
+            // rbSpecificTime
+            // 
+            this.rbSpecificTime.AutoSize = true;
+            this.rbSpecificTime.Location = new System.Drawing.Point(25, 56);
+            this.rbSpecificTime.Name = "rbSpecificTime";
+            this.rbSpecificTime.Size = new System.Drawing.Size(83, 16);
+            this.rbSpecificTime.TabIndex = 2;
+            this.rbSpecificTime.Text = "指定时间后";
+            this.rbSpecificTime.UseVisualStyleBackColor = true;
+            this.rbSpecificTime.CheckedChanged += new System.EventHandler(this.rbCheckTime);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label7);
@@ -450,85 +529,6 @@
             this.panel4.Size = new System.Drawing.Size(921, 46);
             this.panel4.TabIndex = 32;
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.nCheckMinute);
-            this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Controls.Add(this.nCheckHour);
-            this.groupBox3.Controls.Add(this.rbAnyTime);
-            this.groupBox3.Controls.Add(this.rbSpecificTime);
-            this.groupBox3.Location = new System.Drawing.Point(35, 89);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(270, 100);
-            this.groupBox3.TabIndex = 29;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "检查时间:";
-            // 
-            // rbAnyTime
-            // 
-            this.rbAnyTime.AutoSize = true;
-            this.rbAnyTime.Location = new System.Drawing.Point(25, 28);
-            this.rbAnyTime.Name = "rbAnyTime";
-            this.rbAnyTime.Size = new System.Drawing.Size(47, 16);
-            this.rbAnyTime.TabIndex = 3;
-            this.rbAnyTime.Text = "任意";
-            this.rbAnyTime.UseVisualStyleBackColor = true;
-            this.rbAnyTime.CheckedChanged += new System.EventHandler(this.rbCheckTime);
-            // 
-            // rbSpecificTime
-            // 
-            this.rbSpecificTime.AutoSize = true;
-            this.rbSpecificTime.Location = new System.Drawing.Point(25, 56);
-            this.rbSpecificTime.Name = "rbSpecificTime";
-            this.rbSpecificTime.Size = new System.Drawing.Size(83, 16);
-            this.rbSpecificTime.TabIndex = 2;
-            this.rbSpecificTime.Text = "指定时间后";
-            this.rbSpecificTime.UseVisualStyleBackColor = true;
-            this.rbSpecificTime.CheckedChanged += new System.EventHandler(this.rbCheckTime);
-            // 
-            // nCheckHour
-            // 
-            this.nCheckHour.Location = new System.Drawing.Point(114, 56);
-            this.nCheckHour.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-            this.nCheckHour.Name = "nCheckHour";
-            this.nCheckHour.Size = new System.Drawing.Size(36, 21);
-            this.nCheckHour.TabIndex = 4;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(156, 60);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "时";
-            // 
-            // nCheckMinute
-            // 
-            this.nCheckMinute.Location = new System.Drawing.Point(179, 56);
-            this.nCheckMinute.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.nCheckMinute.Name = "nCheckMinute";
-            this.nCheckMinute.Size = new System.Drawing.Size(36, 21);
-            this.nCheckMinute.TabIndex = 9;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(221, 60);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(17, 12);
-            this.label8.TabIndex = 10;
-            this.label8.Text = "分";
-            // 
             // FrmCfg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -548,13 +548,13 @@
             this.groupBox9.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nCheckMinute)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nCheckHour)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel4.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nCheckHour)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nCheckMinute)).EndInit();
             this.ResumeLayout(false);
 
         }
